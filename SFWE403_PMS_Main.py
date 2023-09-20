@@ -15,7 +15,7 @@ def Login(userID):
     password = input("password\n")
     
     mycursor.execute("SELECT pasword FROM PMS_STAFF WHERE ID = %d",userID)
-    pswdreturn = mycursor.fetchall()
+    pswdreturn = mycursor.fetchone()
     
     if pswdreturn == password:
         print("Login Success")
@@ -31,14 +31,40 @@ def Login(userID):
 
 if __name__ == '__main__':
     userID = input("User ID\n")
+    loggedIn = False
+    while loggedIn != True:
+        loggedIn=Login(userID)
     
-    while Login == True:
+    while loggedIn == True:
         mycursor.execute("SELECT role FROM PMS_STAFF WHERE ID = %d",userID)
-        rolereturn = mycursor.fetchall()
+        rolereturn = mycursor.fetchone()
         if rolereturn == "Manager":
-            input("Invetory, Reports, User Management")
+            mangerAction = input("Invetory, Reports, User Management, Log Out")
+            if (mangerAction == "Inventory"):
+                print()
+            elif (mangerAction == "Reports"):
+                print()
+            elif (mangerAction == "User Management"):
+                print()
+            elif (mangerAction == "Log Out"):
+                loggedIn = False
+                
+            else:
+                print("error")
             
-        elif rolereturn == "Pharmasist":
+            
+            
+        elif rolereturn == "Pharmacist":
+            pharmacistAction = input("Add Prescription, Fill Prescription, Check Out")
+            if (pharmacistAction == "Add Prescription"):
+                print()
+            elif (pharmacistAction == "Fill Prescription"):
+                print()
+            elif (pharmacistAction == "Log Out"):
+                loggedIn = False
+            else:
+                print("error")
+
             
         
     
