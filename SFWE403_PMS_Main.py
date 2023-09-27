@@ -26,7 +26,11 @@ def Login():
         print("Login Success")
         return True, pswdreturn[1],pswdreturn[2]
         
-
+def customerDistroy():
+    firstName =input("Patient first name\n")
+    lastName =input("Patient last name\n")
+    
+    mycursor.execute(("DELETE FROM Customer WHERE firstName = %s and lastName = %s"),(firstName,lastName))
 
 
 
