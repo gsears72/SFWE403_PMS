@@ -1,4 +1,5 @@
 import mysql.connector
+import PharmacistAddPrescription
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -10,19 +11,22 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-def Login(userID):
+def Login():
     
-    password = input("password\n")
+    userID = input("User ID\n")
+    Password = input("password\n")
+
+    mycursor.execute("SELECT * FROM PMS_Staff WHERE StaffID = %s and password = %s",(userID,Password))
     
-    mycursor.execute("SELECT pasword FROM PMS_STAFF WHERE ID = %d",userID)
     pswdreturn = mycursor.fetchone()
     
-    if pswdreturn == password:
-        print("Login Success")
-        return True
-    else:
+    if pswdreturn == None:
         print("Login Error\n")
-        return False
+        return False, False, False
+    else:
+        print("Login Success")
+        return True, pswdreturn[1],pswdreturn[2]
+        
 
 
 
@@ -30,25 +34,26 @@ def Login(userID):
 
 
 if __name__ == '__main__':
-    userID = input("User ID\n")
     loggedIn = False
     while loggedIn != True:
-        loggedIn=Login(userID)
+        loginResult=Login()
+        if loginResult[0] == True:
+            loggedIn=loginResult[0]
     
     while loggedIn == True:
-        mycursor.execute("SELECT role FROM PMS_STAFF WHERE ID = %d",userID)
-        rolereturn = mycursor.fetchone()
+        
+        rolereturn = loginResult[2]
         if rolereturn == "Manager":
             mangerAction = input("Invetory, Reports, User Management, Log Out")
             if (mangerAction == "Inventory"):
-                print()
+                print("Inventory")
             elif (mangerAction == "Reports"):
-                print()
+                print("Reports")
             elif (mangerAction == "User Management"):
-                print()
+                print("User Management")
             elif (mangerAction == "Log Out"):
-                loggedIn = False
-                
+                print("Logging Out")
+                loggedIn = False 
             else:
                 print("error")
             
@@ -57,7 +62,8 @@ if __name__ == '__main__':
         elif rolereturn == "Pharmacist":
             pharmacistAction = input("Add Prescription, Fill Prescription, Check Out")
             if (pharmacistAction == "Add Prescription"):
-                print()
+                print("Pharmacist Add PRescription\n")
+                PharmacistAddPrescription
             elif (pharmacistAction == "Fill Prescription"):
                 print()
             elif (pharmacistAction == "Log Out"):

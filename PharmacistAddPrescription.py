@@ -11,8 +11,8 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()   
 
-def sendToDataBase(self):
-    mycursor.execute("INSERT INTO Prescription (PID, CFN, CLN, PSD, PED, PM, PQ) VALUES (%s, %s, %s, %s, %s, %s, %s)", (last_name, first_name, date_of_birth, address, phone, email, insurance))
+def sendToDataBase(prescriptionID, customerName, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity):
+    mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s, )", (prescriptionID, customerName, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity))
     mydb.commit()
         
         #if not already in database add as prescription
@@ -41,13 +41,15 @@ class PharmacistAddPresceription:
     firstName = x[0]
     lastName = x[1]
 
-    prescriptionStartDate = input("\nEnter the start date for the medicaiton in the form MM/DD/YY: ")
-    prescriptionEndDate = input("\nEnter the end date for the prescription in the form MM/DD/YY: ")
+    prescriptionStartDate = input("\nEnter the start date for the medicaiton in the form YYYY/MM/DD: ")
+    prescriptionEndDate = input("\nEnter the end date for the prescription in the form YYYY/MM/DD: ")
 
     prescriptionMedication = input("\n Enter the name of the medication on the prescription: ")
 
     prescriptionQuantity = input("\nEnter the amount of the medication per refill: ")
 
+
+    sendToDataBase(prescriptionID, customerName, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity)
     #Call checkDataBase to see if Prescription already exists
         #if it does pull up something that is the same pull up error
 
@@ -55,7 +57,7 @@ class PharmacistAddPresceription:
    
 
    
-    mycursor.execute("SELECT * FROM Prescription")
+    mycursor.execute("SELECT * FROM PMS_Prescription")
     for x in mycursor:
          print(x)
     
