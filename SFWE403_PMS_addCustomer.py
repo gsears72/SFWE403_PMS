@@ -14,17 +14,17 @@ mycursor = mydb.cursor()
 def AddCustomer():
    first_name = input("Enter first name:")
    last_name = input("Enter last name:")
-   date_of_birth = input("Enter DOB as MM/DD/YYYY")
-   DOB = datetime.strptime(date_of_birth, '%m/%d/%Y')
+   date_of_birth = input("Enter DOB as YYYY-MM-DD")
+   #DOB = datetime.strptime(date_of_birth, '%Y/%m/%d')
    address = input("Enter address:")
    phone = input("Enter phone number:")
    email = input("Enter email address:")
    insurance = input("Enter insurance information:")
    
-   print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
+   #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
 
-   mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (last_name, first_name, DOB, address, phone, email, insurance))
-   mydb.commit
+   mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (last_name, first_name, date_of_birth, address, phone, email, insurance))
+   mydb.commit()
 
 
 
