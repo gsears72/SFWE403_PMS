@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import datetime
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -31,6 +32,57 @@ def customerDistroy():
     lastName =input("Patient last name\n")
     
     mycursor.execute(("DELETE FROM Customer WHERE firstName = %s and lastName = %s"),(firstName,lastName))
+    
+def AddCustomer():
+   first_name = input("Enter first name:")
+   last_name = input("Enter last name:")
+   date_of_birth = input("Enter DOB as YYYY-MM-DD")
+   #DOB = datetime.strptime(date_of_birth, '%Y/%m/%d')
+   address = input("Enter address:")
+   phone = input("Enter phone number:")
+   email = input("Enter email address:")
+   insurance = input("Enter insurance information:")
+   
+   #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
+
+   mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (last_name, first_name, date_of_birth, address, phone, email, insurance))
+   mydb.commit()
+   
+def CreateUserAccounts():
+    role = input("Enter role (Manager, Pharmacist, Pharmacist technician, Cashier):")
+    name = input("Enter full name:")
+    password = input("Create password:")
+
+    mycursor.execute("INSERT INTO PMS_Staff (role, name, password) VALUES (%s, %s, %s)", (role, name, password))
+    mydb.commit()
+    
+def PharmacistAddPresceription():
+    #Debug to make sure we entered this file
+    #print("Entered Pharmacist Add Prescription")
+
+    #Get prescription ID    
+    prescriptionID = input("Enter the prescription ID: ")
+
+    #Get name and split
+    customerName = input("\nEnter the name of the customer (first last): ")
+    x = customerName.split()
+    firstName = x[0]
+    lastName = x[1]
+    
+    mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s",(lastName,firstName))
+    customerID = mycursor.fetchone()
+    customerID = customerID[0]
+    
+
+    prescriptionStartDate = input("\nEnter the start date for the medicaiton in the form YYYY/MM/DD: ")
+    prescriptionEndDate = input("\nEnter the end date for the prescription in the form YYYY/MM/DD: ")
+
+    prescriptionMedication = input("\n Enter the name of the medication on the prescription: ")
+
+    prescriptionQuantity = input("\nEnter the amount of the medication per refill: ")
+    
+    mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity))
+    mydb.commit()
 
 
 
