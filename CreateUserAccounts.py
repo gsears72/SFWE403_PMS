@@ -11,14 +11,12 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 def CreateUserAccounts():
-    role = input("Enter role (Manager, Pharmacist, Cashier):")
+    role = input("Enter role (Manager, Pharmacist):")
     name = input("Enter full name:")
     password = input("Create password:")
-    StaffID = input("Create StaffID:")
 
-    mycursor.execute("INSERT INTO PMS_Staff (role, name, password, StaffID) VALUES (%s, %s, %s, %s)", (role, name, password, StaffID))
+    mycursor.execute("INSERT INTO PMS_Staff (role, name, password) VALUES (%s, %s, %s)", (role, name, password))
     mydb.commit()
-
 
 if __name__ == '__main__':
    
