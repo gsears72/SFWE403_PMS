@@ -84,10 +84,50 @@ def PharmacistAddPresceription():
     mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity))
     mydb.commit()
 
+def UpdateCustomer():
+    customerID=input("Enter Customer ID\n")
+    toUpdate = input("What would you like to update? (First, Last, DOB, Address, Phone, Email, Insurance)\n")
+
+    if toUpdate == "First" or toUpdate =="first":
+        newInfo = input("What is the updated First Name?")
+        command = "UPDATE Customer set firstName = %s where Customer_ID = %s"
+    elif toUpdate == "Last" or toUpdate =="last":
+        newInfo = input("What is the updated Last Name?")
+        command = "UPDATE Customer set lastName = %s where Customer_ID = %s"
+    elif toUpdate == "DOB" or toUpdate =="dob":
+        newInfo = input("What is the updated DOB?")
+        command = "UPDATE Customer set DOB = %s where Customer_ID = %s"
+    elif toUpdate == "Address" or toUpdate == "address":
+        newInfo = input("What is the updated Address?")
+        command = "UPDATE Customer set Address = %s where Customer_ID = %s"
+    elif toUpdate == "Phone" or toUpdate =="phone":
+        newInfo = input("What is the updated Phone Number?")
+        command = "UPDATE Customer set phoneNumber = %s where Customer_ID = %s"
+    elif toUpdate == "Email" or toUpdate == "email":
+        newInfo = input("What is the updated Email?")
+        command = "UPDATE Customer set email = %s where Customer_ID = %s"
+    elif toUpdate == "Insurance" or toUpdate == "insurance":
+        newInfo = input("What is the Insurance?")
+        command = "UPDATE Customer set insurance = %s where Customer_ID = %s"
+    else:
+        print("Invalid Input")
+        
+    mycursor.execute(command,(newInfo,customerID))
+    mydb.commit()
 
 
+def LookUPCustomerID():
+    customerName = input("\nEnter the name of the customer (first last): ")
+    x = customerName.split()
+    firstName = x[0]
+    lastName = x[1]
+    
+    mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s",(lastName,firstName))
+    customerID = mycursor.fetchone()
+    customerID = customerID[0]
 
-
+    return customerID
+    
 if __name__ == '__main__':
     loggedIn = False
     while loggedIn != True:
@@ -99,7 +139,7 @@ if __name__ == '__main__':
         
         rolereturn = loginResult[2]
         if rolereturn == "Manager":
-            mangerAction = input("Invetory, Reports, User Management, Log Out")
+            mangerAction = input("Invetory, Reports, User Management, Log Out\n")
             if (mangerAction == "Inventory"):
                 print("Inventory")
             elif (mangerAction == "Reports"):
