@@ -30,52 +30,59 @@ def AddCustomer():
 def UpdateCustomer():
    #field is the information field that is being updated
 
-   customerinfo = input("please enter the first and last name and DOB of the patient profile you wish to update (first last mm/dd/yyyy)")
+   customerinfo = input("please enter the first and last name and DOB of the patient profile you wish to update (first last yyyy/mm/dd) ")
    customer = customerinfo.split()
    first = customer[0]
    last = customer[1]
    dob = customer[2]
    #query that will give the corresponding customer id and assign it to the variable ID
-   mycursor.execute("SELECT * FROM Customer WHERE lastName = %s and firstName = %s and DOB = %s", last, first, dob)
-   ID = mycursor.fetchone()
+   mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s and DOB = %s", (last, first, dob))
+   id = mycursor.fetchone()
+   ID = str(id[0])
+   
 
 
    valid = False
    while valid == False:
-      field = input("Please enter the information field you wish to update (first, last, DOB, address, phone, email, insurance)")
+      field = input("Please enter the information field you wish to update (first, last, DOB, address, phoneNum, email, insurance) ")
 
       if field == 'first':
          valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET firstName = %s WHERE Customer_ID = %s", updatedField, ID)
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET firstName = %s WHERE Customer_ID = %s", (updatedField, ID))
          mydb.commit()
       elif field == 'last':
          valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET lastName = %s WHERE Customer_ID = %s", updatedField, ID)
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET lastName = %s WHERE Customer_ID = %s", (updatedField, ID))
          mydb.commit()
       elif field == 'DOB':
          valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET DOB = %s WHERE Customer_ID = %s", updatedField, ID)
-         mydb.commit()
-      elif field == 'phoneNum':
-         valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET phoneNum = %s WHERE Customer_ID = %s", updatedField, ID)
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET DOB = %s WHERE Customer_ID = %s", (updatedField, ID))
          mydb.commit()
       elif field == 'email':
          valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET email = %s WHERE Customer_ID = %s", updatedField, ID)
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET email = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'phoneNum':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET phoneNum = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'email':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET email = %s WHERE Customer_ID = %s", (updatedField, ID))
          mydb.commit()
       elif field == 'insurance':
          valid = True
-         updatedField = input("Please enter the updated information")
-         mycursor.execute("UPDATE Customer SET insurance = %s WHERE Customer_ID = %s", updatedField, ID)
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET insurance = %s WHERE Customer_ID = %s", (updatedField, ID))
          mydb.commit()
       else:
-         print("no field found, please try again \n")   
+         print("no field found, please try again\n")   
 
 
 
