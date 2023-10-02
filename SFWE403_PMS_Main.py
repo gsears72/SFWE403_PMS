@@ -49,7 +49,7 @@ def AddCustomer():
    mydb.commit()
    
 def CreateUserAccounts():
-    role = input("Enter role (Manager, Pharmacist, Pharmacist technician, Cashier):")
+    role = input("Enter role (manager, pharmacist, pharmacist technician, cashier):")
     name = input("Enter full name:")
     password = input("Create password:")
 
@@ -85,35 +85,61 @@ def PharmacistAddPresceription():
     mydb.commit()
 
 def UpdateCustomer():
-    customerID=input("Enter Customer ID\n")
-    toUpdate = input("What would you like to update? (First, Last, DOB, Address, Phone, Email, Insurance)\n")
+   #field is the information field that is being updated
 
-    if toUpdate == "First" or toUpdate =="first":
-        newInfo = input("What is the updated First Name?")
-        command = "UPDATE Customer set firstName = %s where Customer_ID = %s"
-    elif toUpdate == "Last" or toUpdate =="last":
-        newInfo = input("What is the updated Last Name?")
-        command = "UPDATE Customer set lastName = %s where Customer_ID = %s"
-    elif toUpdate == "DOB" or toUpdate =="dob":
-        newInfo = input("What is the updated DOB?")
-        command = "UPDATE Customer set DOB = %s where Customer_ID = %s"
-    elif toUpdate == "Address" or toUpdate == "address":
-        newInfo = input("What is the updated Address?")
-        command = "UPDATE Customer set Address = %s where Customer_ID = %s"
-    elif toUpdate == "Phone" or toUpdate =="phone":
-        newInfo = input("What is the updated Phone Number?")
-        command = "UPDATE Customer set phoneNumber = %s where Customer_ID = %s"
-    elif toUpdate == "Email" or toUpdate == "email":
-        newInfo = input("What is the updated Email?")
-        command = "UPDATE Customer set email = %s where Customer_ID = %s"
-    elif toUpdate == "Insurance" or toUpdate == "insurance":
-        newInfo = input("What is the Insurance?")
-        command = "UPDATE Customer set insurance = %s where Customer_ID = %s"
-    else:
-        print("Invalid Input")
-        
-    mycursor.execute(command,(newInfo,customerID))
-    mydb.commit()
+   customerinfo = input("please enter the first and last name and DOB of the patient profile you wish to update (first last yyyy/mm/dd) ")
+   customer = customerinfo.split()
+   first = customer[0]
+   last = customer[1]
+   dob = customer[2]
+   #query that will give the corresponding customer id and assign it to the variable ID
+   mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s and DOB = %s", (last, first, dob))
+   id = mycursor.fetchone()
+   ID = str(id[0])
+   
+
+
+   valid = False
+   while valid == False:
+      field = input("Please enter the information field you wish to update (first, last, DOB, address, phoneNum, email, insurance) ")
+
+      if field == 'first':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET firstName = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'last':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET lastName = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'DOB':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET DOB = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'email':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET email = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'phoneNum':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET phoneNum = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'email':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET email = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      elif field == 'insurance':
+         valid = True
+         updatedField = input("Please enter the updated information ")
+         mycursor.execute("UPDATE Customer SET insurance = %s WHERE Customer_ID = %s", (updatedField, ID))
+         mydb.commit()
+      else:
+         print("no field found, please try again\n") 
 
 
 def LookUPCustomerID():
@@ -137,8 +163,8 @@ if __name__ == '__main__':
     
     while loggedIn == True:
         
-        rolereturn = loginResult[2]
-        if rolereturn == "Manager":
+        rolereturn = str(loginResult[2])
+        if rolereturn == "manager":
             mangerAction = input("Invetory, Reports, User Management, Log Out\n")
             if (mangerAction == "Inventory"):
                 print("Inventory")
@@ -154,7 +180,7 @@ if __name__ == '__main__':
             
             
             
-        elif rolereturn == "Pharmacist":
+        elif rolereturn == "pharmacist":
             pharmacistAction = input("Add Prescription, Fill Prescription, Check Out")
             if (pharmacistAction == "Add Prescription"):
                 print()
