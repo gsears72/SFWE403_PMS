@@ -8,8 +8,8 @@ class inventoryController:
     def __init__(self):
         self.counter = 0
         
-    def addPrescription(self, newPrescription): #This needs to take a class prescription and then make a api call to add it   
-        mydb = mysql.connector.connect(
+    def addPrescription(self, newPrescription): #currently needs to connect to the database in call  
+        mydb = mysql.connector.connect(         #note: customer Id must match a real customer ID
             host = 'mysql-145311-0.cloudclusters.net',
             port = '18166',
             user = 'admin',
@@ -33,8 +33,9 @@ class inventoryController:
         )
         mycursor = mydb.cursor()
 
-        sql = "DELETE FROM PMS_PRESCRIPTION WHERE prescription = 'newPrescription.prescription'"
+        sql = "DELETE FROM PMS_Prescription WHERE prescription = " +  newPrescription.prescription
         mycursor.execute(sql)
+        mydb.commit()
 
     # def addMedicine(Medicine, connector):
         
