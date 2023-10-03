@@ -5,9 +5,10 @@ import mysql.connector
 
 class inventoryController:
 
-    # def __init__(self, ):
+    def __init__(self):
+        self.counter = 0
         
-    def addPrescription(newPrescription): #This needs to take a class prescription and then make a api call to add it   
+    def addPrescription(self, newPrescription): #This needs to take a class prescription and then make a api call to add it   
         mydb = mysql.connector.connect(
             host = 'mysql-145311-0.cloudclusters.net',
             port = '18166',
@@ -18,11 +19,11 @@ class inventoryController:
 
         mycursor = mydb.cursor()
         
-        sql = "INSERT INTO PMS_PRESCRIPTION (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = ("newPrescription.prescription", "newPrescription.customerID", "newPrescription.startDate", "newPrescription.endDate", "newPrescription.medication", "newPrescription.quantity")
+        sql = "INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = ("newPrescription.prescription", "newPrescription.customerID", "newPrescription.startDate", "newPrescription.endDate", "newPrescription.medication", "newPrescription.quantity", "newPrescription.strength", "newPrescription.refills", "newPrescription.instructions", "newPrescription.prescriber")
         mycursor.execute(sql, val)
 
-    def removePrescription(newPrescription, connector):        
+    def removePrescription(self, newPrescription, connector):        
         sql = "DELETE FROM PMS_PRESCRIPTION WHERE prescription = 'newPrescription.prescription'"
         connector.execute(sql)
 
