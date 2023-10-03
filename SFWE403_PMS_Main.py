@@ -35,8 +35,11 @@ def Login():
 
 
 if __name__ == '__main__':
+    # mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = Doe and firstName = John")
+    # customerID = mycursor.fetchone()
+    # customerID = customerID[0]
     inventory = InventoryController.inventoryController()
-    P = prescription.Prescription('1111111', "101", "2023-09-28", "2024-03-01", "NyQuil", "2", "2", "2", "take medicine", "dr. sharon")
+    P = prescription.Prescription('1111111', "3", "2023-09-28", "2024-03-01", "NyQuil", "2", "2", "2", "take medicine", "dr. sharon")
     loggedIn = False
     while loggedIn != True:
         loginResult=Login()
@@ -73,6 +76,16 @@ if __name__ == '__main__':
                 loggedIn = False
             else:
                 print("error")
+
+            
+        
+    
+    
+    
+    
+    
+        
+    
 
             
         
