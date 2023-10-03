@@ -50,7 +50,7 @@ if __name__ == '__main__':
         
         rolereturn = loginResult[2]
         if rolereturn == "manager":
-            mangerAction = input("Inventory, Reports, User Management, Log Out\n")
+            mangerAction = input("Inventory, Reports, User Management, Log Out, Remove\n")
             if (mangerAction == "Inventory"):
                 inventory.addPrescription(P)
                 print("Inventory")
@@ -58,6 +58,9 @@ if __name__ == '__main__':
                 print("Reports")
             elif (mangerAction == "User Management"):
                 print("User Management")
+            elif (mangerAction == "Remove"):
+                inventory.removePrescription(P)
+                print("Removed Prescription")
             elif (mangerAction == "Log Out"):
                 print("Logging Out")
                 loggedIn = False 
@@ -77,6 +80,7 @@ if __name__ == '__main__':
             else:
                 print("error")
 
+       
             
         
     
