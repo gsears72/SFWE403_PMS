@@ -16,16 +16,25 @@ class inventoryController:
             passwd = 'FcCZds4d',
             db = 'PMS'
         )
-
         mycursor = mydb.cursor()
         
         sql = "INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = ("newPrescription.prescription", "newPrescription.customerID", "newPrescription.startDate", "newPrescription.endDate", "newPrescription.medication", "newPrescription.quantity", "newPrescription.strength", "newPrescription.refills", "newPrescription.instructions", "newPrescription.prescriber")
+        val = (newPrescription.prescription, newPrescription.customerID, newPrescription.startDate, newPrescription.endDate, newPrescription.medication, newPrescription.quantity, newPrescription.strength, newPrescription.refills, newPrescription.instructions, newPrescription.prescriber)
         mycursor.execute(sql, val)
+        mydb.commit()
 
-    def removePrescription(self, newPrescription, connector):        
+    def removePrescription(self, newPrescription): 
+        mydb = mysql.connector.connect(
+            host = 'mysql-145311-0.cloudclusters.net',
+            port = '18166',
+            user = 'admin',
+            passwd = 'FcCZds4d',
+            db = 'PMS'
+        )
+        mycursor = mydb.cursor()
+
         sql = "DELETE FROM PMS_PRESCRIPTION WHERE prescription = 'newPrescription.prescription'"
-        connector.execute(sql)
+        mycursor.execute(sql)
 
     # def addMedicine(Medicine, connector):
         
