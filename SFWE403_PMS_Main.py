@@ -1,4 +1,6 @@
 import mysql.connector
+import InventoryController
+import prescription
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -33,6 +35,8 @@ def Login():
 
 
 if __name__ == '__main__':
+    inventory = InventoryController.inventoryController()
+    P = prescription.Prescription('1111111', "101", "2023-09-28", "2024-03-01", "NyQuil", "2", "2", "2", "take medicine", "dr. sharon")
     loggedIn = False
     while loggedIn != True:
         loginResult=Login()
@@ -42,9 +46,10 @@ if __name__ == '__main__':
     while loggedIn == True:
         
         rolereturn = loginResult[2]
-        if rolereturn == "Manager":
-            mangerAction = input("Invetory, Reports, User Management, Log Out")
+        if rolereturn == "manager":
+            mangerAction = input("Inventory, Reports, User Management, Log Out\n")
             if (mangerAction == "Inventory"):
+                inventory.addPrescription(P)
                 print("Inventory")
             elif (mangerAction == "Reports"):
                 print("Reports")
@@ -69,6 +74,8 @@ if __name__ == '__main__':
             else:
                 print("error")
 
+            
+        
             
         
     
