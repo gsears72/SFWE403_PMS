@@ -167,8 +167,12 @@ class Staff(ABC):
         prescriptionMedication = input("\n Enter the name of the medication on the prescription: ")
 
         prescriptionQuantity = input("\nEnter the amount of the medication per refill: ")
+        prescriptionStrength = input("\nEnter the strength: ")
+        prescriptionRefills = input("\nEnter the amount of refills: ")
+        instructions = input("\nEnter the instructions:")
+        pName = input("\nEnter the pharmacist name:")
         
-        mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity))
+        mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity, prescriptionStrength, prescriptionRefills, instructions, pName))
         mydb.commit()
 
     def addPrescription(self, newPrescription):  
@@ -322,6 +326,14 @@ class Cashier(Staff):
     
     def __hash__(self):
         pass
+    
+    
+    
+    
+
+    
+
+
     
     
     
