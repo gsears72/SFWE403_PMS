@@ -1,0 +1,55 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+        host = 'mysql-145311-0.cloudclusters.net',
+        port = '18166',
+        user = 'admin',
+        passwd = 'FcCZds4d',
+        db = 'PMS'
+    )
+
+mycursor = mydb.cursor()
+
+
+def checkAvailable(): 
+
+    #get name and dose of medication
+    checkFor = input("Please enter the name and strength of the medication you are looking for (ex. Advil 50 mg): ")
+    
+    #split string and get the two values separate 
+    info = checkFor.split()
+
+    medName = info[0]
+    dose = info[1] + " " + info[2]
+
+    #check if getting correct info 
+    print(medName + " " + dose)
+
+    #select all items that match criteria 
+    mycursor.execute("SELECT quantity FROM Inventory WHERE medName = %s and strength = %s", (medName, dose))
+    #fetch all 
+    meds = mycursor.fetchall()
+
+
+    #check if getting correct info 
+    #print(medName + dose)
+
+    #for loop that adds all quantities together 
+    #initiate counter 
+    available = 0 
+
+    for i in meds:
+        x = str(meds[0])
+        y = x[1:-2]
+        z = int(y)
+        available = available + z
+
+   
+    #print total quantity
+    availableString = str(available)
+
+    print("There are " + availableString + " doses of " + dose + " " + medName + " available in stock")
+
+if __name__ == '__main__' : 
+    
+    checkAvailable()
