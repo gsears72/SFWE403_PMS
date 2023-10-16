@@ -212,10 +212,18 @@ class PharmacyManager(Staff):
         pass
 
     def updateInventory(self):
-        pass
+        medName = input("Enter Item Name \n")        
+        newInfo = input("What is new quantity for this item?\n")
+        command = "UPDATE Inventory set quantity = %s where medName = %s"
+            
+        mycursor.execute(command,(newInfo,medName))
+        mydb.commit()
 
     def removeItem(self):
-        pass
+        medName = input("Enter Item Name to be removed\n")        
+        sql = (("DELETE FROM Inventory WHERE medName = %s"),(medName))
+        mycursor.execute(sql)
+        mydb.commit()
 
     def generateFinancialReport(self):
         pass
@@ -228,7 +236,7 @@ class PharmacyManager(Staff):
 
 class Pharmacist(Staff):
     def __init__(self, name):
-        pass
+        self._name = name
     
     def __str__(self):
         pass
@@ -254,7 +262,39 @@ class Pharmacist(Staff):
         pass
 
     def fillPrescription(self):
-        pass
+        stop = 1
+        prescriptionID = input("Enter the prescription ID you are looking for: ")
+
+        #search for the prescription
+        mycursor.execute("SELECT * FROM PMS_Prescriptions WHERE prescription == %s", (prescriptionID))
+        grabbedPrescription = mycursor.fetchone()
+        #When found the prescription print the information regarding the prescription for confirmation
+
+
+        confirmation = str(input("Is this the correct prescription(Y/N): ", grabbedPrescription)).strip().lower()
+        if (confirmation == 'y'):
+            #tofix(Get the amount of a medication from the prescription database.)
+            mycursor.execute("SELECT FROM PMS_prescription WHERE prescription == %s", (prescriptionID)) #getting the amound of medication from the prescription
+            prescriptionAmount = mycursor.fetchone()
+            stop = 0
+            
+        
+        while(stop != 1):
+            numbergot = int(input("How many did you remove: "))
+            if numbergot == prescriptionAmount:
+                stop = 1
+                
+                #remove the amount from the prescription from the medicine database
+
+                print("Removing" + str(numbergot) + "from system")
+
+
+            else:
+                difference = prescriptionAmount - numbergot
+                if (difference > 0):
+                    print("too few pills got, grab" + str(difference) + "more")
+                else:
+                    print("too many pills grabbed, get rid of" + str(abs(difference)))
     
     
         
