@@ -1,0 +1,51 @@
+def UpdateCustomer(self):
+        #field is the information field that is being updated
+
+        customerinfo = input("please enter the first and last name and DOB of the patient profile you wish to update (first last yyyy/mm/dd) ")
+        customer = customerinfo.split()
+        first = customer[0]
+        last = customer[1]
+        dob = customer[2]
+        #query that will give the corresponding customer id and assign it to the variable ID
+        mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s and DOB = %s", (last, first, dob))
+        id = mycursor.fetchone()
+        ID = str(id[0])
+
+        valid = False
+        while valid == False:
+
+            field = input("Please enter the information field you wish to update (first, last, DOB, address, phone, email, insurance) ")
+
+            if field == "First" or field =="first":
+                valid = True
+                newInfo = input("What is the updated First Name?")
+                command = "UPDATE Customer SET firstName = %s WHERE Customer_ID = %s"
+            elif field == "Last" or field =="last":
+                valid = True
+                newInfo = input("What is the updated Last Name?")
+                command = "UPDATE Customer SET lastName = %s WHERE Customer_ID = %s"
+            elif field == "DOB" or field =="dob":
+                valid = True
+                newInfo = input("What is the updated DOB?")
+                command = "UPDATE Customer SET DOB = %s WHERE Customer_ID = %s"
+            elif field == "Address" or field == "address":
+                valid = True
+                newInfo = input("What is the updated Address?")
+                command = "UPDATE Customer SET Address = %s WHERE Customer_ID = %s"
+            elif field == "Phone" or field =="phone":
+                valid = True
+                newInfo = input("What is the updated Phone Number?")
+                command = "UPDATE Customer SET phoneNum = %s WHERE Customer_ID = %s"
+            elif field == "Email" or field == "email":
+                valid = True
+                newInfo = input("What is the updated Email?")
+                command = "UPDATE Customer SET email = %s WHERE Customer_ID = %s"
+            elif field == "Insurance" or field == "insurance":
+                valid = True
+                newInfo = input("What is the Insurance?")
+                command = "UPDATE Customer SET insurance = %s WHERE Customer_ID = %s"
+            else:
+                print("Invalid Input")
+            
+        mycursor.execute(command,(newInfo,ID))
+        mydb.commit()
