@@ -1,5 +1,6 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+from models.Customer import Customer
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -99,13 +100,13 @@ class Staff(ABC):
     def set_password(self, password):
         self.password = password
 
-    def createPatient(self):
+    def createPatient(self, customer):
         #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
-        #mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
+        mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
         mydb.commit()
 
     def loadCustomer(self):
-        customer1 = Customer.customer()
+        customer1 = Customer()
         customer1.first_name = input("Enter first name:")
         customer1.last_name = input("Enter last name:")
         customer1.date_of_birth = input("Enter DOB as YYYY-MM-DD")
@@ -328,6 +329,12 @@ class Cashier(Staff):
         pass
     
     
+    
+    
+
+    
+
+
     
     
 
