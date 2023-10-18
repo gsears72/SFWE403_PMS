@@ -43,7 +43,7 @@ class PharmacyManagerController:
                     print("Create Patient? (Y/N)")
                     action = str(input()).strip().lower()
                     if action == 'y':
-                        self._pharmacy_manager.createPatient()
+                        self._pharmacy_manager.createPatient(self._pharmacy_manager.loadCustomer())
                     else:
                         continue
 
