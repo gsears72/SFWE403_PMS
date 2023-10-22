@@ -1,5 +1,6 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+import warnings
 from models.Customer import Customer
 import mysql.connector
 
@@ -101,9 +102,15 @@ class Staff(ABC):
         self.password = password
 
     def createPatient(self, customer):
+        success = False
         #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
-        mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
-        mydb.commit()
+        try:
+            mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
+            mydb.commit()
+            success = True
+        except:
+            success = False 
+        return success
 
     def loadCustomer(self):
         customer1 = Customer()
@@ -330,23 +337,4 @@ class Cashier(Staff):
     
     
     
-    
-
-    
-
-
-    
-    
-
-    
-
-
-    
-    
-    
-    
-
-    
-
-
     
