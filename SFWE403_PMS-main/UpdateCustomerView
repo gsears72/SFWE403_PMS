@@ -80,7 +80,6 @@ def load(event):
         failure.grid_remove()
 
         customerID = manager.fetchID(customer)
-        customerID2 = customerID
         customerInfo = manager.fetchCustomer(customerID)
         
         firstNameIn.insert(0, customerInfo[0][2])
@@ -114,7 +113,8 @@ def update(event):
     customer.insurance = insuranceIn.get()
     #this adds the customer to database and checks if it worked
     try:
-        test = manager.UpdateCustomer(customer, customerID2)
+        customerID = manager.fetchID(customer)
+        test = manager.UpdateCustomer(customer, customerID)
     except Exception as e:
         print(e)
     if test:
