@@ -27,6 +27,10 @@ window.rowconfigure(6, weight = 0)
 window.rowconfigure(7, weight = 0)
 window.rowconfigure(8, weight = 0)
 window.rowconfigure(9, weight = 0)
+window.rowconfigure(10, weight = 0)
+window.rowconfigure(11, weight = 0)
+
+customerID2 = 0
 
 button = tk.CTkButton(
     master=window,
@@ -64,17 +68,7 @@ insuranceIn = tk.CTkEntry(master=window, width=300)
 label.grid(columnspan=2, row=0, padx=5, pady=5)
 nameIn.grid(columnspan=2, row=1, padx=5, pady=5)
 button2.grid(columnspan=2, row=2, padx=5, pady=5)
-# label1.pack()
-# firstNameIn.pack() 
-# label2.pack()
-# lastNameIn.pack() 
-# label3.pack()
-# bDayIn.pack() 
-# adressIn.pack() 
-# phoneIn.pack() 
-# emailIn.pack() 
-# insuranceIn.pack() 
-# button.pack(pady = 20)
+
 
 def load(event):
     name = nameIn.get()
@@ -86,6 +80,7 @@ def load(event):
         failure.grid_remove()
 
         customerID = manager.fetchID(customer)
+        customerID2 = customerID
         customerInfo = manager.fetchCustomer(customerID)
         
         firstNameIn.insert(0, customerInfo[0][2])
@@ -103,7 +98,7 @@ def load(event):
         phoneIn.grid(columnspan=2, row=7, padx=5, pady=5) 
         emailIn.grid(columnspan=2, row=8, padx=5, pady=5) 
         insuranceIn.grid(columnspan=2, row=9, padx=5, pady=5)
-        button2.grid(columnspan=2, row=9, padx=5, pady=5)
+        button.grid(columnspan=2, row=10, padx=5, pady=5)
     except Exception as e:
         failure.grid(columnspan=2, row=3, padx=5, pady=5) 
         print(e)
@@ -118,10 +113,13 @@ def update(event):
     customer.email = emailIn.get()
     customer.insurance = insuranceIn.get()
     #this adds the customer to database and checks if it worked
-    test = manager.createPatient(customer)
+    try:
+        test = manager.UpdateCustomer(customer, customerID2)
+    except Exception as e:
+        print(e)
     if test:
-        failure.pack_forget() #removes from screen
-        success.pack(pady = 20) #adds to screen 
+        failure.grid_remove() #removes from screen
+        success.grid(columnspan=2, row=11, padx=5, pady=5)  #adds to screen 
         #clears input fields
         clear_text(firstNameIn)
         clear_text(lastNameIn)
@@ -131,8 +129,8 @@ def update(event):
         clear_text(emailIn)
         clear_text(insuranceIn)
     else:
-        success.pack_forget()
-        failure.pack(pady = 20) 
+        success.grid_remove()
+        failure.grid(columnspan=2, row=11, padx=5, pady=5) 
 
 def clear_text(text):
    text.delete(0, tk.END)
