@@ -215,15 +215,21 @@ class PharmacyManager(Staff):
         mydb.commit()
 
     def removePatient(self, customerID):
-        # mycursor.execute("SELECT Customer_ID FROM Customer where firstName = %s and lastName = %s", (customer.first_name, customer.last_name))
-        # customerInfo = mycursor.fetchone()
+        #!!!!!!!!!!!!!if you want to delete customer you must first delete reference in prescription!!!!!!!!
         try:
             if customerID:
-                query = "DELETE FROM Customer WHERE Customer_ID = ?"
-                mycursor.execute(query, (customerID,))
-                mydb.commit()
+                try:
+                    mycursor.execute("DELETE FROM PMS_Prescription WHERE CustomerID = %s", (customerID,))
+                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
+                    mydb.commit()
+                    return True
+                except:
+                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
+                    mydb.commit()
+                    return True
         except Exception as e:
             print("Failed to delete customer: ", e)
+            return False
 
     def recoverStaffAccount(self):
         pass
