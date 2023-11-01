@@ -1,0 +1,19 @@
+import customtkinter as ctk 
+import tkinter.messagebox as tkmb
+
+# Selecting GUI theme - dark, light , system (for system default) 
+ctk.set_appearance_mode("dark") 
+  
+# Selecting color theme - blue, green, dark-blue 
+ctk.set_default_color_theme("blue") 
+
+app = ctk.CTk() 
+app.geometry("400x400") 
+app.title("Prescription Managment")
+
+label = ctk.CTkLabel(app,text = "Precription Managment Screen")
+
+label.pack(pady=20)
+
+frame = ctk.CTkFrame(master=app) 
+frame.pack(pady=20,padx=40,fill='both',expand=True) 
