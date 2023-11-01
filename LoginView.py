@@ -1,9 +1,9 @@
 
 import customtkinter as ctk 
-from tkinter import messagebox 
+from tkinter import messagebox
 
 from models.Login import LoginLib
-from controllers import Login
+from controllers.LoginController import Login
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")

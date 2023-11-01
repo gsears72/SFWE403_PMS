@@ -1,4 +1,4 @@
-class LoginLib():
+class LoginLib:
 
     def __init__(self,UserID=0,password=None):
         self.UserID = UserID

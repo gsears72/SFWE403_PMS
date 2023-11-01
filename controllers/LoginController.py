@@ -1,4 +1,4 @@
-from DatabaseController import Connect
+from controllers.DatabaseController import Connect
 
 
 def Login(userID,Password):
