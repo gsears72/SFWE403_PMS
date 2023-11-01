@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-def Login():
+def LoginLLL():
     
     userID = input("User ID\n")
     Password = input("password\n")
@@ -30,20 +30,13 @@ def Login():
         
 
 def Login1(userID,Password):
-    
-   # userID = input("User ID\n")
-    # Password = input("password\n")
-
+   
     mycursor.execute("SELECT * FROM PMS_Staff WHERE StaffID = %s and password = %s",(userID,Password))
     
     pswdreturn = mycursor.fetchone()
     
     if pswdreturn == None:
-        #print("Login Error\n")
-        #return False, False, False
-        return
+        return False
     else:
-        #print("Login Success")
-        #return True, pswdreturn[1],pswdreturn[2]
-        return
+        return True
     
