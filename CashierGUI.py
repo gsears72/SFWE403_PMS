@@ -7,6 +7,10 @@ CashierHome = tk.CTk()
 CashierHome.geometry("700x200")
 CashierHome.title("Cashier Homepage")
 
+def OpenAddWindow():
+    acv.open_addCustomerView()
+    CashierHome.withdraw()
+
 
 AddCustomerButton = tk.CTkButton(
     master = CashierHome,
@@ -16,7 +20,7 @@ AddCustomerButton = tk.CTkButton(
     #bg = "blue",
     #fg = "yellow",
     #font = 10,
-    command = acv.open_addCustomerView()
+    command = OpenAddWindow
 )
 
 UpdateCustomerButton = tk.CTkButton(
@@ -53,11 +57,11 @@ CheckoutButton = tk.CTkButton(
 )
 
 
+
 AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
 UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
 DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
 CheckoutButton.grid(row = 50, column = 20,  padx=10, pady=10)
-
     
 
 
