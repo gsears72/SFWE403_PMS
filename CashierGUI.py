@@ -1,6 +1,7 @@
 import customtkinter as tk
 import addCustomerView as acv
-
+import updateCustomerView as ucv
+import deleteCustomerView as dcv
 
 
 CashierHome = tk.CTk()
@@ -11,6 +12,13 @@ def OpenAddWindow():
     acv.open_addCustomerView()
     CashierHome.withdraw()
 
+def OpenUpdateWindow():
+    ucv.open_updateCustomerView()
+    CashierHome.withdraw()
+
+def OpenDeleteWindow():
+    dcv.open_deleteCustomerView()
+    CashierHome.withdraw()
 
 AddCustomerButton = tk.CTkButton(
     master = CashierHome,
@@ -31,7 +39,7 @@ UpdateCustomerButton = tk.CTkButton(
     #bg = "blue",
     #fg = "yellow",
     #font = 10,
-    #command = open updatecustomer view 
+    command = OpenUpdateWindow
 )
 
 DeleteCustomerButton = tk.CTkButton(
@@ -42,7 +50,7 @@ DeleteCustomerButton = tk.CTkButton(
     #bg = "blue",
     #fg = "yellow",
     #font = 10,
-    #command = open deletecustomer view 
+    command = OpenDeleteWindow
 )
 
 CheckoutButton = tk.CTkButton(
