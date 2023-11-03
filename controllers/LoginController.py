@@ -5,7 +5,7 @@ def Login(userID,Password):
     conn = None
    
     sql = """SELECT * FROM PMS_Staff WHERE StaffID = %s and password = %s"""
-    values = (id.getID(),id.getPassword())
+    values = (userID,Password)
     results = None
 
     try:
