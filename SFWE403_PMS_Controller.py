@@ -1,6 +1,10 @@
 import mysql.connector
 from datetime import datetime
 from SFWE403_PMS_Model import *
+from controllers.PharmacistController import PharmacistController
+from models.Staff import Pharmacist
+from models.Staff import PharmacyManager
+from controllers.PharmacyManagerController import PharmacyManagerController
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -22,34 +26,27 @@ if __name__ == '__main__':
     while loggedIn == True:
         rolereturn = str(loginResult[2])
         if rolereturn == "manager":
-            mangerAction = input("Invetory, Reports, User Management, Log Out\n")
-            if (mangerAction == "Inventory"):
-                print("Inventory")
-            elif (mangerAction == "Reports"):
-                print("Reports")
-            elif (mangerAction == "User Management"):
-                print("User Management")
-            elif (mangerAction == "Log Out"):
-                print("Logging Out")
-                loggedIn = False 
-            else:
-                print("error")
-            
-            
-            
+            pharmacist_manager_name = rolereturn[1]
+            pharManagerControllerInstance = PharmacyManagerController(pharmacist_manager_name)
+            while 1:
+                pharManagerControllerInstance.run()
+                prompt = str(input("Are you sure you want to log out? (y/n) \n")).strip().lower()
+                if prompt == 'y':
+                    loggedIn = False
+                    break
+                else:
+                    continue
+                    
+                
+                
+                
         elif rolereturn == "pharmacist":
-            pharmacistAction = input("Add Prescription, Fill Prescription, Check Out")
-            if (pharmacistAction == "Add Prescription"):
-                print()
-            elif (pharmacistAction == "Fill Prescription"):
-                print()
-            elif (pharmacistAction == "Log Out"):
-                loggedIn = False
-            else:
-                print("error")
-
-            
-        
-    
-    
-   
+            pharmacist_name = rolereturn[1]
+            pharmacistControllerInstance = PharmacistController(pharmacist_name)
+            while 1:
+                pharmacistControllerInstance.run()
+                prompt = str(input("Are you sure you want to log out? (y/n)\n")).strip().lower()
+                if prompt == 'y':
+                    loggedIn = False
+                else:
+                    continue

@@ -1,5 +1,21 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+<<<<<<< HEAD
+=======
+import warnings
+from models.Customer import Customer
+import mysql.connector
+
+mydb = mysql.connector.connect(
+        host = 'mysql-145311-0.cloudclusters.net',
+        port = '18166',
+        user = 'admin',
+        passwd = 'FcCZds4d',
+        db = 'PMS'
+    )
+
+mycursor = mydb.cursor()
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
 
 def canonical_date(date_str):
     try:
@@ -88,6 +104,7 @@ class Staff(ABC):
     def set_password(self, password):
         self.password = password
 
+<<<<<<< HEAD
     def createPatient():
 
     def modifyPatient():
@@ -128,11 +145,169 @@ class PharmacyManager(Staff):
     def generateFinancialReport():
 
     def generateInventoryReport():
+=======
+    def createPatient(self, customer):
+        success = False
+        #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
+        try:
+            mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
+            mydb.commit()
+            success = True
+        except:
+            success = False 
+        return success
+
+    def fetchCustomer(self, customerID):
+        try:                 #SELECT * FROM PMS.Customer where Customer_ID = 3
+            mycursor.execute("SELECT * FROM Customer where Customer_ID = %s", (customerID,))
+            customerInfo =  mycursor.fetchall()
+        except Exception as e:
+            print("failed to get customer: ", e)
+        return customerInfo
+    
+    def fetchID(self, customer):
+        try:                 #SELECT Customer_ID FROM PMS.Customer where firstName = 'conor' and lastName = 'toole'
+            mycursor.execute("SELECT Customer_ID FROM Customer where firstName = %s and lastName = %s", (customer.first_name, customer.last_name))
+            customerInfo = mycursor.fetchone()
+            return str(customerInfo[0])
+        except Exception as e:
+            print("failed to get id: ", e)
+
+    def loadCustomer(self):
+        customer1 = Customer()
+        customer1.first_name = input("Enter first name:")
+        customer1.last_name = input("Enter last name:")
+        customer1.date_of_birth = input("Enter DOB as YYYY-MM-DD")
+        #DOB = datetime.strptime(date_of_birth, '%Y/%m/%d')
+        customer1.address = input("Enter address:")
+        customer1.phone = input("Enter phone number:")
+        customer1.email = input("Enter email address:")
+        customer1.insurance = input("Enter insurance information:")
+        return customer1
+
+    def UpdateCustomer(self, customer, customerID):
+        try:   
+            mycursor.execute("UPDATE Customer set firstName = %s, lastName = %s, DOB = %s, Address = %s, phoneNum = %s, email = %s, insurance = %s where Customer_ID = %s",(customer.first_name, customer.last_name,customer.date_of_birth,customer.address,customer.phone,customer.email,customer.insurance, customerID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def enterPrescription(self):
+        prescriptionID = input("Enter the prescription ID: ")
+
+        #Get name and split
+        customerName = input("\nEnter the name of the customer (first last): ")
+        x = customerName.split()
+        firstName = x[0]
+        lastName = x[1]
+        
+        mycursor.execute("SELECT Customer_ID FROM Customer WHERE lastName = %s and firstName = %s",(lastName,firstName))
+        customerID = mycursor.fetchone()
+        customerID = customerID[0]
+        
+
+        prescriptionStartDate = input("\nEnter the start date for the medication in the form YYYY/MM/DD: ")
+        prescriptionEndDate = input("\nEnter the end date for the prescription in the form YYYY/MM/DD: ")
+
+        prescriptionMedication = input("\n Enter the name of the medication on the prescription: ")
+
+        prescriptionQuantity = input("\nEnter the amount of the medication per refill: ")
+        prescriptionStrength = input("\nEnter the strength: ")
+        prescriptionRefills = input("\nEnter the amount of refills: ")
+        instructions = input("\nEnter the instructions:")
+        pName = input("\nEnter the pharmacist name:")
+        
+        mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity, prescriptionStrength, prescriptionRefills, instructions, pName))
+        mydb.commit()
+
+    def addPrescription(self, newPrescription):  
+        sql = "INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (newPrescription.prescription, newPrescription.customerID, newPrescription.startDate, newPrescription.endDate, newPrescription.medication, newPrescription.quantity, newPrescription.strength, newPrescription.refills, newPrescription.instructions, newPrescription.prescriber)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+    def removePrescription(self, newPrescription): 
+        sql = "DELETE FROM PMS_Prescription WHERE prescription = " +  newPrescription.prescription
+        mycursor.execute(sql)
+        mydb.commit()
+
+class PharmacyManager(Staff):
+    def __init__(self, name):
+        pass
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
+    
+    def __eq__(self, other):
+        pass
+    
+    def __ne__(self, other):
+        pass
+    
+    def __hash__(self):
+        pass
+
+    def createPharmacyAccount(self):
+        role = input("Enter role (Manager, Pharmacist, Pharmacist technician, Cashier):")
+        name = input("Enter full name:")
+        password = input("Create password:")
+
+        mycursor.execute("INSERT INTO PMS_Staff (role, name, password) VALUES (%s, %s, %s)", (role, name, password))
+        mydb.commit()
+
+    def removePatient(self, customerID):
+        #!!!!!!!!!!!!!if you want to delete customer you must first delete reference in prescription!!!!!!!!
+        try:
+            if customerID:
+                try:
+                    mycursor.execute("DELETE FROM PMS_Prescription WHERE CustomerID = %s", (customerID,))
+                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
+                    mydb.commit()
+                    return True
+                except:
+                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
+                    mydb.commit()
+                    return True
+        except Exception as e:
+            print("Failed to delete customer: ", e)
+            return False
+
+    def recoverStaffAccount(self):
+        pass
+
+    def orderMedication(self):
+        pass
+
+    def updateInventory(self):
+        medName = input("Enter Item Name \n")        
+        newInfo = input("What is new quantity for this item?\n")
+        command = "UPDATE Inventory set quantity = %s where medName = %s"
+            
+        mycursor.execute(command,(newInfo,medName))
+        mydb.commit()
+
+    def removeItem(self):
+        medName = input("Enter Item Name to be removed\n")        
+        sql = (("DELETE FROM Inventory WHERE medName = %s"),(medName))
+        mycursor.execute(sql)
+        mydb.commit()
+
+    def generateFinancialReport(self):
+        pass
+
+    def generateInventoryReport(self):
+        pass
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
 
     
     
 
 class Pharmacist(Staff):
+<<<<<<< HEAD
     def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
 
     
@@ -155,12 +330,51 @@ class Pharmacist(Staff):
     def checkAvailability():
 
     def fillPrescription():
+=======
+    def __init__(self, name):
+        pass
+    
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
+    
+    def __eq__(self, other):
+        pass
+    
+    def __ne__(self, other):
+        pass
+    
+    def __hash__(self):
+        pass
+
+    def removePatient(self):
+        firstName =input("Patient first name\n")
+        lastName =input("Patient last name\n")        
+        mycursor.execute(("DELETE FROM Customer WHERE firstName = %s and lastName = %s"),(firstName,lastName))
+        
+    def checkAvailability(self):
+        pass
+
+    def fillPrescription(self):
+        # log()
+        pass
+
+    def log(self, Prescription):
+        f = open("log.txt", "a")
+        f.write(("prescription name: %s\nfilled by: %s\npatients name: %s\ndate: %s\nmedicine: %s\nquantity: %s"), (Prescription.prescription,Prescription.prescriber,Prescription.customerID,Prescription.startDate,Prescription.medication,Prescription.quantity))
+        f.write("\n")
+        f.close()
+
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
         
 
 class PharmacistTechnician(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
+<<<<<<< HEAD
         
     
     def __str__(self):
@@ -177,11 +391,30 @@ class PharmacistTechnician(Staff):
     
     def __hash__(self):
         
+=======
+        pass    
+    
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
+    
+    def __eq__(self, other):
+        pass
+    
+    def __ne__(self, other):
+        pass
+    
+    def __hash__(self):
+        pass
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
 
 class Cashier(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password):
+<<<<<<< HEAD
 
     
     def __str__(self):
@@ -198,6 +431,24 @@ class Cashier(Staff):
     
     def __hash__(self):
         
+=======
+        pass
+    
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
+    
+    def __eq__(self, other):
+        pass
+    
+    def __ne__(self, other):
+        pass
+    
+    def __hash__(self):
+        pass
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
     
@@ -206,4 +457,8 @@ class Cashier(Staff):
     
 
 
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a

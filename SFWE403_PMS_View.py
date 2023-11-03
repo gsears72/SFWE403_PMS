@@ -12,9 +12,9 @@ ctk.set_default_color_theme("blue")
 app = ctk.CTk() 
 app.geometry("400x400") 
 app.title("PMS Login") 
+  
  
 label = ctk.CTkLabel(app,text="PMS Login") 
-  
 label.pack(pady=20) 
   
   
