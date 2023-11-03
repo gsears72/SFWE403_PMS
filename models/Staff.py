@@ -1,7 +1,5 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
-<<<<<<< HEAD
-=======
 import warnings
 from models.Customer import Customer
 import mysql.connector
@@ -15,7 +13,6 @@ mydb = mysql.connector.connect(
     )
 
 mycursor = mydb.cursor()
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
 
 def canonical_date(date_str):
     try:
@@ -104,48 +101,6 @@ class Staff(ABC):
     def set_password(self, password):
         self.password = password
 
-<<<<<<< HEAD
-    def createPatient():
-
-    def modifyPatient():
-
-    def enterPrescription():
-
-    
-
-class PharmacyManager(Staff):
-    def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
-    
-    def __str__(self):
-
-    
-    def __repr__(self):
-
-    
-    def __eq__(self, other):
-
-    
-    def __ne__(self, other):
-
-    
-    def __hash__(self):
-
-    def createPharmacyAccount():
-
-    def removePatient():
-
-    def recoverStaffAccount():
-
-    def orderMedication():
-
-    def updateInventory():
-
-    def removeItem():
-
-    def generateFinancialReport():
-
-    def generateInventoryReport():
-=======
     def createPatient(self, customer):
         success = False
         #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
@@ -301,36 +256,11 @@ class PharmacyManager(Staff):
 
     def generateInventoryReport(self):
         pass
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
 
     
     
 
 class Pharmacist(Staff):
-<<<<<<< HEAD
-    def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
-
-    
-    def __str__(self):
-
-    
-    def __repr__(self):
-
-    
-    def __eq__(self, other):
-
-    
-    def __ne__(self, other):
-
-    
-    def __hash__(self):
-
-    def removePatient():
-        
-    def checkAvailability():
-
-    def fillPrescription():
-=======
     def __init__(self, name):
         pass
     
@@ -367,31 +297,12 @@ class Pharmacist(Staff):
         f.write("\n")
         f.close()
 
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
         
 
 class PharmacistTechnician(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
-<<<<<<< HEAD
-        
-    
-    def __str__(self):
-        
-    
-    def __repr__(self):
-        
-    
-    def __eq__(self, other):
-        
-    
-    def __ne__(self, other):
-        
-    
-    def __hash__(self):
-        
-=======
         pass    
     
     def __str__(self):
@@ -408,30 +319,11 @@ class PharmacistTechnician(Staff):
     
     def __hash__(self):
         pass
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
 
 class Cashier(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password):
-<<<<<<< HEAD
-
-    
-    def __str__(self):
-
-    
-    def __repr__(self):
-
-    
-    def __eq__(self, other):
-
-    
-    def __ne__(self, other):
-
-    
-    def __hash__(self):
-        
-=======
         pass
     
     def __str__(self):
@@ -448,7 +340,6 @@ class Cashier(Staff):
     
     def __hash__(self):
         pass
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
     
     
     
@@ -457,8 +348,4 @@ class Cashier(Staff):
     
 
 
-<<<<<<< HEAD
     
-=======
-    
->>>>>>> 73a2f6fac1b402f0c957ec8356a51a760c24578a
