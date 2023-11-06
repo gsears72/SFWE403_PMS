@@ -64,13 +64,20 @@ CheckoutButton = tk.CTkButton(
     #command = open checkout view 
 )
 
+BacktoLoginButton = tk.CTkButton(
+    master = CashierHome, 
+    text = "Exit", 
+    width = 100, 
+    height = 25, 
+)
+
 
 
 AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
 UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
 DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
 CheckoutButton.grid(row = 50, column = 20,  padx=10, pady=10)
-    
+BacktoLoginButton.grid(row = 500, column = 20, padx= 10, pady= 10)
 
 
 CashierHome.mainloop()
