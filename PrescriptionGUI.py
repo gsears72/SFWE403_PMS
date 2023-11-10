@@ -26,7 +26,7 @@ AddPrescriptionButton = ctk.CTkButton(
     width = 150,
     height = 100,
     master = app,
-    #command=print("AddPrescriptionButton"),
+    command=print("AddPrescriptionButton"),
 )
 
 FillPrescriptionLabel = ctk.CTkLabel(master=app, text="Enter the customer name")
@@ -37,7 +37,7 @@ FillPrescriptionButton = ctk.CTkButton(
     width = 150,
     height = 100,
     master= app,
-    #command=print("FillPrescriptionButton"),
+    command=print("FillPrescriptionButton"),
 )
 
 
