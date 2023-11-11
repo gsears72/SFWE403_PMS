@@ -32,6 +32,11 @@ def open_recoverAccountView():
             success.grid(row = 30, column = 200, padx = 10, pady = 10)
             clear_text(nameIn)
 
+    # Selecting GUI theme - dark, light , system (for system default) 
+    tk.set_appearance_mode("dark") 
+  
+    # Selecting color theme - blue, green, dark-blue 
+    tk.set_default_color_theme("blue") 
 
     window = tk.CTkToplevel()
     window.geometry("500x500")
