@@ -2,10 +2,8 @@ import customtkinter as tk
 import models.Customer as Customer
 from models.Staff import PharmacyManager
 
-
-
-def open_addCustomerView():
-    # Selecting GUI theme - dark, light , system (for system default) 
+def open_addCustomerView(cashierHome):
+    #Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
         
     # Selecting color theme - blue, green, dark-blue 
@@ -42,6 +40,16 @@ def open_addCustomerView():
         # bg="blue",
         # fg="yellow",
     )
+    
+    back = tk.CTkButton(
+        master=window,
+        text="Go Back",
+        width=200,
+        height=50,
+        # bg="blue",
+        # fg="yellow",
+    )
+
     # labels are text
     label = tk.CTkLabel(master=window,text="Add Customer", font=("Fira Code", 25)) 
     label1 = tk.CTkLabel(master=window,text="First Name") 
@@ -78,7 +86,8 @@ def open_addCustomerView():
     emailIn.grid(column=1, row=6, padx=5, pady=5)
     label7.grid(column=0, row=7, padx=5, pady=5) 
     insuranceIn.grid(column=1, row=7, padx=5, pady=5) 
-    button.grid(columnspan=2, row=8, padx=5, pady=5)
+    button.grid(column = 1, row=8, padx=5, pady=5)
+    back.grid(column = 0, row=8, padx=5, pady=5)
 
     def handle_click(event): 
         # this gets info from input and puts into class
@@ -106,10 +115,15 @@ def open_addCustomerView():
             success.grid_remove()
             failure.grid(columnspan=2, row=9, padx=5, pady=5) 
 
+    def closeWindow(self):
+        cashierHome.deiconify()
+        window.destroy()
+
     def clear_text(text):
         text.delete(0, tk.END)
 
     button.bind("<Button-1>", handle_click) #connects function handle_click to button 
-
+    back.bind("<Button-1>", closeWindow)
+    #lets priors window know that this one will close itself
 
 #window.mainloop() #constant loop for gui 

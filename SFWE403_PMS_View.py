@@ -15,7 +15,6 @@ app.title("PMS Login")
   
  
 label = ctk.CTkLabel(app,text="PMS Login") 
-  
 label.pack(pady=20) 
   
   
