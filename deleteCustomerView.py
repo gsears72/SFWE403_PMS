@@ -3,7 +3,7 @@ from models.Customer import Customer
 from models.Staff import PharmacyManager
 
 
-def open_deleteCustomerView():
+def open_deleteCustomerView(cashierHome):
     # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
     
@@ -24,6 +24,15 @@ def open_deleteCustomerView():
         font = ("Fira Code", 15),
         master = window
     )
+
+    back = tk.CTkButton(
+        master=window,
+        text="Go Back",
+        width=200,
+        height=50,
+        # bg="blue",
+        # fg="yellow",
+    )
     # labels are text
     label = tk.CTkLabel(master = window,text="What customer would you like to remove? (first last)") 
 
@@ -36,6 +45,7 @@ def open_deleteCustomerView():
     label.pack(pady=20)
     nameIn.pack() 
     button.pack(pady = 20)
+    back.pack(pady = 20)
 
     def handle_click(event): 
         # this gets info from input and puts into class
@@ -59,6 +69,11 @@ def open_deleteCustomerView():
     def clear_text(text):
         text.delete(0, tk.END)
 
+    def closeWindow(self):
+        cashierHome.deiconify()
+        window.destroy()
+
     button.bind("<Button-1>", handle_click) #connects function handle_click to button 
+    back.bind("<Button-1>", closeWindow)
 
 #window.mainloop() #constant loop for gui 
