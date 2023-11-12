@@ -3,7 +3,7 @@ from models.Customer import Customer
 from models.Staff import PharmacyManager
 
 
-def open_updateCustomerView():
+def open_updateCustomerView(cashierHome):
     # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
     
@@ -31,6 +31,7 @@ def open_updateCustomerView():
     window.rowconfigure(9, weight = 0)
     window.rowconfigure(10, weight = 0)
     window.rowconfigure(11, weight = 0)
+    window.rowconfigure(12, weight = 0)
 
     customerID2 = 0
 
@@ -48,6 +49,15 @@ def open_updateCustomerView():
         font=("Fira Code", 15),
         width=200,
         height=50,
+    )
+
+    back = tk.CTkButton(
+        master=window,
+        text="Go Back",
+        width=200,
+        height=50,
+        # bg="blue",
+        # fg="yellow",
     )
     # labels are text
     label = tk.CTkLabel(master=window,text="What is the first and last name of the Customer?") 
@@ -70,6 +80,7 @@ def open_updateCustomerView():
     label.grid(columnspan=2, row=0, padx=5, pady=5)
     nameIn.grid(columnspan=2, row=1, padx=5, pady=5)
     button2.grid(columnspan=2, row=2, padx=5, pady=5)
+    back.grid(columnspan=2, row=11, padx=5, pady=5)
 
 
     def load(event):
@@ -121,7 +132,7 @@ def open_updateCustomerView():
             print(e)
         if test:
             failure.grid_remove() #removes from screen
-            success.grid(columnspan=2, row=11, padx=5, pady=5)  #adds to screen 
+            success.grid(columnspan=2, row=12, padx=5, pady=5)  #adds to screen 
             #clears input fields
             clear_text(firstNameIn)
             clear_text(lastNameIn)
@@ -132,12 +143,19 @@ def open_updateCustomerView():
             clear_text(insuranceIn)
         else:
             success.grid_remove()
-            failure.grid(columnspan=2, row=11, padx=5, pady=5) 
+            failure.grid(columnspan=2, row=12, padx=5, pady=5) 
 
     def clear_text(text):
         text.delete(0, tk.END)
 
+    def closeWindow(self):
+        cashierHome.deiconify()
+        window.destroy()
+
     button.bind("<Button-1>", update) #connects function handle_click to button 
     button2.bind("<Button-1>", load)
+    back.bind("<Button-1>", closeWindow)
+    
+    
 
 #window.mainloop() #constant loop for gui 
