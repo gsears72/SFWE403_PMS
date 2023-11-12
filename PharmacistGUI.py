@@ -2,7 +2,7 @@ import customtkinter as tk
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
-
+import PrescriptionGUI as pg
 
 
 PharmacistHome = tk.CTk()
@@ -19,6 +19,10 @@ def OpenUpdateWindow():
 
 def OpenDeleteWindow():
     dcv.open_deleteCustomerView()
+    PharmacistHome.withdraw()
+
+def OpenPrescriptionGUI():
+    pg.open_PerscriptionGUI()
     PharmacistHome.withdraw()
 
 AddCustomerButton = tk.CTkButton(
@@ -62,7 +66,7 @@ FillPrescriptionButton = tk.CTkButton(
     #bg = "blue", 
     #fg = "yellow", 
     #font = 10,
-    #command = open fillprescription view 
+    command = OpenPrescriptionGUI 
 )
 
 NewPrescriptionButton = tk.CTkButton(
@@ -73,7 +77,7 @@ NewPrescriptionButton = tk.CTkButton(
     #bg = "blue", 
     #fg = "yellow", 
     #font = 10,
-    #command = open enter new prescription view 
+    command = OpenPrescriptionGUI 
 )
 
 CheckAvailabilityButton = tk.CTkButton(
