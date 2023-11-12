@@ -9,15 +9,15 @@ CashierHome.geometry("700x200")
 CashierHome.title("Cashier Homepage")
 
 def OpenAddWindow():
-    acv.open_addCustomerView()
+    acv.open_addCustomerView(CashierHome)
     CashierHome.withdraw()
 
 def OpenUpdateWindow():
-    ucv.open_updateCustomerView()
+    ucv.open_updateCustomerView(CashierHome)
     CashierHome.withdraw()
 
 def OpenDeleteWindow():
-    dcv.open_deleteCustomerView()
+    dcv.open_deleteCustomerView(CashierHome)
     CashierHome.withdraw()
 
 AddCustomerButton = tk.CTkButton(
@@ -78,6 +78,7 @@ UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
 DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
 CheckoutButton.grid(row = 50, column = 20,  padx=10, pady=10)
 BacktoLoginButton.grid(row = 500, column = 20, padx= 10, pady= 10)
+    
 
 
 CashierHome.mainloop()
