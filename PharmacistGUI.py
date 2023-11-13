@@ -1,13 +1,30 @@
-import tkinter as tk
 
+import customtkinter as tk
+import addCustomerView as acv
+import updateCustomerView as ucv
+import deleteCustomerView as dcv
+import PrescriptionGUI as pg
 
-
-window = tk.Tk()
+window = tk.CTk()
 window.geometry("750x500")
 window.title("Pharmacist Homepage")
 
 
-AddCustomerButton = tk.Button(
+
+def OpenUpdateWindow():
+    ucv.open_updateCustomerView()
+    PharmacistHome.withdraw()
+
+def OpenDeleteWindow():
+    dcv.open_deleteCustomerView()
+    PharmacistHome.withdraw()
+
+def OpenPrescriptionGUI():
+    pg.open_PerscriptionGUI()
+    PharmacistHome.withdraw()
+
+AddCustomerButton = tk.CTkButton(
+    master = PharmacistHome,
     text = "Add Customer",
     width = 20,
     height = 5,
@@ -39,22 +56,23 @@ DeleteCustomerButton = tk.Button(
 
 FillPrescriptionButton = tk.Button(
     text = "Fill Prescription", 
-    width = 20, 
-    height = 5, 
-    bg = "blue", 
-    fg = "yellow", 
-    font = 10,
-    #command = open fillprescription view 
+    width = 200, 
+    height = 50, 
+    #bg = "blue", 
+    #fg = "yellow", 
+    #font = 10,
+    command = OpenPrescriptionGUI 
 )
 
 NewPrescriptionButton = tk.Button(
     text = "Enter New Prescription", 
-    width = 20, 
-    height = 5, 
-    bg = "blue", 
-    fg = "yellow", 
-    font = 10,
-    #command = open enter new prescription view 
+    width = 200, 
+    height = 50, 
+    #bg = "blue", 
+    #fg = "yellow", 
+    #font = 10,
+    command = OpenPrescriptionGUI 
+
 )
 
 CheckAvailabilityButton = tk.Button(
