@@ -128,6 +128,15 @@ class Staff(ABC):
         except Exception as e:
             print("failed to get id: ", e)
 
+    def changePassword(self, Password, userID):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set password = %s where StaffID = %s",(Password, userID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def loadCustomer(self):
         customer1 = Customer()
         customer1.first_name = input("Enter first name:")
@@ -224,9 +233,7 @@ class PharmacyManager(Staff):
                     mydb.commit()
                     return True
                 except:
-                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
-                    mydb.commit()
-                    return True
+                    return False
         except Exception as e:
             print("Failed to delete customer: ", e)
             return False
@@ -234,8 +241,23 @@ class PharmacyManager(Staff):
     def recoverStaffAccount(self):
         pass
 
-    def orderMedication(self):
-        pass
+    def orderMedication(self, Medicine):
+        success = False
+        try:
+            mycursor.execute("INSERT INTO Inventory (medName, quantity, strength, batchNum, expDate, price) VALUES (%s, %s, %s, %s, %s, %s)", ( Medicine.name, Medicine.quantity, Medicine.strength, Medicine.batch, Medicine.expDate, Medicine.price))
+            mydb.commit()
+            success = True
+        except:
+            success = False 
+        return success
+
+    def fetchMedicineID(self, medicine):
+        try:                 #SELECT Customer_ID FROM PMS.Customer where firstName = 'conor' and lastName = 'toole'
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            return str(medicineInfo[0])
+        except Exception as e:
+            print("failed to get id: ", e)
 
     def updateInventory(self):
         medName = input("Enter Item Name \n")        
@@ -245,11 +267,17 @@ class PharmacyManager(Staff):
         mycursor.execute(command,(newInfo,medName))
         mydb.commit()
 
-    def removeItem(self):
-        medName = input("Enter Item Name to be removed\n")        
-        sql = (("DELETE FROM Inventory WHERE medName = %s"),(medName))
-        mycursor.execute(sql)
-        mydb.commit()
+    def removeItem(self, medicineID):
+        success = False
+        try:       
+            mycursor.execute("DELETE FROM Inventory WHERE item_id = %s",(medicineID,))
+            mydb.commit()
+            success = True
+        except Exception as e:
+            print(e)
+            success = False
+        return success
+            
 
     def generateFinancialReport(self):
         pass
@@ -341,6 +369,24 @@ class Cashier(Staff):
     def __hash__(self):
         pass
     
+class User(Staff):
+    def __init__(self, name):
+        self.name = name
+        self.role = "default"
+        self.password = "default"
+        self.lockout = "0"
+        self.highschool = "default"
+        self.strikcount = "0"
+
+    def changePassword(self, Password, userID):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set password = %s where Staff_ID = %s",(Password, userID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     
     
     
