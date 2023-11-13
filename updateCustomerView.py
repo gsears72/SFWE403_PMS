@@ -140,4 +140,4 @@ def open_updateCustomerView():
     button.bind("<Button-1>", update) #connects function handle_click to button 
     button2.bind("<Button-1>", load)
 
-#window.mainloop() #constant loop for gui 
+#window.mainloop() #constant loop for gui

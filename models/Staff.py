@@ -120,6 +120,14 @@ class Staff(ABC):
             print("failed to get customer: ", e)
         return customerInfo
     
+    def fetchStaff(self, name):
+        try:                 #SELECT * FROM PMS.Staff where name = 3
+            mycursor.execute("SELECT * FROM PMS_Staff where name = %s", (name,))
+            staffInfo =  mycursor.fetchall()
+        except Exception as e:
+            print("failed to get staff: ", e)
+        return staffInfo
+    
     def fetchID(self, customer):
         try:                 #SELECT Customer_ID FROM PMS.Customer where firstName = 'conor' and lastName = 'toole'
             mycursor.execute("SELECT Customer_ID FROM Customer where firstName = %s and lastName = %s", (customer.first_name, customer.last_name))
@@ -229,6 +237,24 @@ class PharmacyManager(Staff):
                     return True
         except Exception as e:
             print("Failed to delete customer: ", e)
+            return False
+        
+    def UpdateStaff(self, staff, name):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set StaffID = %s, name = %s, role = %s, password = %s, lockout = %s, highschool = %s, strikecount = %s where name = %s",(staff.StaffID, staff.name,staff.role,staff.password,staff.lockout,staff.highschool,staff.strikecount, name))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        
+    def removeStaff(self, name):
+        try:
+            mycursor.execute("DELETE FROM PMS_Staff WHERE name = %s", (name,))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print("Failed to delete staff: ", e)
             return False
 
     def recoverStaffAccount(self):
@@ -340,12 +366,24 @@ class Cashier(Staff):
     
     def __hash__(self):
         pass
-    
-    
-    
-    
 
+class User(Staff):
+    def __init__(self):
+        pass
     
-
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
+    
+    def __eq__(self, other):
+        pass
+    
+    def __ne__(self, other):
+        pass
+    
+    def __hash__(self):
+        pass
 
     
