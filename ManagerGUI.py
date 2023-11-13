@@ -1,90 +1,105 @@
 import customtkinter as tk
+import deleteInventoryView as div
 #import addCustomerView as acv
 
+def open_managerGUI(app):
+    CashierHome = tk.CTkToplevel()
+    CashierHome.geometry("700x200")
+    CashierHome.title("Manager Homepage")
 
-CashierHome = tk.CTk()
-CashierHome.geometry("700x200")
-CashierHome.title("Manager Homepage")
+    def LogOut():
+        app.deiconify()
+        CashierHome.destroy()
 
-#should add instant check for low stock or expired notifications
+    def deleteInventory():
+        div.open_deleteInventory(CashierHome)
+        CashierHome.withdraw()
 
-AddUserButton = tk.CTkButton(
-    master = CashierHome,
-    text = "Add User",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = acv.open_addCustomerView()
-)
+    #should add instant check for low stock or expired notifications
 
-UpdateUserButton = tk.CTkButton(
-    master = CashierHome,
-    text = "Update User",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = open updatecustomer view 
-)
+    AddUserButton = tk.CTkButton(
+        master = CashierHome,
+        text = "Add User",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        #command = acv.open_addCustomerView()
+    )
 
-DeleteUserButton = tk.CTkButton(
-    master = CashierHome,
-    text = "Delete User",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = open deletecustomer view 
-)
+    UpdateUserButton = tk.CTkButton(
+        master = CashierHome,
+        text = "Update User",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        #command = open updatecustomer view 
+    )
 
-UpdateInventory = tk.CTkButton(
-    master = CashierHome,
-    text = "Update Inventory",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = open checkout view 
-)
+    DeleteUserButton = tk.CTkButton(
+        master = CashierHome,
+        text = "Delete User",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        #command = open deletecustomer view 
+    )
 
-DeleteInventory = tk.CTkButton(
-    master = CashierHome,
-    text = "Delete Inventory",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = open checkout view 
-)
+    UpdateInventory = tk.CTkButton(
+        master = CashierHome,
+        text = "Update Inventory",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        #command = open checkout view 
+    )
 
-RecoverUserAccount = tk.CTkButton(
-    master = CashierHome,
-    text = "Recover User Account",
-    width = 200,
-    height = 50,
-    #bg = "blue",
-    #fg = "yellow",
-    #font = 10,
-    #command = open checkout view 
-)
+    DeleteInventory = tk.CTkButton(
+        master = CashierHome,
+        text = "Delete Inventory",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = deleteInventory
+    )
 
+    RecoverUserAccount = tk.CTkButton(
+        master = CashierHome,
+        text = "Recover User Account",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        #command = open checkout view 
+    )
 
+    LogOutButton = tk.CTkButton(
+        master = CashierHome,
+        text = "Log Out",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = LogOut
+    )
 
+    AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
+    UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
+    DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
+    UpdateInventory.grid(row = 50, column = 0,  padx=10, pady=10)
+    DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)
+    RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
+    LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10)  
 
-AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
-UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
-DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
-UpdateInventory.grid(row = 50, column = 0,  padx=10, pady=10)
-DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)
-RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
-
-    
-
-
-CashierHome.mainloop()
+    #CashierHome.mainloop()
