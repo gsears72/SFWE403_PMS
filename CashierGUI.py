@@ -3,6 +3,8 @@ import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import changePassView as cpv
+import expiration as exp
+from tkinter import messagebox
 
 def open_cashierView(app, currentId, currentPassword):
 
@@ -29,7 +31,6 @@ def open_cashierView(app, currentId, currentPassword):
     def ChangePassword():
         cpv.open_passView(CashierHome, currentId, currentPassword)
         CashierHome.withdraw()
-
 
     AddCustomerButton = tk.CTkButton(
         master = CashierHome,
@@ -101,7 +102,9 @@ def open_cashierView(app, currentId, currentPassword):
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
     CheckoutButton.grid(row = 50, column = 20,  padx=10, pady=10)
     LogOutButton.grid(row = 50, column = 40,  padx=10, pady=10)    
-    changePassword.grid(row = 50, column = 0,  padx=10, pady=10)    
+    changePassword.grid(row = 50, column = 0,  padx=10, pady=10)   
+
+    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
 
 
     #CashierHome.mainloop()
