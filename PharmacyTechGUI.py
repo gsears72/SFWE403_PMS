@@ -57,12 +57,13 @@ def open_pharmacistTechGUI(app):
         command = LogOut
     )
 
+    app.withdraw()
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
     LogOutButton.grid(row = 0, column = 20, padx=10, pady=10)
 
-    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
 
 
     #CashierHome.mainloop()
