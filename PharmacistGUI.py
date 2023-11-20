@@ -3,105 +3,118 @@ import customtkinter as tk
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
-import PrescriptionGUI as pg
+#import PrescriptionGUI as pg
+import expiration as exp 
+from tkinter import messagebox
 
-window = tk.CTk()
-window.geometry("750x500")
-window.title("Pharmacist Homepage")
+def open_phramacistGUI(PharmacistHome):
+
+    window = tk.CTkToplevel()
+    window.geometry("750x500")
+    window.title("Pharmacist Homepage")
+
+    def OpenUpdateWindow():
+        ucv.open_updateCustomerView(window)
+        window.withdraw()
+
+    def OpenDeleteWindow():
+        dcv.open_deleteCustomerView(window)
+        window.withdraw()
+
+    def OpenAddWindow():
+        acv.open_addCustomerView(window)
+        window.withdraw()
+
+    def OpenPrescriptionGUI():
+        pass
+        #pg.open_PerscriptionGUI()
+        #PharmacistHome.withdraw()
+
+    def LogOut():
+        PharmacistHome.deiconify()
+        window.destroy()
+
+    AddCustomerButton = tk.CTkButton(
+        master = window,
+        text = "Add Customer",
+        width = 200,
+        height = 50,
+        command = OpenAddWindow
+    )
+
+    UpdateCustomerButton = tk.CTkButton(
+        master = window,
+        text = "Update Customer",
+        width = 200,
+        height = 50,
+        command = OpenUpdateWindow
+    )
+
+    DeleteCustomerButton = tk.CTkButton(
+        master = window,
+        text = "Delete Customer",
+        width = 200,
+        height = 50,
+        command = OpenDeleteWindow
+    )
+
+    FillPrescriptionButton = tk.CTkButton(
+        master = window,
+        text = "Fill Prescription", 
+        width = 200, 
+        height = 50, 
+        command = OpenPrescriptionGUI 
+    )
+
+    NewPrescriptionButton = tk.CTkButton(
+        master = window,
+        text = "Enter New Prescription", 
+        width = 200,
+        height = 50, 
+        #bg = "blue", 
+        #fg = "yellow", 
+        #font = 10,
+        command = OpenPrescriptionGUI 
+
+    )
+
+    CheckAvailabilityButton = tk.CTkButton(
+        master = window,
+        text = "Check Med Availability", 
+        width = 200,
+        height = 50,
+        #command = open checkavailability view 
+    )
+
+    CheckoutButton = tk.CTkButton(
+        master = window,
+        text = "Checkout", 
+        width = 200,
+        height = 50,
+        #command = open checkout view 
+    )
+
+    LogOutButton = tk.CTkButton(
+        master = window,
+        text = "Log Out",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = LogOut
+    )
+
+    AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
+    UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
+    DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
+    FillPrescriptionButton.grid(row = 50, column = 0, padx=10, pady=10)
+    NewPrescriptionButton.grid(row = 50, column = 20, padx=10, pady=10)
+    CheckAvailabilityButton.grid(row = 50, column = 40, padx=10, pady=10)
+    CheckoutButton.grid(row = 100, column = 20,  padx=10, pady=10)
+    LogOutButton.grid(row = 100, column = 0,  padx=10, pady=10)  
 
 
+    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
 
-def OpenUpdateWindow():
-    ucv.open_updateCustomerView()
-    PharmacistHome.withdraw()
-
-def OpenDeleteWindow():
-    dcv.open_deleteCustomerView()
-    PharmacistHome.withdraw()
-
-def OpenPrescriptionGUI():
-    pg.open_PerscriptionGUI()
-    PharmacistHome.withdraw()
-
-AddCustomerButton = tk.CTkButton(
-    master = PharmacistHome,
-    text = "Add Customer",
-    width = 20,
-    height = 5,
-    bg = "blue",
-    fg = "yellow",
-    font = 10,
-    #command = open addcustomer view 
-)
-
-UpdateCustomerButton = tk.Button(
-    text = "Update Customer",
-    width = 20,
-    height = 5,
-    bg = "blue",
-    fg = "yellow",
-    font = 10,
-    #command = open updatecustomer view 
-)
-
-DeleteCustomerButton = tk.Button(
-    text = "Delete Customer",
-    width = 20,
-    height = 5,
-    bg = "blue",
-    fg = "yellow",
-    font = 10,
-    #command = open deletecustomer view 
-)
-
-FillPrescriptionButton = tk.Button(
-    text = "Fill Prescription", 
-    width = 200, 
-    height = 50, 
-    #bg = "blue", 
-    #fg = "yellow", 
-    #font = 10,
-    command = OpenPrescriptionGUI 
-)
-
-NewPrescriptionButton = tk.Button(
-    text = "Enter New Prescription", 
-    width = 200, 
-    height = 50, 
-    #bg = "blue", 
-    #fg = "yellow", 
-    #font = 10,
-    command = OpenPrescriptionGUI 
-
-)
-
-CheckAvailabilityButton = tk.Button(
-    text = "Check Med Availability", 
-    width = 20, 
-    height = 5, 
-    bg = "blue", 
-    fg = "yellow", 
-    font = 10,
-    #command = open checkavailability view 
-)
-
-CheckoutButton = tk.Button(
-    text = "Checkout", 
-    width = 20, 
-    height = 5, 
-    bg = "blue", 
-    fg = "yellow", 
-    font = 10,
-    #command = open checkout view 
-)
-
-AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
-UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
-DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
-FillPrescriptionButton.grid(row = 50, column = 0, padx=10, pady=10)
-NewPrescriptionButton.grid(row = 50, column = 20, padx=10, pady=10)
-CheckAvailabilityButton.grid(row = 50, column = 40, padx=10, pady=10)
-CheckoutButton.grid(row = 100, column = 20,  padx=10, pady=10)
-
-
-window.mainloop()
+    #window.mainloop()
