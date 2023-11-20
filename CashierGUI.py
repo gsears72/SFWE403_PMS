@@ -97,6 +97,7 @@ def open_cashierView(app, currentId, currentPassword):
         command = ChangePassword
     )
 
+    app.withdraw()
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
@@ -104,7 +105,7 @@ def open_cashierView(app, currentId, currentPassword):
     LogOutButton.grid(row = 50, column = 40,  padx=10, pady=10)    
     changePassword.grid(row = 50, column = 0,  padx=10, pady=10)   
 
-    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
 
 
     #CashierHome.mainloop()
