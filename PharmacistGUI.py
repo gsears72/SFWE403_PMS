@@ -1,4 +1,3 @@
-
 import customtkinter as tk
 import addCustomerView as acv
 import updateCustomerView as ucv
@@ -105,6 +104,7 @@ def open_phramacistGUI(PharmacistHome):
         command = LogOut
     )
 
+    PharmacistHome.withdraw()
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
@@ -115,6 +115,6 @@ def open_phramacistGUI(PharmacistHome):
     LogOutButton.grid(row = 100, column = 0,  padx=10, pady=10)  
 
 
-    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
 
     #window.mainloop()
