@@ -96,6 +96,7 @@ def open_managerGUI(app):
         command = LogOut
     )
 
+    app.withdraw()
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
@@ -104,7 +105,7 @@ def open_managerGUI(app):
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
     LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10)  
 
-    messagebox.showwarning("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY", exp.Expired())
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
 
     #CashierHome.mainloop()
