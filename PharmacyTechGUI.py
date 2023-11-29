@@ -1,5 +1,7 @@
 import customtkinter as tk
 #import addCustomerView as acv
+import expiration as exp 
+from tkinter import messagebox
 
 def open_pharmacistTechGUI(app):
     CashierHome = tk.CTkToplevel()
@@ -55,9 +57,15 @@ def open_pharmacistTechGUI(app):
         command = LogOut
     )
 
+    app.withdraw()
+
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
     LogOutButton.grid(row = 0, column = 20, padx=10, pady=10)
 
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
+
+
     #CashierHome.mainloop()
+
