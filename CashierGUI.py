@@ -3,6 +3,7 @@ import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import changePassView as cpv
+from controllers.LogController import LogoutLog
 
 def open_cashierView(app, currentId, currentPassword):
 
@@ -23,6 +24,7 @@ def open_cashierView(app, currentId, currentPassword):
         CashierHome.withdraw()
 
     def LogOut():
+        LogOut(currentId)
         app.deiconify()
         CashierHome.destroy()
 

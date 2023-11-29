@@ -1,4 +1,4 @@
-from DatabaseController import Connect
+from controllers.DatabaseController import *
 from datetime import datetime
 
 def LoginLog(userID):
@@ -74,7 +74,7 @@ def TransactionLog(userID,customerID,total):
         del values,sql,conn
 
     
-def InvebtoryLog(userID):
+def InventoryLog(userID):
     conn = None
    
     sql = """INSERT INTO PMS_LOGS (`EventType`,`Description`) VALUES (%s,%s)"""
