@@ -58,6 +58,7 @@ def open_pharmacistTechGUI(app):
     )
 
     app.withdraw()
+
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
@@ -67,3 +68,4 @@ def open_pharmacistTechGUI(app):
 
 
     #CashierHome.mainloop()
+

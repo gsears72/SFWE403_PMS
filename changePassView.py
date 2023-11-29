@@ -26,12 +26,13 @@ def open_passView(oldWindow, currentId, currentPassword):
 
     label = tk.CTkLabel(master=window,text="current password") 
     label1 = tk.CTkLabel(master=window,text="Change Password", font=("Fira Code", 25)) 
-    label2 = tk.CTkLabel(master=window,text="current password again") 
-    label3 = tk.CTkLabel(master=window,text="new password") 
+    label2 = tk.CTkLabel(master=window,text="new password") 
+    label3 = tk.CTkLabel(master=window,text="new password again") 
 
     success = tk.CTkLabel(master=window,text="Successfully Changed!")  
     failure = tk.CTkLabel(master=window,text="Failed to Change!") 
-    failure2 = tk.CTkLabel(master=window,text="passwords do not match or password is incorrect") 
+    failure2 = tk.CTkLabel(master=window,text="password is incorrect") 
+    failure3 = tk.CTkLabel(master=window,text="passwords do not match or password") 
 
     pass1 = tk.CTkEntry(master=window, width=300)
     pass2 = tk.CTkEntry(master=window, width=300)
@@ -69,19 +70,27 @@ def open_passView(oldWindow, currentId, currentPassword):
 
     def handle_click(event): 
         valid = False
+        matches = False
         passwordIn = newPass.get()
         old1 = pass1.get()
-        old2 = pass2.get()
-        if (old1 == old2 and old1 == currentPassword):
+        new2 = pass2.get()
+        new = newPass.get()
+        if (old1 == currentPassword): #old password is correct
             valid = True
         else:
             valid = False
 
-        if (valid):
+        if (new2 == new): #new passwords match
+            matches = True
+        else:
+            matches = False
+        
+        if (valid and matches):
             test = user.changePassword(passwordIn, currentId)
             if test:
                 failure.grid_remove() #removes from screen
                 failure2.grid_remove()
+                failure3.grid_remove()
                 success.grid(columnspan=2, row=5, padx=5, pady=5) #adds to screen 
                 #clears input fields
                 clear_text(newPass)
@@ -90,13 +99,23 @@ def open_passView(oldWindow, currentId, currentPassword):
             else:
                 success.grid_remove()
                 failure2.grid_remove()
+                failure3.grid_remove()
                 clear_text(newPass)
                 clear_text(pass1)
                 clear_text(pass2)
                 failure.grid(columnspan=2, row=5, padx=5, pady=5) 
+        elif (valid):
+            success.grid_remove()
+            failure.grid_remove()
+            failure2.grid_remove()
+            clear_text(newPass)
+            clear_text(pass1)
+            clear_text(pass2)
+            failure3.grid(columnspan=2, row=5, padx=5, pady=5)
         else:
             success.grid_remove()
             failure.grid_remove()
+            failure3.grid_remove()
             clear_text(newPass)
             clear_text(pass1)
             clear_text(pass2)

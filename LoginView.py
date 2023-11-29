@@ -1,6 +1,11 @@
 
 import customtkinter as ctk 
+
 import CashierGUI as cgui
+import ManagerGUI as mgui
+import PharmacistGUI as pgui
+import PharmacyTechGUI as ptgui
+
 from models.Staff import User
 from tkinter import messagebox
 
@@ -47,19 +52,22 @@ class LoginGUI(ctk.CTk):
                 Resetstrike(id)
                 #write code here
                 match result[2]:
-                    case "manager":
+                    case "manager": #load manager GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        messagebox.showinfo("Success","Login Successful")
-                        #load manager gui
-                    case "pharmacist":
+                        mgui.open_managerGUI(app)
+                        app.withdraw()
+                    case "pharmacist": #load pharmacist GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        #load pharmacist gui
+                        pgui.open_phramacistGUI(app)
+                        app.withdraw()
                     case "cashier": #load cashier gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
                         cgui.open_cashierView(app, currentId, currentPassword)
                         app.withdraw()
-                    case "technitian":
+                    case "technitian": #load tech gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
+                        ptgui.open_pharmacistTechGUI(app)
+                        app.withdraw()
                 #messagebox.showinfo("Success","Login Successful")
                 return result[2]
             elif result == None:
