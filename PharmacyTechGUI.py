@@ -1,4 +1,5 @@
 import customtkinter as tk
+from controllers.LogController import LoginLog
 #import addCustomerView as acv
 import expiration as exp 
 from tkinter import messagebox
@@ -10,6 +11,7 @@ def open_pharmacistTechGUI(app):
 
     #should add instant check for low stock or expired notifications
     def LogOut():
+        LoginLog(id)
         app.deiconify()
         CashierHome.destroy()
 

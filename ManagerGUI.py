@@ -1,15 +1,17 @@
 import customtkinter as tk
 import deleteInventoryView as div
+from controllers.LogController import LogoutLog
 #import addCustomerView as acv
 import expiration as exp
 from tkinter import messagebox
 
-def open_managerGUI(app):
+def open_managerGUI(app,id):
     CashierHome = tk.CTkToplevel()
     CashierHome.geometry("700x200")
     CashierHome.title("Manager Homepage")
 
     def LogOut():
+        LogoutLog(id)
         app.deiconify()
         CashierHome.destroy()
 

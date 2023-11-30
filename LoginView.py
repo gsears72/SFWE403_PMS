@@ -12,6 +12,7 @@ from tkinter import messagebox
 
 from models.Login import LoginLib
 from controllers.LoginController import *
+from controllers.LogController import LoginLog
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -50,15 +51,16 @@ class LoginGUI(ctk.CTk):
             ################################################################
             if result != None and result[4] == 0 :
                 Resetstrike(id)
+                LoginLog(id)
                 #write code here
                 match result[2]:
                     case "manager": #load manager GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        mgui.open_managerGUI(app)
+                        mgui.open_managerGUI(app,id)
                         app.withdraw()
                     case "pharmacist": #load pharmacist GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        pgui.open_phramacistGUI(app)
+                        pgui.open_phramacistGUI(app,id)
                         app.withdraw()
                     case "cashier": #load cashier gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
@@ -66,7 +68,7 @@ class LoginGUI(ctk.CTk):
                         app.withdraw()
                     case "technitian": #load tech gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        ptgui.open_pharmacistTechGUI(app)
+                        ptgui.open_pharmacistTechGUI(app,id)
                         app.withdraw()
                 #messagebox.showinfo("Success","Login Successful")
                 return result[2]
