@@ -82,3 +82,5 @@ if __name__ == '__main__':
 
     print("WARNING: The following medications are EXPIRED. Do NOT use and DISPOSE IMMEDIATELY")
     print(expired)
+
+    print("it works")
