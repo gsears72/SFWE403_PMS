@@ -1,4 +1,4 @@
-from DatabaseController import Connect
+from controllers.DatabaseController import Connect
 from datetime import *
 
 def SalesReport(startDate, endDate):
@@ -10,11 +10,12 @@ def SalesReport(startDate, endDate):
     timeStamp = 0
     description =" "
     xtotal = 0
+    print(sql)
 
     try:
         conn = Connect()
         cursor = conn.cursor()
-        cursor.execute(sql)
+        cursor.execute(sql,values)
         results = cursor.fetchall()
         cursor.close
         conn.close
@@ -36,10 +37,11 @@ def SalesReport(startDate, endDate):
 
     except:
         print("Error Generating Sales Report")
+        return 1
 
     finally:
         del sql,conn
-        return results
+        return 0
     
 if __name__ == "__main__":
    SalesReport("2023-11-16","2023-11-19")  

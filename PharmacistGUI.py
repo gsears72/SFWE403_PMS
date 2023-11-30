@@ -2,19 +2,13 @@ import customtkinter as tk
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
-from controllers.LogController import LoginLog
+from controllers.LogController import *
+import controllers.Expiration as exp 
+from tkinter import messagebox
 #import PrescriptionGUI as pg
 
 
 def open_phramacistGUI(PharmacistHome,id):
-
-import expiration as exp 
-from tkinter import messagebox
-
-
-
-def open_phramacistGUI(PharmacistHome):
-
 
     window = tk.CTkToplevel()
     window.geometry("750x500")
@@ -33,12 +27,13 @@ def open_phramacistGUI(PharmacistHome):
         window.withdraw()
 
     def OpenPrescriptionGUI():
+        InventoryLog(id)
         pass
         #pg.open_PerscriptionGUI()
         #PharmacistHome.withdraw()
 
     def LogOut():
-        LoginLog(id)
+        LogoutLog(id)
         PharmacistHome.deiconify()
         window.destroy()
 
