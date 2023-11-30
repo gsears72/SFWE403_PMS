@@ -2,6 +2,8 @@ import customtkinter as tk
 import deleteInventoryView as div
 from controllers.LogController import LogoutLog
 #import addCustomerView as acv
+import expiration as exp
+from tkinter import messagebox
 
 def open_managerGUI(app,id):
     CashierHome = tk.CTkToplevel()
@@ -96,6 +98,9 @@ def open_managerGUI(app,id):
         command = LogOut
     )
 
+    app.withdraw()
+
+
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
@@ -104,4 +109,7 @@ def open_managerGUI(app,id):
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
     LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10)  
 
-    #CashierHome.mainloop()
+    messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
+    messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
+
+    CashierHome.mainloop()
