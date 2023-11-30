@@ -1,9 +1,8 @@
 import customtkinter as tk
 import deleteInventoryView as div
-import generateFinancialReportsView as gfr
-from controllers.LogController import *
+from controllers.LogController import LogoutLog
 #import addCustomerView as acv
-import controllers.Expiration as exp 
+import expiration as exp
 from tkinter import messagebox
 
 def open_managerGUI(app,id):
@@ -17,12 +16,7 @@ def open_managerGUI(app,id):
         CashierHome.destroy()
 
     def deleteInventory():
-        InventoryLog(id)
         div.open_deleteInventory(CashierHome)
-        CashierHome.withdraw()
-
-    def financialreports():
-        gfr.open_financialreports(CashierHome)
         CashierHome.withdraw()
 
     #should add instant check for low stock or expired notifications
@@ -104,17 +98,6 @@ def open_managerGUI(app,id):
         command = LogOut
     )
 
-    FinancialReports = tk.CTkButton(
-        master = CashierHome,
-        text = "Financial Reports",
-        width = 200,
-        height = 50,
-        #bg = "blue",
-        #fg = "yellow",
-        #font = 10,
-        command =  financialreports
-    )
-
     app.withdraw()
 
 
@@ -124,8 +107,7 @@ def open_managerGUI(app,id):
     UpdateInventory.grid(row = 50, column = 0,  padx=10, pady=10)
     DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
-    LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10) 
-    FinancialReports.grid(row = 100, column = 0,  padx=10, pady=10)
+    LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10)  
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
