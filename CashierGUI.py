@@ -6,7 +6,7 @@ import changePassView as cpv
 
 from controllers.LogController import LogoutLog
 
-import expiration as exp
+import controllers.Expiration as exp 
 from tkinter import messagebox
 
 
@@ -29,7 +29,7 @@ def open_cashierView(app, currentId, currentPassword):
         CashierHome.withdraw()
 
     def LogOut():
-        LogOut(currentId)
+        LogoutLog(currentId)
         app.deiconify()
         CashierHome.destroy()
 
