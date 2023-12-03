@@ -24,7 +24,6 @@ def open_cashierView(app, currentId, currentPassword):
     def OpenCartWindow():
         cartv.open_cartView(CashierHome, currentId)
         CashierHome.withdraw()
-        
 
     def OpenUpdateWindow():
         ucv.open_updateCustomerView(CashierHome)
