@@ -1,5 +1,6 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+import numpy as np
 import warnings
 from models.Customer import Customer
 import mysql.connector
@@ -128,6 +129,14 @@ class Staff(ABC):
         except Exception as e:
             print("failed to get id: ", e)
 
+    def fetchStaff(self, name):
+        try:                 #SELECT * FROM PMS.Staff where name = 3
+            mycursor.execute("SELECT * FROM PMS_Staff where name = %s", (name,))
+            staffInfo =  mycursor.fetchall()
+        except Exception as e:
+            print("failed to get staff: ", e)
+        return staffInfo
+
     def changePassword(self, Password, userID):
         try:   
             mycursor.execute("UPDATE PMS_Staff set password = %s where StaffID = %s",(Password, userID))
@@ -197,9 +206,55 @@ class Staff(ABC):
         mycursor.execute(sql)
         mydb.commit()
 
+    ###### transaction system
+    def fetchItem(self, name):
+        try:                 
+            mycursor.execute("SELECT * FROM Inventory where medName = %s", (name,))
+            itemInfo = mycursor.fetchall()
+            for item in itemInfo: #goes through all the batches and compares exp date
+                if item[5] > datetime.today().date(): #takes first one thats not expired
+                    return item
+                else:
+                    item = None
+            return item
+        except Exception as e:
+            print("failed to get item: ", e)
+
+    def updateInventory(self, items):
+        try:
+            for item in items:   
+                olditem = self.fetchItem(item.name)
+                num = olditem[2] - int(item.quantity)
+                mycursor.execute("UPDATE Inventory set quantity = %s where item_id = %s", (num, olditem[0]))
+                mydb.commit()  
+        except Exception as e:
+            print(e)
+
+    def removeItemCart(self, item): #finds item in cart adjust its quantity, if quantity is now 0 then it deletes instance of item
+        self.cart.remove(item)       
+        
+    def updateCart(self, med, newQuantity):
+        for item in self.cart:
+            if item == med:
+                item.quantity = newQuantity
+    
+    def addCart(self, item):
+        self.cart.append(item)
+
+    def calculateTotal(self):
+        total = 0
+        for item in self.cart:
+            total = total + (float(item.price) * float(item.quantity))
+        return total
+    
+    def fetchCart(self):
+        return self.cart
+    ########### end of transaction system
+
 class PharmacyManager(Staff):
-    def __init__(self, name):
+    def __init__(self):
         pass
+
     def __str__(self):
         pass
     
@@ -238,6 +293,24 @@ class PharmacyManager(Staff):
             print("Failed to delete customer: ", e)
             return False
 
+    def UpdateStaff(self, staff, name):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set StaffID = %s, name = %s, role = %s, password = %s, lockout = %s, highschool = %s, strikecount = %s where name = %s",(staff.StaffID, staff.name,staff.role,staff.password,staff.lockout,staff.highschool,staff.strikecount, name))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        
+    def removeStaff(self, name):
+        try:
+            mycursor.execute("DELETE FROM PMS_Staff WHERE name = %s", (name,))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print("Failed to delete staff: ", e)
+            return False
+
     def recoverStaffAccount(self):
         pass
 
@@ -258,6 +331,16 @@ class PharmacyManager(Staff):
             return str(medicineInfo[0])
         except Exception as e:
             print("failed to get id: ", e)
+
+    def checkAvailability(self, medicine):
+        isAvailable = False
+        try:
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            isAvailable = True
+            return isAvailable
+        except:
+            return isAvailable
 
     def updateInventory(self):
         medName = input("Enter Item Name \n")        
@@ -285,11 +368,85 @@ class PharmacyManager(Staff):
     def generateInventoryReport(self):
         pass
 
-    
+    def LowStock(self):
+        #find all medication where quantity is 10 or less, not 0.
+        mycursor.execute("SELECT * FROM Inventory")
+        allStock = mycursor.fetchall()
+
+        lowStocks = []
+        stockArray = []
+        i = 0
+        for x in allStock:
+            stockArray.append(x)
+        stockArray = np.array(stockArray)
+
+        stockNameArray = []
+        i = 0
+        for x in stockArray:
+            stockNameArray.append(stockArray[i][1]) #name array
+            i+=1
+        stockNameArray = np.array(stockNameArray)
+
+        stockStrengthArray = []
+        i = 0
+        for x in stockArray:
+            stockStrengthArray.append(stockArray[i][3]) #strength array
+            i+=1
+        stockStrengthArray = np.array(stockStrengthArray)
+
+        #combines name array and strength array into single 2d array
+        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
+
+        count = []
+        for x in range(len(stockArray)):
+            count.append(0)
+        count = np.array(count)
+
+        #combines name array and strength array into single 2d array
+        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray, count)).T
+        #stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
+
+        #stockNameStrengthArray format: [name, strength, counted(0 no, 1 yes)]
+
+        #in counted, we have name, strength, count #. when checking duplicates, we set count to 1 so that we only add 1 to count number if we
+        #approach a new prescription (0)
+        stockLength = len(stockNameStrengthArray)
+        counted = []
+        for i in range(stockLength):
+            temp = 0
+            k = i + 1
+            for j in range(k, stockLength): #MIGHT BE STOCKLENGTH -1
+                if ((stockNameStrengthArray[i][2] == '0') and
+                    (stockNameStrengthArray[i][0] == stockNameStrengthArray[j][0]) and 
+                        (stockNameStrengthArray[i][1] == stockNameStrengthArray[j][1])):
+                    temp += 1
+                    stockNameStrengthArray[j][2] = int(stockNameStrengthArray[i][2]) + 1 #so that we do not add it later on.
+                    
+            if (stockNameStrengthArray[i][2] == '0'):
+                stockNameStrengthArray[i][2] = int(stockNameStrengthArray[i][2]) + 1 + temp
+                counted.append(stockNameStrengthArray[i])
+
+        counted = np.array(counted)
+
+        for i in range(len(counted)):
+            #low in stock if value less than 5
+            if (int(counted[i][2]) < 5):
+                # Format the string for each element in the list and append to the list
+                formattedString = counted[i][0] + " " + counted[i][1] + " - " + counted[i][2] + " remaining\n"
+                lowStocks.append(formattedString)
+
+        # Join the formatted strings into a single string
+        result_string = ''.join(lowStocks)
+        return result_string
+        #return all medications with quantity 1 through 5
+        #return all_low_stock
     
 
 class Pharmacist(Staff):
     def __init__(self, name):
+        self._name = name
+    
+    def __init__(self, name, password, highschool):
         pass
     
     def __str__(self):
@@ -325,14 +482,13 @@ class Pharmacist(Staff):
         f.write("\n")
         f.close()
 
-    
-    
-        
-
 class PharmacistTechnician(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
         pass    
     
+    def __init__(self, name, password, highschool):
+        pass    
+
     def __str__(self):
         pass
     
@@ -348,11 +504,15 @@ class PharmacistTechnician(Staff):
     def __hash__(self):
         pass
     
-    
-
 class Cashier(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password):
         pass
+
+    def __init__(self, name, password, highschool):
+        pass
+
+    def __init__(self):
+        self.cart = []
     
     def __str__(self):
         pass

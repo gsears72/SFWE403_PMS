@@ -15,7 +15,7 @@ class PharmacyManagerController:
             elif (mangerAction == "Reports"):
                 print("Reports")
             elif (mangerAction == "User Management"):    
-                print("What you like to do (Create Pharmacy Account, Remove Patient, Create Patient, Update Patient Information)")    
+                print("What you like to do (Create Pharmacy Account, Remove Patient, Create Patient, Update Patient Information, Inventory)")    
                 response = str(input()).strip().lower()
                 if response == "create pharmacy account":    
                     print("Create User Account? (Y/N)")
@@ -46,6 +46,16 @@ class PharmacyManagerController:
                     action = str(input()).strip().lower()
                     if action == 'y':
                         self._pharmacy_manager.UpdateCustomer()
+                    else:
+                        continue
+
+                elif response == "inventory":
+                    print("Update or Remove Item?")
+                    action = str(input()).strip().lower()
+                    if action == "update":
+                        self._pharmacy_manager.updateInventory()
+                    elif action == "remove item":
+                        self._pharmacy_manager.removeItem()
                     else:
                         continue
                     
