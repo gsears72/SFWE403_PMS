@@ -2,8 +2,9 @@ import customtkinter as tk
 from models.Customer import Customer
 from models.Staff import Cashier
 import receiptGUI as rGUI
+from controllers.LogController import TransactionLog 
 
-def open_checkoutView(cartHome, cashierWindow, total, cashier):
+def open_checkoutView(cartHome, cashierWindow, total, cashier, userID):
     # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
     
@@ -72,7 +73,9 @@ def open_checkoutView(cartHome, cashierWindow, total, cashier):
         # this gets info from input and puts into class
         cart = cashier.fetchCart()
         cashier.updateInventory(cart)
+        total = cashier.calculateTotal()
         try:
+            TransactionLog(userID,total)
             rGUI.open_receiptView(cartHome, cashierWindow, window, total, cashier)
             window.withdraw()
         except Exception as e:
