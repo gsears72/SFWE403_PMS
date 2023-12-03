@@ -4,7 +4,7 @@ from models.Medicine import Medicine
 from models.Staff import Cashier
 import checkoutGui as cg
 
-def open_cartView(cashierWindow):
+def open_cartView(cashierWindow, userID):
 # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
     
@@ -134,7 +134,7 @@ def open_cartView(cashierWindow):
     def checkOut(event):
         updateCart(rows)
         total = cashier.calculateTotal()
-        cg.open_checkoutView(window, cashierWindow, total, cashier)
+        cg.open_checkoutView(window, cashierWindow, total, cashier, userID)
         window.withdraw()
         
     class Row:

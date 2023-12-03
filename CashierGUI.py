@@ -22,11 +22,9 @@ def open_cashierView(app, currentId, currentPassword):
         CashierHome.withdraw()
 
     def OpenCartWindow():
-        try:
-            cartv.open_cartView(CashierHome)
-            CashierHome.withdraw()
-        except Exception as e:
-            print(e)
+        cartv.open_cartView(CashierHome, currentId)
+        CashierHome.withdraw()
+        
 
     def OpenUpdateWindow():
         ucv.open_updateCustomerView(CashierHome)

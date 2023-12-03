@@ -76,26 +76,27 @@ def LogoutLog(userID):
 
 
 # Function to log transaction events
-def TransactionLog(userID,customerID,total):
-    conn = None
-
-    # SQL query to insert log into the PMS_LOGS table
-    sql = """INSERT INTO PMS_LOGS (`EventType`,`Description`,`total`) VALUES (%s,%s,%s)"""
-
-    # Setting the event type to "Transaction"
-    eventType = "Transaction"
-
-    # Creating the log description with the user ID, customer ID, total, and timestamp
-    descrption = "User {} completed a transaction for customer {} for a total of {} at {}"
-    timeStamp = datetime.now()
-    descrption = descrption.format(userID,customerID,total,timeStamp)
-
-    # Creating a tuple of values to be inserted into the database
-    values = (eventType,descrption,total)
-
-    # Establishing a database connection, creates a cursor, executes the SQL query with the provided values
-    # committs the changes to the database, then closes the cursor, and database connection
+def TransactionLog(userID, total):
     try:
+        conn = None
+
+        # SQL query to insert log into the PMS_LOGS table
+        sql = """INSERT INTO PMS_LOGS (`EventType`,`Description`,`total`) VALUES (%s,%s,%s)"""
+
+        # Setting the event type to "Transaction"
+        eventType = "Transaction"
+
+        # Creating the log description with the user ID, customer ID, total, and timestamp
+        descrption = "User {} completed a transaction for a total of {} at {}"
+        timeStamp = datetime.now()
+        descrption = descrption.format(userID,total,timeStamp)
+
+        # Creating a tuple of values to be inserted into the database
+        values = (eventType,descrption,total)
+
+        # Establishing a database connection, creates a cursor, executes the SQL query with the provided values
+        # committs the changes to the database, then closes the cursor, and database connection
+        
         conn = Connect()
         cursor = conn.cursor()
         cursor.execute(sql,values)
