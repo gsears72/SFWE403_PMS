@@ -1,5 +1,7 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
+import warnings
+from models.Customer import Customer
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -99,13 +101,44 @@ class Staff(ABC):
     def set_password(self, password):
         self.password = password
 
-    def createPatient(self):
+    def createPatient(self, customer):
+        success = False
         #print(first_name, ' ', last_name, ' ', DOB.month, "/", DOB.day, "/", DOB.year, ' ',address, ' ',phone, ' ',email, ' ',insurance, sep= '')
-        #mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
-        mydb.commit()
+        try:
+            mycursor.execute("INSERT INTO Customer (lastName, firstName, DOB, Address, phoneNum, email, insurance) VALUES (%s, %s, %s, %s, %s, %s, %s)", (customer.last_name, customer.first_name, customer.date_of_birth, customer.address, customer.phone, customer.email, customer.insurance))
+            mydb.commit()
+            success = True
+        except:
+            success = False 
+        return success
+
+    def fetchCustomer(self, customerID):
+        try:                 #SELECT * FROM PMS.Customer where Customer_ID = 3
+            mycursor.execute("SELECT * FROM Customer where Customer_ID = %s", (customerID,))
+            customerInfo =  mycursor.fetchall()
+        except Exception as e:
+            print("failed to get customer: ", e)
+        return customerInfo
+    
+    def fetchID(self, customer):
+        try:                 #SELECT Customer_ID FROM PMS.Customer where firstName = 'conor' and lastName = 'toole'
+            mycursor.execute("SELECT Customer_ID FROM Customer where firstName = %s and lastName = %s", (customer.first_name, customer.last_name))
+            customerInfo = mycursor.fetchone()
+            return str(customerInfo[0])
+        except Exception as e:
+            print("failed to get id: ", e)
+
+    def changePassword(self, Password, userID):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set password = %s where StaffID = %s",(Password, userID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def loadCustomer(self):
-        customer1 = Customer.customer()
+        customer1 = Customer()
         customer1.first_name = input("Enter first name:")
         customer1.last_name = input("Enter last name:")
         customer1.date_of_birth = input("Enter DOB as YYYY-MM-DD")
@@ -116,36 +149,14 @@ class Staff(ABC):
         customer1.insurance = input("Enter insurance information:")
         return customer1
 
-    def UpdateCustomer(self):
-        customerID=input("Enter Customer ID\n")
-        toUpdate = input("What would you like to update? (First, Last, DOB, Address, Phone, Email, Insurance)\n")
-
-        if toUpdate == "First" or toUpdate =="first":
-            newInfo = input("What is the updated First Name?")
-            command = "UPDATE Customer set firstName = %s where Customer_ID = %s"
-        elif toUpdate == "Last" or toUpdate =="last":
-            newInfo = input("What is the updated Last Name?")
-            command = "UPDATE Customer set lastName = %s where Customer_ID = %s"
-        elif toUpdate == "DOB" or toUpdate =="dob":
-            newInfo = input("What is the updated DOB?")
-            command = "UPDATE Customer set DOB = %s where Customer_ID = %s"
-        elif toUpdate == "Address" or toUpdate == "address":
-            newInfo = input("What is the updated Address?")
-            command = "UPDATE Customer set Address = %s where Customer_ID = %s"
-        elif toUpdate == "Phone" or toUpdate =="phone":
-            newInfo = input("What is the updated Phone Number?")
-            command = "UPDATE Customer set phoneNumber = %s where Customer_ID = %s"
-        elif toUpdate == "Email" or toUpdate == "email":
-            newInfo = input("What is the updated Email?")
-            command = "UPDATE Customer set email = %s where Customer_ID = %s"
-        elif toUpdate == "Insurance" or toUpdate == "insurance":
-            newInfo = input("What is the Insurance?")
-            command = "UPDATE Customer set insurance = %s where Customer_ID = %s"
-        else:
-            print("Invalid Input")
-            
-        mycursor.execute(command,(newInfo,customerID))
-        mydb.commit()
+    def UpdateCustomer(self, customer, customerID):
+        try:   
+            mycursor.execute("UPDATE Customer set firstName = %s, lastName = %s, DOB = %s, Address = %s, phoneNum = %s, email = %s, insurance = %s where Customer_ID = %s",(customer.first_name, customer.last_name,customer.date_of_birth,customer.address,customer.phone,customer.email,customer.insurance, customerID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def enterPrescription(self):
         prescriptionID = input("Enter the prescription ID: ")
@@ -167,11 +178,24 @@ class Staff(ABC):
         prescriptionMedication = input("\n Enter the name of the medication on the prescription: ")
 
         prescriptionQuantity = input("\nEnter the amount of the medication per refill: ")
+        prescriptionStrength = input("\nEnter the strength: ")
+        prescriptionRefills = input("\nEnter the amount of refills: ")
+        instructions = input("\nEnter the instructions:")
+        pName = input("\nEnter the pharmacist name:")
         
-        mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity) VALUES (%s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity))
+        mycursor.execute("INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s )", (prescriptionID, customerID, prescriptionStartDate, prescriptionEndDate, prescriptionMedication, prescriptionQuantity, prescriptionStrength, prescriptionRefills, instructions, pName))
         mydb.commit()
 
-    
+    def addPrescription(self, newPrescription):  
+        sql = "INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (newPrescription.prescription, newPrescription.customerID, newPrescription.startDate, newPrescription.endDate, newPrescription.medication, newPrescription.quantity, newPrescription.strength, newPrescription.refills, newPrescription.instructions, newPrescription.prescriber)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+    def removePrescription(self, newPrescription): 
+        sql = "DELETE FROM PMS_Prescription WHERE prescription = " +  newPrescription.prescription
+        mycursor.execute(sql)
+        mydb.commit()
 
 class PharmacyManager(Staff):
     def __init__(self, name):
@@ -199,17 +223,51 @@ class PharmacyManager(Staff):
         mycursor.execute("INSERT INTO PMS_Staff (role, name, password) VALUES (%s, %s, %s)", (role, name, password))
         mydb.commit()
 
-    def removePatient(self):
-        firstName =input("Patient first name\n")
-        lastName =input("Patient last name\n")
-        
-        mycursor.execute(("DELETE FROM Customer WHERE firstName = %s and lastName = %s"),(firstName,lastName))
+    def removePatient(self, customerID):
+        #!!!!!!!!!!!!!if you want to delete customer you must first delete reference in prescription!!!!!!!!
+        try:
+            if customerID:
+                try:
+                    mycursor.execute("DELETE FROM PMS_Prescription WHERE CustomerID = %s", (customerID,))
+                    mycursor.execute("DELETE FROM Customer WHERE Customer_ID = %s", (customerID,))
+                    mydb.commit()
+                    return True
+                except:
+                    return False
+        except Exception as e:
+            print("Failed to delete customer: ", e)
+            return False
 
     def recoverStaffAccount(self):
         pass
 
-    def orderMedication(self):
-        pass
+    def orderMedication(self, Medicine):
+        success = False
+        try:
+            mycursor.execute("INSERT INTO Inventory (medName, quantity, strength, batchNum, expDate, price) VALUES (%s, %s, %s, %s, %s, %s)", ( Medicine.name, Medicine.quantity, Medicine.strength, Medicine.batch, Medicine.expDate, Medicine.price))
+            mydb.commit()
+            success = True
+        except:
+            success = False 
+        return success
+
+    def fetchMedicineID(self, medicine):
+        try:                 #SELECT Customer_ID FROM PMS.Customer where firstName = 'conor' and lastName = 'toole'
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            return str(medicineInfo[0])
+        except Exception as e:
+            print("failed to get id: ", e)
+
+    def checkAvailability(self, medicine):
+        isAvailable = False
+        try:
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            isAvailable = True
+            return isAvailable
+        except:
+            return isAvailable
 
     def updateInventory(self):
         medName = input("Enter Item Name \n")        
@@ -219,11 +277,17 @@ class PharmacyManager(Staff):
         mycursor.execute(command,(newInfo,medName))
         mydb.commit()
 
-    def removeItem(self):
-        medName = input("Enter Item Name to be removed\n")        
-        sql = (("DELETE FROM Inventory WHERE medName = %s"),(medName))
-        mycursor.execute(sql)
-        mydb.commit()
+    def removeItem(self, medicineID):
+        success = False
+        try:       
+            mycursor.execute("DELETE FROM Inventory WHERE item_id = %s",(medicineID,))
+            mydb.commit()
+            success = True
+        except Exception as e:
+            print(e)
+            success = False
+        return success
+            
 
     def generateFinancialReport(self):
         pass
@@ -262,39 +326,15 @@ class Pharmacist(Staff):
         pass
 
     def fillPrescription(self):
-        stop = 1
-        prescriptionID = input("Enter the prescription ID you are looking for: ")
+        # log()
+        pass
 
-        #search for the prescription
-        mycursor.execute("SELECT * FROM PMS_Prescriptions WHERE prescription == %s", (prescriptionID))
-        grabbedPrescription = mycursor.fetchone()
-        #When found the prescription print the information regarding the prescription for confirmation
+    def log(self, Prescription):
+        f = open("log.txt", "a")
+        f.write(("prescription name: %s\nfilled by: %s\npatients name: %s\ndate: %s\nmedicine: %s\nquantity: %s"), (Prescription.prescription,Prescription.prescriber,Prescription.customerID,Prescription.startDate,Prescription.medication,Prescription.quantity))
+        f.write("\n")
+        f.close()
 
-
-        confirmation = str(input("Is this the correct prescription(Y/N): ", grabbedPrescription)).strip().lower()
-        if (confirmation == 'y'):
-            #tofix(Get the amount of a medication from the prescription database.)
-            mycursor.execute("SELECT FROM PMS_prescription WHERE prescription == %s", (prescriptionID)) #getting the amound of medication from the prescription
-            prescriptionAmount = mycursor.fetchone()
-            stop = 0
-            
-        
-        while(stop != 1):
-            numbergot = int(input("How many did you remove: "))
-            if numbergot == prescriptionAmount:
-                stop = 1
-                
-                #remove the amount from the prescription from the medicine database
-
-                print("Removing" + str(numbergot) + "from system")
-
-
-            else:
-                difference = prescriptionAmount - numbergot
-                if (difference > 0):
-                    print("too few pills got, grab" + str(difference) + "more")
-                else:
-                    print("too many pills grabbed, get rid of" + str(abs(difference)))
     
     
         
@@ -339,6 +379,24 @@ class Cashier(Staff):
     def __hash__(self):
         pass
     
+class User(Staff):
+    def __init__(self, name):
+        self.name = name
+        self.role = "default"
+        self.password = "default"
+        self.lockout = "0"
+        self.highschool = "default"
+        self.strikcount = "0"
+
+    def changePassword(self, Password, userID):
+        try:   
+            mycursor.execute("UPDATE PMS_Staff set password = %s where Staff_ID = %s",(Password, userID))
+            mydb.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     
     
     
