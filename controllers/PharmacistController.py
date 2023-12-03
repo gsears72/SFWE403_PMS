@@ -7,12 +7,13 @@ class PharmacistController:
     def run(self):
         session = True
         while session != False:
+            
             pharmacistAction = input("Add Prescription, Fill Prescription, Check Out")
             if (pharmacistAction == "Add Prescription"):
                 self._pharmacist.enterPrescription()
                 continue
             elif (pharmacistAction == "Fill Prescription"):
-                #self._pharmacist.FillPrescription
+                self._pharmacist.fillPrescription()
                 continue
             elif (pharmacistAction == "Log Out"):
                 session = False

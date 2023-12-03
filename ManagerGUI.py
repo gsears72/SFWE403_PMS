@@ -1,5 +1,6 @@
 import customtkinter as tk
 import deleteInventoryView as div
+import CheckItemAvailabilityView as checkAvail
 import generateFinancialReportsView as gfr
 from controllers.LogController import *
 #import addCustomerView as acv
@@ -24,6 +25,12 @@ def open_managerGUI(app,id):
     def financialreports():
         gfr.open_financialreports(CashierHome)
         CashierHome.withdraw()
+
+    def checkItemAvail():
+        checkAvail.open_CheckItemAvailability(CashierHome)
+        CashierHome.withdraw()
+
+    
 
     #should add instant check for low stock or expired notifications
 
@@ -115,6 +122,14 @@ def open_managerGUI(app,id):
         command =  financialreports
     )
 
+    CheckItemAvailability = tk.CTkButton(
+        master = CashierHome, 
+        text = "Check Item Availability",
+        width = 200,
+        height = 50,
+        command =  checkItemAvail
+    )
+
     app.withdraw()
 
 
@@ -126,6 +141,7 @@ def open_managerGUI(app,id):
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
     LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 100, column = 0,  padx=10, pady=10)
+    CheckItemAvailability.grid(row = 100, column = 20, padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
