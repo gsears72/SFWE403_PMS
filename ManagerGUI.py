@@ -1,11 +1,15 @@
 import customtkinter as tk
 import deleteInventoryView as div
+
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import addStaffView as asv
 import updateStaffView as usv
 import deleteStaffView as dsv
+
+import CheckItemAvailabilityView as checkAvail
+
 import generateFinancialReportsView as gfr
 from controllers.LogController import *
 #import addCustomerView as acv
@@ -58,6 +62,12 @@ def open_managerGUI(app, id):
     def OpenDeleteCustomerWindow():
         dcv.open_deleteCustomerView(ManagerHome)
         ManagerHome.withdraw()
+
+    def checkItemAvail():
+        checkAvail.open_CheckItemAvailability(CashierHome)
+        CashierHome.withdraw()
+
+    
 
     #should add instant check for low stock or expired notifications
 
@@ -183,8 +193,14 @@ def open_managerGUI(app, id):
         #font = 10,
         command = OpenDeleteCustomerWindow
     )
-    app.withdraw()
 
+    CheckItemAvailability = tk.CTkButton(
+        master = CashierHome, 
+        text = "Check Item Availability",
+        width = 200,
+        height = 50,
+        command =  checkItemAvail
+    )
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
@@ -194,12 +210,15 @@ def open_managerGUI(app, id):
     DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
 
+
     AddCustomerButton.grid(row = 100, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 100, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 100, column = 40, padx=10, pady=10)
 
     LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
+
+    CheckItemAvailability.grid(row = 200, column = 20, padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())

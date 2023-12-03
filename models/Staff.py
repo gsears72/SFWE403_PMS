@@ -332,6 +332,16 @@ class PharmacyManager(Staff):
         except Exception as e:
             print("failed to get id: ", e)
 
+    def checkAvailability(self, medicine):
+        isAvailable = False
+        try:
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            isAvailable = True
+            return isAvailable
+        except:
+            return isAvailable
+
     def updateInventory(self):
         medName = input("Enter Item Name \n")        
         newInfo = input("What is new quantity for this item?\n")
@@ -434,7 +444,7 @@ class PharmacyManager(Staff):
 
 class Pharmacist(Staff):
     def __init__(self, name):
-        pass
+        self._name = name
     
     def __init__(self, name, password, highschool):
         pass
