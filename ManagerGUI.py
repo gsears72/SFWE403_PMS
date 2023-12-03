@@ -1,67 +1,103 @@
 import customtkinter as tk
 import deleteInventoryView as div
+import addCustomerView as acv
+import updateCustomerView as ucv
+import deleteCustomerView as dcv
+import addStaffView as asv
+import updateStaffView as usv
+import deleteStaffView as dsv
 import generateFinancialReportsView as gfr
 from controllers.LogController import *
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
 
-def open_managerGUI(app,id):
-    CashierHome = tk.CTkToplevel()
-    CashierHome.geometry("700x200")
-    CashierHome.title("Manager Homepage")
+from models.Staff import PharmacyManager
+
+def open_managerGUI(app, id):
+    ManagerHome = tk.CTkToplevel()
+    ManagerHome.geometry("700x200")
+    ManagerHome.title("Manager Homepage")
+
+    manager = PharmacyManager()
 
     def LogOut():
         LogoutLog(id)
         app.deiconify()
-        CashierHome.destroy()
+        ManagerHome.destroy()
 
     def deleteInventory():
         InventoryLog(id)
-        div.open_deleteInventory(CashierHome)
-        CashierHome.withdraw()
+        div.open_deleteInventory(ManagerHome)
+        ManagerHome.withdraw()
 
     def financialreports():
-        gfr.open_financialreports(CashierHome)
-        CashierHome.withdraw()
+        gfr.open_financialreports(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenAddStaffWindow():
+        asv.open_addStaffView(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenUpdateStaffWindow():
+        usv.open_updateStaffView(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenDeleteStaffWindow():
+        dsv.open_deleteStaffView(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenAddCustomerWindow():
+        acv.open_addCustomerView(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenUpdateCustomerWindow():
+        ucv.open_updateCustomerView(ManagerHome)
+        ManagerHome.withdraw()
+
+    def OpenDeleteCustomerWindow():
+        dcv.open_deleteCustomerView(ManagerHome)
+        ManagerHome.withdraw()
 
     #should add instant check for low stock or expired notifications
 
+    #lowstock = Manager.PharmacyManager.LowStock()
+
     AddUserButton = tk.CTkButton(
-        master = CashierHome,
-        text = "Add User",
+        master = ManagerHome,
+        text = "Add Staff",
         width = 200,
         height = 50,
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = acv.open_addCustomerView()
+        command = OpenAddStaffWindow
     )
 
     UpdateUserButton = tk.CTkButton(
-        master = CashierHome,
-        text = "Update User",
+        master = ManagerHome,
+        text = "Update Staff",
         width = 200,
         height = 50,
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open updatecustomer view 
+        command = OpenUpdateStaffWindow 
     )
 
     DeleteUserButton = tk.CTkButton(
-        master = CashierHome,
-        text = "Delete User",
+        master = ManagerHome,
+        text = "Delete Staff",
         width = 200,
         height = 50,
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open deletecustomer view 
+        command = OpenDeleteStaffWindow
     )
 
     UpdateInventory = tk.CTkButton(
-        master = CashierHome,
+        master = ManagerHome,
         text = "Update Inventory",
         width = 200,
         height = 50,
@@ -72,7 +108,7 @@ def open_managerGUI(app,id):
     )
 
     DeleteInventory = tk.CTkButton(
-        master = CashierHome,
+        master = ManagerHome,
         text = "Delete Inventory",
         width = 200,
         height = 50,
@@ -83,7 +119,7 @@ def open_managerGUI(app,id):
     )
 
     RecoverUserAccount = tk.CTkButton(
-        master = CashierHome,
+        master = ManagerHome,
         text = "Recover User Account",
         width = 200,
         height = 50,
@@ -94,7 +130,7 @@ def open_managerGUI(app,id):
     )
 
     LogOutButton = tk.CTkButton(
-        master = CashierHome,
+        master = ManagerHome,
         text = "Log Out",
         width = 200,
         height = 50,
@@ -105,7 +141,7 @@ def open_managerGUI(app,id):
     )
 
     FinancialReports = tk.CTkButton(
-        master = CashierHome,
+        master = ManagerHome,
         text = "Financial Reports",
         width = 200,
         height = 50,
@@ -115,19 +151,57 @@ def open_managerGUI(app,id):
         command =  financialreports
     )
 
+    AddCustomerButton = tk.CTkButton(
+        master = ManagerHome,
+        text = "Add Customer",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = OpenAddCustomerWindow
+    )
+
+    UpdateCustomerButton = tk.CTkButton(
+        master = ManagerHome,
+        text = "Update Customer",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = OpenUpdateCustomerWindow
+    )
+
+    DeleteCustomerButton = tk.CTkButton(
+        master = ManagerHome,
+        text = "Delete Customer",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = OpenDeleteCustomerWindow
+    )
     app.withdraw()
 
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
+
     UpdateInventory.grid(row = 50, column = 0,  padx=10, pady=10)
     DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)
     RecoverUserAccount.grid(row = 50, column = 40,  padx=10, pady=10)
-    LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10) 
-    FinancialReports.grid(row = 100, column = 0,  padx=10, pady=10)
+
+    AddCustomerButton.grid(row = 100, column = 0, padx=10, pady=10)
+    UpdateCustomerButton.grid(row = 100, column = 20, padx=10, pady=10)
+    DeleteCustomerButton.grid(row = 100, column = 40, padx=10, pady=10)
+
+    LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
+    FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
+    messagebox.showwarning("WARNING: The following medications are low in stock", manager.LowStock())
 
-    CashierHome.mainloop()
