@@ -197,6 +197,51 @@ class Staff(ABC):
         mycursor.execute(sql)
         mydb.commit()
 
+    ###### transaction system
+    def fetchItem(self, name):
+        try:                 
+            mycursor.execute("SELECT * FROM Inventory where medName = %s", (name,))
+            itemInfo = mycursor.fetchall()
+            for item in itemInfo: #goes through all the batches and compares exp date
+                if item[5] > datetime.today().date(): #takes first one thats not expired
+                    return item
+                else:
+                    item = None
+            return item
+        except Exception as e:
+            print("failed to get item: ", e)
+
+    def updateInventory(self, items):
+        try:
+            for item in items:   
+                olditem = self.fetchItem(item.name)
+                num = olditem[2] - int(item.quantity)
+                mycursor.execute("UPDATE Inventory set quantity = %s where item_id = %s", (num, olditem[0]))
+                mydb.commit()  
+        except Exception as e:
+            print(e)
+
+    def removeItemCart(self, item): #finds item in cart adjust its quantity, if quantity is now 0 then it deletes instance of item
+        self.cart.remove(item)       
+        
+    def updateCart(self, med, newQuantity):
+        for item in self.cart:
+            if item == med:
+                item.quantity = newQuantity
+    
+    def addCart(self, item):
+        self.cart.append(item)
+
+    def calculateTotal(self):
+        total = 0
+        for item in self.cart:
+            total = total + (float(item.price) * float(item.quantity))
+        return total
+    
+    def fetchCart(self):
+        return self.cart
+    ########### end of transaction system
+
 class PharmacyManager(Staff):
     def __init__(self, name):
         pass
@@ -353,6 +398,9 @@ class PharmacistTechnician(Staff):
 class Cashier(Staff):
     def __init__(self, name, birth_date, address, phone_number, email, username, password):
         pass
+
+    def __init__(self):
+        self.cart = []
     
     def __str__(self):
         pass
