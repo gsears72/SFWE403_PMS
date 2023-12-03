@@ -2,6 +2,7 @@ import mysql.connector
 import customtkinter as ctk 
 import tkinter.messagebox as tkmb
 from SFWE403_PMS_Model import *
+import Prescription
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -143,4 +144,5 @@ def fillfinal(self, prescriptionID):
     mydb.commit()
 
 def addfinal(pid, firstN, lastN, cusID, psd, ped, pmn, pq, ps, pr, pi, pdn):
-    print("Test")
+    pres = Prescription(pmn, ps, pi, duration, refilldate, pdn, cusID, pid)
+    #call addprescription with the prescription up there
