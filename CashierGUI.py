@@ -3,6 +3,7 @@ import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import changePassView as cpv
+import cartGUI as cartv
 
 from controllers.LogController import LogoutLog
 
@@ -19,6 +20,13 @@ def open_cashierView(app, currentId, currentPassword):
     def OpenAddWindow():
         acv.open_addCustomerView(CashierHome)
         CashierHome.withdraw()
+
+    def OpenCartWindow():
+        try:
+            cartv.open_cartView(CashierHome)
+            CashierHome.withdraw()
+        except Exception as e:
+            print(e)
 
     def OpenUpdateWindow():
         ucv.open_updateCustomerView(CashierHome)
@@ -78,6 +86,7 @@ def open_cashierView(app, currentId, currentPassword):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
+        command = OpenCartWindow
     )
 
     LogOutButton = tk.CTkButton(
