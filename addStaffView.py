@@ -4,8 +4,17 @@ from models.Staff import PharmacyManager
 from models.Staff import Pharmacist
 from models.Staff import PharmacistTechnician
 from models.Staff import Cashier
-from models.Staff import User
+import mysql.connector
 
+mydb = mysql.connector.connect(
+        host = 'mysql-145311-0.cloudclusters.net',
+        port = '18166',
+        user = 'admin',
+        passwd = 'FcCZds4d',
+        db = 'PMS'
+    )
+
+mycursor = mydb.cursor()
 
 def open_addStaffView():
     # Selecting GUI theme - dark, light , system (for system default) 
@@ -14,8 +23,8 @@ def open_addStaffView():
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    staff = Staff.User()
-    manager = Staff.PharmacyManager("test")
+    #staff = Staff.User()
+    #manager = Staff.PharmacyManager("test")
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 
@@ -75,14 +84,20 @@ def open_addStaffView():
 
     def handle_click(event): 
         # this gets info from input and puts into class
-        staff.fullName = fullNameIn.get()
-        staff.role = roleIn.get()
-        staff.password = passwordIn.get()
-        staff.highSchool = highSchoolIn.get()
+        fullName = fullNameIn.get()
+        role = roleIn.get().lower()
+        password = passwordIn.get()
+        highSchool = highSchoolIn.get()
 
         #this adds the staff to database and checks if it worked
-        test = manager.createPharmacyAccount(staff)
-        if test:
+        if (role == "manager"):
+            mycursor.execute("INSERT INTO PMS_Staff (role, name, password, highschool) VALUES (%s, %s, %s, %s)", (role, fullName, password, highSchool))
+            mydb.commit()
+
+
+        elif (role == "pharmacist"):
+            mycursor.execute("INSERT INTO PMS_Staff (role, name, password, highschool) VALUES (%s, %s, %s, %s)", (role, fullName, password, highSchool))
+            mydb.commit()
             failure.grid_remove() #removes from screen
             success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
             #clears input fields
@@ -90,9 +105,34 @@ def open_addStaffView():
             clear_text(roleIn)
             clear_text(passwordIn)
             clear_text(highSchoolIn)
+
+        elif (role == "technician"):
+            mycursor.execute("INSERT INTO PMS_Staff (role, name, password, highschool) VALUES (%s, %s, %s, %s)", (role, fullName, password, highSchool))
+            mydb.commit()
+            failure.grid_remove() #removes from screen
+            success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
+            #clears input fields
+            clear_text(fullNameIn)
+            clear_text(roleIn)
+            clear_text(passwordIn)
+            clear_text(highSchoolIn)
+
+        elif (role == "cashier"):
+            mycursor.execute("INSERT INTO PMS_Staff (role, name, password, highschool) VALUES (%s, %s, %s, %s)", (role, fullName, password, highSchool))
+            mydb.commit()
+            failure.grid_remove() #removes from screen
+            success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
+            #clears input fields
+            clear_text(fullNameIn)
+            clear_text(roleIn)
+            clear_text(passwordIn)
+            clear_text(highSchoolIn)
+
         else:
             success.grid_remove()
             failure.grid(columnspan=2, row=9, padx=5, pady=5)
+
+
 
     def clear_text(text):
         text.delete(0, tk.END)
@@ -100,4 +140,4 @@ def open_addStaffView():
     button.bind("<Button-1>", handle_click) #connects function handle_click to button 
 
 
-#window.mainloop() #constant loop for gui 
+#window.mainloop() #constant loop for gui

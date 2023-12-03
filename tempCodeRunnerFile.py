@@ -1,1 +1,1 @@
-command = OpenAddWindow
+lo

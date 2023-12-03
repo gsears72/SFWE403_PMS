@@ -13,8 +13,8 @@ def open_deleteStaffView():
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    staff = Staff.User()
-    manager = Staff.PharmacyManager("test")
+    #staff = Staff.User()
+    manager = Staff.PharmacyManager("test", "test", "test")
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 
@@ -28,7 +28,7 @@ def open_deleteStaffView():
         master = window
     )
     # labels are text
-    label = tk.CTkLabel(master = window,text="What staff would you like to remove? (full name:[first last])") 
+    label = tk.CTkLabel(master = window,text="What staff would you like to remove? [full name]") 
 
     success = tk.CTkLabel(master = window,text="Successfully Removed!")  
     failure = tk.CTkLabel(master = window,text="Failed to Remove!") 

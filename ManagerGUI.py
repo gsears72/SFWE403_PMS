@@ -6,7 +6,7 @@ import addStaffView as asv
 import updateStaffView as usv
 import deleteStaffView as dsv
 #import addCustomerView as acv
-
+import models.Staff as Staff
 
 ManagerHome = tk.CTk()
 ManagerHome.geometry("700x200")
@@ -37,6 +37,8 @@ def OpenDeleteCustomerWindow():
     ManagerHome.withdraw()
 
 #should add instant check for low stock or expired notifications
+
+lowstock = Staff.PharmacyManager.LowStock()
 
 AddStaffButton = tk.CTkButton(
     master = ManagerHome,

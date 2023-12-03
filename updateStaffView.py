@@ -4,7 +4,17 @@ from models.Staff import PharmacyManager
 from models.Staff import Pharmacist
 from models.Staff import PharmacistTechnician
 from models.Staff import Cashier
+import mysql.connector
 
+mydb = mysql.connector.connect(
+        host = 'mysql-145311-0.cloudclusters.net',
+        port = '18166',
+        user = 'admin',
+        passwd = 'FcCZds4d',
+        db = 'PMS'
+    )
+
+mycursor = mydb.cursor()
 
 def open_updateStaffView():
     # Selecting GUI theme - dark, light , system (for system default) 
@@ -13,8 +23,8 @@ def open_updateStaffView():
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    staff = Staff.User()
-    manager = Staff.PharmacyManager("test")
+    #staff = Staff.User()
+    manager = Staff.PharmacyManager("test", "test", "test")
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 
@@ -51,8 +61,11 @@ def open_updateStaffView():
         height=50,
     )
     # labels are text
-    label = tk.CTkLabel(master=window,text="What is the full name of the staff?")
-    label1 = tk.CTkLabel(master=window,text="Full Name")
+    label = tk.CTkLabel(master=window,text="Full Name")
+    label1 = tk.CTkLabel(master=window,text="Staff ID")
+    label2 = tk.CTkLabel(master=window,text="Role")
+    label3 = tk.CTkLabel(master=window,text="Password")
+    label4 = tk.CTkLabel(master=window,text="High School")
 
     success = tk.CTkLabel(master=window,text="Successfully Added!")
     failure = tk.CTkLabel(master=window,text="Failed to Load Customer!")
@@ -72,49 +85,52 @@ def open_updateStaffView():
 
 
     def load(event):
-        name = fullNameIn.get()
+        nameOriginal = fullNameIn.get()
 
         try:
             failure.grid_remove()
 
-            staffInfo = manager.fetchStaff(name)
+            staffInfo = manager.fetchStaff(nameOriginal)
             
-            fullNameIn.insert(0, staffInfo[0][2])
-            staffIDIn.insert(0, staffInfo[0][1])
-            roleIn.insert(0, staffInfo[0][3]) 
-            passwordIn.insert(0, staffInfo[0][4])
+            staffIDIn.insert(0, staffInfo[0][0])
+            roleIn.insert(0, staffInfo[0][2]) 
+            passwordIn.insert(0, staffInfo[0][3])
             highSchoolIn.insert(0, staffInfo[0][5])
-            lockoutIn.insert(0, staffInfo[0][6])
-            strikeCountIn.insert(0, staffInfo[0][7])
+            lockoutIn.insert(0, staffInfo[0][4])
+            strikeCountIn.insert(0, staffInfo[0][6])
 
-            fullNameIn.grid(columnspan=2, row=3, padx=5, pady=5) 
-            staffIDIn.grid(columnspan=2, row=4, padx=5, pady=5) 
-            roleIn.grid(columnspan=2, row=5, padx=5, pady=5) 
-            passwordIn.grid(columnspan=2, row=6, padx=5, pady=5) 
-            highSchoolIn.grid(columnspan=2, row=7, padx=5, pady=5) 
-            lockoutIn.grid(columnspan=2, row=8, padx=5, pady=5) 
-            strikeCountIn.grid(columnspan=2, row=9, padx=5, pady=5)
-            button.grid(columnspan=2, row=10, padx=5, pady=5)
+            button2.destroy()
+            fullNameIn.grid(columnspan=2, row=2, padx=5, pady=5)
+            #label1.grid(columnspan=2, row=3, padx=5, pady=5)
+            #staffIDIn.grid(columnspan=2, row=4, padx=5, pady=5) 
+            label2.grid(columnspan=2, row=5, padx=5, pady=5)
+            roleIn.grid(columnspan=2, row=6, padx=5, pady=5) 
+            label3.grid(columnspan=2, row=7, padx=5, pady=5)
+            passwordIn.grid(columnspan=2, row=8, padx=5, pady=5) 
+            label4.grid(columnspan=2, row=9, padx=5, pady=5)
+            highSchoolIn.grid(columnspan=2, row=10, padx=5, pady=5) 
+            button.grid(columnspan=2, row=11, padx=7, pady=5)
+
+
         except Exception as e:
             failure.grid(columnspan=2, row=3, padx=5, pady=5) 
             print(e)
 
     def update(event): 
         # this gets info from input and puts into class
-        staff.name = fullNameIn.get()
-        staff.StaffID = staffIDIn.get()
-        staff.role = roleIn.get()
-        staff.password = passwordIn.get()
-        staff.highschool = highSchoolIn.get()
-        staff.lockout = lockoutIn.get()
-        staff.strikecount = strikeCountIn.get()
+        name = fullNameIn.get()
+        StaffID = staffIDIn.get()
+        role = roleIn.get()
+        password = passwordIn.get()
+        highschool = highSchoolIn.get()
+        lockout = lockoutIn.get()
+        strikecount = strikeCountIn.get()
 
         #this adds the customer to database and checks if it worked
         try:
-            test = manager.UpdateStaff(staff, staff.name)
-        except Exception as e:
-            print(e)
-        if test:
+            mycursor.execute("UPDATE PMS_Staff set StaffID = %s, name = %s, role = %s, password = %s, lockout = %s, highschool = %s, strikecount = %s where StaffID = %s",(StaffID, name, role, password, lockout, highschool, strikecount, StaffID))
+            mydb.commit()
+            
             failure.grid_remove() #removes from screen
             success.grid(columnspan=2, row=11, padx=5, pady=5)  #adds to screen 
             #clears input fields
@@ -125,9 +141,11 @@ def open_updateStaffView():
             clear_text(highSchoolIn)
             clear_text(lockoutIn)
             clear_text(strikeCountIn)
-        else:
+
+        except Exception as e:
             success.grid_remove()
             failure.grid(columnspan=2, row=11, padx=5, pady=5) 
+            print(e)
 
     def clear_text(text):
         text.delete(0, tk.END)

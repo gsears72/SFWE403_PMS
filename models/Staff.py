@@ -1,7 +1,8 @@
 from datetime import datetime
 from abc import ABC, abstractmethod
 import warnings
-from models.Customer import Customer
+import numpy as np
+#from models.Customer import Customer
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -197,7 +198,7 @@ class Staff(ABC):
         mydb.commit()
 
 class PharmacyManager(Staff):
-    def __init__(self, name):
+    def __init__(self, name, password, highschool):
         pass
     def __str__(self):
         pass
@@ -215,7 +216,7 @@ class PharmacyManager(Staff):
         pass
 
     def createPharmacyAccount(self):
-        role = input("Enter role (Manager, Pharmacist, Pharmacist technician, Cashier):")
+        role = input("Enter role (Manager, Pharmacist, Pharmacist Technician, Cashier):")
         name = input("Enter full name:")
         password = input("Create password:")
 
@@ -283,11 +284,86 @@ class PharmacyManager(Staff):
     def generateInventoryReport(self):
         pass
 
-    
+    def LowStock():
+        #find all medication where quantity is 10 or less, not 0.
+        mycursor.execute("SELECT * FROM Inventory")
+        allStock = mycursor.fetchall()
+
+
+        stockArray = []
+        i = 0
+        for x in allStock:
+            stockArray.append(x)
+        stockArray = np.array(stockArray)
+
+        stockNameArray = []
+        i = 0
+        for x in stockArray:
+            stockNameArray.append(stockArray[i][1]) #name array
+            i+=1
+        stockNameArray = np.array(stockNameArray)
+
+        stockStrengthArray = []
+        i = 0
+        for x in stockArray:
+            stockStrengthArray.append(stockArray[i][3]) #strength array
+            i+=1
+        stockStrengthArray = np.array(stockStrengthArray)
+
+        #combines name array and strength array into single 2d array
+        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
+
+        count = []
+        for x in range(len(stockArray)):
+            count.append(0)
+        count = np.array(count)
+
+        #combines name array and strength array into single 2d array
+        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray, count)).T
+        #stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
+
+        #stockNameStrengthArray format: [name, strength, counted(0 no, 1 yes)]
+        print(stockNameStrengthArray)
+
+
+        #in counted, we have name, strength, count #. when checking duplicates, we set count to 1 so that we only add 1 to count number if we
+        #approach a new prescription (0)
+        stockLength = len(stockNameStrengthArray)
+        counted = []
+        for i in range(stockLength):
+            temp = 0
+            k = i + 1
+            for j in range(k, stockLength): #MIGHT BE STOCKLENGTH -1
+                if ((stockNameStrengthArray[i][2] == '0') and
+                    (stockNameStrengthArray[i][0] == stockNameStrengthArray[j][0]) and 
+                        (stockNameStrengthArray[i][1] == stockNameStrengthArray[j][1])):
+                    temp += 1
+                    stockNameStrengthArray[j][2] = int(stockNameStrengthArray[i][2]) + 1 #so that we do not add it later on.
+                    
+            if (stockNameStrengthArray[i][2] == '0'):
+                stockNameStrengthArray[i][2] = int(stockNameStrengthArray[i][2]) + 1 + temp
+                counted.append(stockNameStrengthArray[i])
+
+        counted = np.array(counted)
+
+        print(counted)
+
+
+        print("WARNING: The following medications are low in stock:")
+
+        for i in range(len(counted)):
+            #low in stock if value less than 5
+            if (int(counted[i][2]) < 5):
+                print(counted[i][0], counted[i][1], "-",  int(counted[i][2]), "remaining")
+
+
+        #return all medications with quantity 1 through 5
+        #return all_low_stock
+        
     
 
 class Pharmacist(Staff):
-    def __init__(self, name):
+    def __init__(self, name, password, highschool):
         pass
     
     def __str__(self):
@@ -328,7 +404,7 @@ class Pharmacist(Staff):
         
 
 class PharmacistTechnician(Staff):
-    def __init__(self, name, birth_date, address, phone_number, email, username, password, pharmacy):
+    def __init__(self, name, password, highschool):
         pass    
     
     def __str__(self):
@@ -349,7 +425,7 @@ class PharmacistTechnician(Staff):
     
 
 class Cashier(Staff):
-    def __init__(self, name, birth_date, address, phone_number, email, username, password):
+    def __init__(self, name, password, highschool):
         pass
     
     def __str__(self):
@@ -365,25 +441,4 @@ class Cashier(Staff):
         pass
     
     def __hash__(self):
-        pass
-
-class User(Staff):
-    def __init__(self):
-        pass
-    
-    def __str__(self):
-        pass
-    
-    def __repr__(self):
-        pass
-    
-    def __eq__(self, other):
-        pass
-    
-    def __ne__(self, other):
-        pass
-    
-    def __hash__(self):
-        pass
-
-    
+        pass    
