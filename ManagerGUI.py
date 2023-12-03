@@ -24,6 +24,7 @@ def open_managerGUI(app, id):
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
+    app.withdraw()
 
     def LogOut():
         LogoutLog(id)
@@ -64,8 +65,8 @@ def open_managerGUI(app, id):
         ManagerHome.withdraw()
 
     def checkItemAvail():
-        checkAvail.open_CheckItemAvailability(CashierHome)
-        CashierHome.withdraw()
+        checkAvail.open_CheckItemAvailability(ManagerHome)
+        ManagerHome.withdraw()
 
     
 
@@ -195,7 +196,7 @@ def open_managerGUI(app, id):
     )
 
     CheckItemAvailability = tk.CTkButton(
-        master = CashierHome, 
+        master = ManagerHome, 
         text = "Check Item Availability",
         width = 200,
         height = 50,
@@ -217,8 +218,7 @@ def open_managerGUI(app, id):
 
     LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
-
-    CheckItemAvailability.grid(row = 200, column = 20, padx=10, pady=10)
+    CheckItemAvailability.grid(row = 150, column = 20, padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
