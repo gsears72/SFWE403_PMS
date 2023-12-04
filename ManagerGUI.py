@@ -7,6 +7,7 @@ import addStaffView as asv
 import updateStaffView as usv
 import deleteStaffView as dsv
 import generateFinancialReportsView as gfr
+import UpdateInventoryView as uiv
 from controllers.LogController import *
 #import addCustomerView as acv
 import controllers.Expiration as exp 
@@ -65,6 +66,10 @@ def open_managerGUI(app, id):
         checkAvail.open_CheckItemAvailability(ManagerHome)
         ManagerHome.withdraw()
 
+    def updateInventory():
+        uiv.open_UpdateInventory(CashierHome)
+        CashierHome.withdraw()
+
     
 
 
@@ -113,7 +118,7 @@ def open_managerGUI(app, id):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open checkout view 
+        command = updateInventory
     )
 
     DeleteInventory = tk.CTkButton(
