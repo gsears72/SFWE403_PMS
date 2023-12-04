@@ -1,6 +1,8 @@
 import customtkinter as tk
 from controllers.LogController import LogoutLog
-#import addCustomerView as acv
+import addCustomerView as acv
+import deleteCustomerView as dcv
+import updateCustomerView as ucv
 import controllers.Expiration as exp 
 from tkinter import messagebox
 
@@ -23,7 +25,7 @@ def open_pharmacistTechGUI(app):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = acv.open_addCustomerView()
+        command = acv.open_addCustomerView(CashierHome)
     )
 
     UpdateCustomerButton = tk.CTkButton(
@@ -34,7 +36,7 @@ def open_pharmacistTechGUI(app):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open updatecustomer view 
+        command = ucv.open_updateCustomerView(CashierHome)
     )
 
     DeleteCustomerButton = tk.CTkButton(
@@ -45,7 +47,7 @@ def open_pharmacistTechGUI(app):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open deletecustomer view 
+        command = dcv.open_deleteCustomerView(CashierHome) 
     )
 
     LogOutButton = tk.CTkButton(
