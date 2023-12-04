@@ -24,7 +24,9 @@ from models.Staff import PharmacyManager
 
 def open_managerGUI(app, currentId, password):
     ManagerHome = tk.CTkToplevel()
-    ManagerHome.geometry("700x200")
+    ManagerHome.geometry("800x600")
+    ManagerHome.minsize(800, 600)
+    ManagerHome.maxsize(800, 600)
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
@@ -259,9 +261,9 @@ def open_managerGUI(app, currentId, password):
         command = OpenCartWindow
     )
 
-    AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
-    UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
-    DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
+    AddUserButton.grid(row = 0, column = 0, padx=30, pady=10)
+    UpdateUserButton.grid(row = 0, column = 20, padx=30, pady=10)
+    DeleteUserButton.grid(row = 0, column = 40, padx=30, pady=10)
 
     UpdateInventory.grid(row = 50, column = 0,  padx=10, pady=10)
     DeleteInventory.grid(row = 50, column = 20,  padx=10, pady=10)

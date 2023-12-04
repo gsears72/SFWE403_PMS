@@ -16,7 +16,9 @@ def open_PrescriptionManagerGUI(priorWindow):
     ctk.set_default_color_theme("blue") 
 
     app = ctk.CTkToplevel() 
-    app.geometry("540x200") #1920x1280 is full screen
+    app.geometry("800x600")
+    app.minsize(800, 600)
+    app.maxsize(800, 600)
     app.title("Prescription Managment")
 
     def closeWindow():

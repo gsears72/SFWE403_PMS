@@ -13,7 +13,9 @@ def open_addInventoryView(priorWindow):
     medicine = Medicine()
 
     window = tk.CTk()
-    window.geometry("500x500") 
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600)
     window.title("Add to Inventory") 
 
     window.columnconfigure(0, weight = 0)
