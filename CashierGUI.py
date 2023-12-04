@@ -15,7 +15,9 @@ from tkinter import messagebox
 def open_cashierView(app, currentId, currentPassword):
 
     CashierHome = tk.CTkToplevel()
-    CashierHome.geometry("700x200")
+    CashierHome.geometry("800x600")
+    CashierHome.minsize(800, 600)
+    CashierHome.maxsize(800, 600)
     CashierHome.title("Cashier Homepage")
 
     def OpenAddWindow():

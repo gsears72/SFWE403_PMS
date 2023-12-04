@@ -8,7 +8,9 @@ def open_receiptView(cartWindow, cashierWindow, checkoutWindow, total, cashier):
     tk.set_default_color_theme("blue") 
 
     window = tk.CTkToplevel()
-    window.geometry("500x500") 
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600)
     window.title("Receipt") 
 
     window.columnconfigure(0, weight = 0)

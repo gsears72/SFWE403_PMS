@@ -13,7 +13,9 @@ def open_UpdateInventory(app):
     medicine = Medicine()
 
     window = tk.CTkToplevel()
-    window.geometry("500x500") 
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600) 
     window.title("Update Item") 
 
     button = tk.CTkButton(

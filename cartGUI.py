@@ -17,7 +17,9 @@ def open_cartView(cashierWindow, userID):
 
     window = tk.CTkToplevel()
     table = Frame(window)
-    window.geometry("500x500") 
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600) 
     window.title("Add to Cart") 
 
     window.columnconfigure(0, weight = 0)
