@@ -36,7 +36,6 @@ class inventoryController:
         sql = "DELETE FROM PMS_Prescription WHERE prescription = " +  newPrescription.prescription
         mycursor.execute(sql)
         mydb.commit()
-        
 
     # def addMedicine(Medicine, connector):
         
