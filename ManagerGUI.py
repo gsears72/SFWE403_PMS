@@ -11,14 +11,11 @@ import changePassView as cpv
 import RecoverUserAccount as ra
 import cartGUI as ocw
 import UpdateInventoryView as uiv
-
-from controllers.LogController import *
-
 import CheckItemAvailabilityView as cav
 import ManagerPrescriptionGui as mpgui
 import generateFinancialReportsView as gfr
+import CheckItemAvailabilityView as cia
 from controllers.LogController import *
-
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
@@ -252,6 +249,14 @@ def open_managerGUI(app, currentId, password):
         width = 200,
         height = 50,
         command = addPrescription
+    )
+
+    cart = tk.CTkButton(
+        master = ManagerHome,
+        text = "Cart",
+        width = 200,
+        height = 50,
+        command = OpenCartWindow
     )
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)

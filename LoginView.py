@@ -53,11 +53,11 @@ class LoginGUI(ctk.CTk):
                 match result[2]:
                     case "manager": #load manager GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        mgui.open_managerGUI(app,id)
+                        mgui.open_managerGUI(app,currentId,password)
                         app.withdraw()
                     case "pharmacist": #load pharmacist GUI
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        pgui.open_phramacistGUI(app,id)
+                        pgui.open_phramacistGUI(app,currentId,password)
                         app.withdraw()
                     case "cashier": #load cashier gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
@@ -65,7 +65,7 @@ class LoginGUI(ctk.CTk):
                         app.withdraw()
                     case "technician": #load tech gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
-                        ptgui.open_pharmacistTechGUI(app,id)
+                        ptgui.open_pharmacistTechGUI(app,currentId,password)
                         app.withdraw()
                 #messagebox.showinfo("Success","Login Successful")
                 return result[2]

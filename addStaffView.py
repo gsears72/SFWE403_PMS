@@ -16,10 +16,6 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-
-def rolecallback(choice):
-  return choice   
-    
 def open_addStaffView(ManagerHome):
     # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
@@ -79,10 +75,7 @@ def open_addStaffView(ManagerHome):
 
     #These are the input fields
     fullNameIn = tk.CTkEntry(master=window, width=300)
-    roleIn = tk.CTkComboBox(master=window,
-                                     values=['manager', 'pharmacist', 'technician', 'cashier'],
-                                     command=rolecallback)
-    roleIn.set("cashier")
+    roleIn = tk.CTkEntry(master=window, width=300)
     passwordIn = tk.CTkEntry(master=window, width=300)
     highSchoolIn = tk.CTkEntry(master=window, width=300)
 
@@ -102,7 +95,7 @@ def open_addStaffView(ManagerHome):
     def handle_click(event): 
         # this gets info from input and puts into class
         fullName = fullNameIn.get()
-        role = roleIn.get()
+        role = roleIn.get().lower()
         password = passwordIn.get()
         highSchool = highSchoolIn.get()
 
@@ -110,12 +103,6 @@ def open_addStaffView(ManagerHome):
         if (role == "manager"):
             mycursor.execute("INSERT INTO PMS_Staff (role, name, password, highschool) VALUES (%s, %s, %s, %s)", (role, fullName, password, highSchool))
             mydb.commit()
-            failure.grid_remove() #removes from screen
-            success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
-            #clears input fields
-            clear_text(fullNameIn)
-            clear_text(passwordIn)
-            clear_text(highSchoolIn)
 
 
         elif (role == "pharmacist"):
@@ -125,6 +112,7 @@ def open_addStaffView(ManagerHome):
             success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
             #clears input fields
             clear_text(fullNameIn)
+            clear_text(roleIn)
             clear_text(passwordIn)
             clear_text(highSchoolIn)
 
@@ -135,6 +123,7 @@ def open_addStaffView(ManagerHome):
             success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
             #clears input fields
             clear_text(fullNameIn)
+            clear_text(roleIn)
             clear_text(passwordIn)
             clear_text(highSchoolIn)
 
@@ -145,6 +134,7 @@ def open_addStaffView(ManagerHome):
             success.grid(columnspan=2, row=9, padx=5, pady=5) #adds to screen 
             #clears input fields
             clear_text(fullNameIn)
+            clear_text(roleIn)
             clear_text(passwordIn)
             clear_text(highSchoolIn)
 
