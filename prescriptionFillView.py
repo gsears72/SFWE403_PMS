@@ -114,7 +114,7 @@ def open_FillPrescription(priorWindow, fName, lName):
                 correct.grid(row = 3, column = 1)
                 time.sleep(3)
                 open_fill2
-            priorWindow.deiConify()
+            priorWindow.deiconify()
             app.destroy()
 
 
