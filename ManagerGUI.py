@@ -45,6 +45,7 @@ def open_managerGUI(app, currentId, password):
     def updateInventory():
         uiv.open_UpdateInventory(ManagerHome)
         ManagerHome.withdraw()
+        InventoryLog(id)
 
     def addInventory():
         aiv.open_addInventoryView(ManagerHome)
