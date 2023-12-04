@@ -282,12 +282,12 @@ class PharmacyManager(Staff):
     def checkAvailability(self, medicine):
         isAvailable = False
         try:
-            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
-            medicineInfo = mycursor.fetchone()
+            mycursor.execute("SELECT quantity FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfoQuantity = mycursor.fetchone()
             isAvailable = True
-            return isAvailable
+            return isAvailable, medicineInfoQuantity
         except:
-            return isAvailable
+            return isAvailable, 0
 
     def createPharmacyAccount(self):
         role = input("Enter role (Manager, Pharmacist, Pharmacist technician, Cashier):")
@@ -351,13 +351,16 @@ class PharmacyManager(Staff):
         except Exception as e:
             print("failed to get id: ", e)
 
-    def updateInventory(self):
-        medName = input("Enter Item Name \n")        
-        newInfo = input("What is new quantity for this item?\n")
+    def updateInventory(self, name, quantity):
         command = "UPDATE Inventory set quantity = %s where medName = %s"
-            
-        mycursor.execute(command,(newInfo,medName))
-        mydb.commit()
+        inventoryUpdated = False
+        try:
+            mycursor.execute(command,(quantity, name))
+            mydb.commit()
+            inventoryUpdated = True
+            return inventoryUpdated
+        except:
+            return inventoryUpdated
 
     def removeItem(self, medicineID):
         success = False
@@ -532,23 +535,7 @@ class Cashier(Staff):
     def __hash__(self):
         pass
     
-class User(Staff):
-    def __init__(self, name):
-        self.name = name
-        self.role = "default"
-        self.password = "default"
-        self.lockout = "0"
-        self.highschool = "default"
-        self.strikcount = "0"
 
-    def changePassword(self, Password, userID):
-        try:   
-            mycursor.execute("UPDATE PMS_Staff set password = %s where Staff_ID = %s",(Password, userID))
-            mydb.commit()
-            return True
-        except Exception as e:
-            print(e)
-            return False
 
     
     
