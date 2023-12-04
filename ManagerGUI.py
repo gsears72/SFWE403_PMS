@@ -9,6 +9,8 @@ import deleteStaffView as dsv
 import generateFinancialReportsView as gfr
 import UpdateInventoryView as uiv
 from controllers.LogController import *
+import UpdateInventoryView as uiv
+import CheckItemAvailabilityView as checkAvail
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
@@ -67,8 +69,8 @@ def open_managerGUI(app, id):
         ManagerHome.withdraw()
 
     def updateInventory():
-        uiv.open_UpdateInventory(CashierHome)
-        CashierHome.withdraw()
+        uiv.open_UpdateInventory(ManagerHome)
+        ManagerHome.withdraw()
 
     
 
