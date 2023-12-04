@@ -1,27 +1,25 @@
 import customtkinter as tk
 import deleteInventoryView as div
-import addInventoryView as aiv
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import addStaffView as asv
 import updateStaffView as usv
 import deleteStaffView as dsv
-import changePassView as cpv
-import RecoverUserAccount as ra
-import ManagerPrescriptionGui as mpgui
 import generateFinancialReportsView as gfr
-import CheckItemAvailabilityView as cia
+import UpdateInventoryView as uiv
+import CheckItemAvailabilityView as checkAvail
 from controllers.LogController import *
+import cartGUI as cartv
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
 
 from models.Staff import PharmacyManager
 
-def open_managerGUI(app, currentId, password):
+def open_managerGUI(app, id):
     ManagerHome = tk.CTkToplevel()
-    ManagerHome.geometry("700x200")
+    ManagerHome.geometry("700x400")
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
@@ -33,25 +31,16 @@ def open_managerGUI(app, currentId, password):
         ManagerHome.destroy()
 
     def deleteInventory():
+        InventoryLog(id)
         div.open_deleteInventory(ManagerHome)
-        ManagerHome.withdraw()
-        InventoryLog(id)
-
-    def addInventory():
-        aiv.open_addInventoryView(ManagerHome)
-        ManagerHome.withdraw()
-        InventoryLog(id)
-
-    def addPrescription():
-        mpgui.open_PrescriptionManagerGUI(ManagerHome)
         ManagerHome.withdraw()
 
     def financialreports():
         gfr.open_financialreports(ManagerHome)
         ManagerHome.withdraw()
 
-    def changePassView():
-        cpv.open_passView(ManagerHome, currentId, password)
+    def OpenCartWindow():
+        cartv.open_cartView(ManagerHome, id)
         ManagerHome.withdraw()
 
     def OpenAddStaffWindow():
@@ -78,16 +67,17 @@ def open_managerGUI(app, currentId, password):
         dcv.open_deleteCustomerView(ManagerHome)
         ManagerHome.withdraw()
 
-
-
-
-
-
-
-    def recoverAccount():
-        ra.open_recoverAccountView(ManagerHome)
+    def checkItemAvail():
+        checkAvail.open_CheckItemAvailability(ManagerHome)
         ManagerHome.withdraw()
+
+    def updateInventory():
+        uiv.open_UpdateInventory(ManagerHome)
+        ManagerHome.withdraw()
+
     
+
+
     #should add instant check for low stock or expired notifications
 
     #lowstock = Manager.PharmacyManager.LowStock()
@@ -130,7 +120,10 @@ def open_managerGUI(app, currentId, password):
         text = "Update Inventory",
         width = 200,
         height = 50,
-        #command = updateInventory
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = updateInventory
     )
 
     DeleteInventory = tk.CTkButton(
@@ -152,7 +145,7 @@ def open_managerGUI(app, currentId, password):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        command = recoverAccount
+        #command = open checkout view 
     )
 
     LogOutButton = tk.CTkButton(
@@ -210,46 +203,13 @@ def open_managerGUI(app, currentId, password):
         command = OpenDeleteCustomerWindow
     )
    
-   
-
-
-
-
-
-
-
-    AddInventory = tk.CTkButton(
-        master = ManagerHome,
-        text = "Add Inventory",
+    CheckItemAvailability = tk.CTkButton(
+        master = ManagerHome, 
+        text = "Check Item Availability",
         width = 200,
         height = 50,
-        command = addInventory
+        command =  checkItemAvail
     )
-
-    changePassword = tk.CTkButton(
-        master = ManagerHome,
-        text = "Change Password",
-        width = 200,
-        height = 50,
-        command = changePassView
-    )
-
-    addPrescription = tk.CTkButton(
-        master = ManagerHome,
-        text = "Add Prescription",
-        width = 200,
-        height = 50,
-        command = addPrescription
-    )
-
-    cart = tk.CTkButton(
-        master = ManagerHome,
-        text = "Cart",
-        width = 200,
-        height = 50,
-        command = OpenCartWindow
-    )
-
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
@@ -265,13 +225,9 @@ def open_managerGUI(app, currentId, password):
 
     LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
-   
 
-    AddInventory.grid(row = 200, column = 40,  padx=10, pady=10) 
-    changePassword.grid(row = 200, column = 0,  padx=10, pady=10)
-    addPrescription.grid(row = 200, column = 20, padx=10, pady=10)
+    CheckItemAvailability.grid(row = 150, column = 20, padx=10, pady=10)
 
-    cart.grid(row = 250, column = 20, padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
