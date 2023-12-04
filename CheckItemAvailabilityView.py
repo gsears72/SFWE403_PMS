@@ -9,7 +9,7 @@ def open_CheckItemAvailability(app):
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    manager = PharmacyManager("test")
+    manager = PharmacyManager()
     medicine = Medicine()
 
     window = tk.CTkToplevel()
@@ -32,7 +32,8 @@ def open_CheckItemAvailability(app):
     )
     # labels are text
     label = tk.CTkLabel(master = window,text="Search what item's availability you would like to check? (name batchnum)") 
-    
+
+    success = tk.CTkLabel(master = window,text="Item is available")  
     failure = tk.CTkLabel(master = window,text="Item is not available") 
     #These are the input fields
     nameIn = tk.CTkEntry(master = window, width=300)
@@ -51,16 +52,13 @@ def open_CheckItemAvailability(app):
             medicine.name = nameSplit[0]
             medicine.batch = nameSplit[1]
         #this removes the customer from database and checks if it worked
-        isAvailable, quantity = manager.checkAvailability(medicine)
+        isAvailable = manager.checkAvailability(medicine)
        
         if isAvailable:
-            failure.pack_forget() #removes from screen  #adds to screen 
+            failure.pack_forget() #removes from screen
+            success.pack(pady = 20) #adds to screen 
             #clears input fields
             clear_text(nameIn)
-            quantity = str(quantity).replace(',', '')
-            output = "It is available! The pharmacy has " + str(quantity) + " units of " + str(medicine.name)
-            success = tk.CTkLabel(master = window,text=output)  
-            success.pack(pady = 20)
         else:
             success.pack_forget()
             failure.pack(pady = 20) 

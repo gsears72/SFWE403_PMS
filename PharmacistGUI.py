@@ -6,7 +6,6 @@ import PrescriptionGUI as pv
 from controllers.LogController import *
 import controllers.Expiration as exp 
 from tkinter import messagebox
-import CheckItemAvailabilityView as checkAvail
 #import PrescriptionGUI as pg
 
 
@@ -18,10 +17,6 @@ def open_phramacistGUI(PharmacistHome,id):
 
     def OpenUpdateWindow():
         ucv.open_updateCustomerView(window)
-        window.withdraw()
-
-    def checkItemAvail():
-        checkAvail.open_CheckItemAvailability(window)
         window.withdraw()
 
     def OpenDeleteWindow():
@@ -91,7 +86,7 @@ def open_phramacistGUI(PharmacistHome,id):
         text = "Check Med Availability", 
         width = 200,
         height = 50,
-        command = checkItemAvail
+        #command = open checkavailability view 
     )
 
     CheckoutButton = tk.CTkButton(
