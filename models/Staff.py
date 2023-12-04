@@ -196,8 +196,8 @@ class Staff(ABC):
         mydb.commit()
 
     def addPrescription(self, newPrescription):  
-        sql = "INSERT INTO PMS_Prescription (prescription, customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (newPrescription.prescription, newPrescription.customerID, newPrescription.startDate, newPrescription.endDate, newPrescription.medication, newPrescription.quantity, newPrescription.strength, newPrescription.refills, newPrescription.instructions, newPrescription.prescriber)
+        sql = "INSERT INTO PMS_Prescription (customerID, startDate, endDate, medication, quantity, strength, refills, instructions, prescriber) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        val = (newPrescription.cusID, newPrescription.startDate, newPrescription.endDate, newPrescription.medication, newPrescription.quantity, newPrescription.strength, newPrescription.refills, newPrescription.instruct, newPrescription.prescriber)
         mycursor.execute(sql, val)
         mydb.commit()
 
@@ -227,6 +227,15 @@ class Staff(ABC):
                 num = olditem[2] - int(item.quantity)
                 mycursor.execute("UPDATE Inventory set quantity = %s where item_id = %s", (num, olditem[0]))
                 mydb.commit()  
+        except Exception as e:
+            print(e)
+
+    def updateInventoryP(self, itemName, removed):
+        try:
+            olditem = self.fetchItem(str(itemName))
+            num = olditem[2] - int(removed)
+            mycursor.execute("UPDATE Inventory set quantity = %s where item_id = %s", (num, olditem[0]))
+            mydb.commit()  
         except Exception as e:
             print(e)
 
@@ -332,16 +341,6 @@ class PharmacyManager(Staff):
         except Exception as e:
             print("failed to get id: ", e)
 
-    def checkAvailability(self, medicine):
-        isAvailable = False
-        try:
-            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
-            medicineInfo = mycursor.fetchone()
-            isAvailable = True
-            return isAvailable
-        except:
-            return isAvailable
-
     def updateInventory(self):
         medName = input("Enter Item Name \n")        
         newInfo = input("What is new quantity for this item?\n")
@@ -443,10 +442,7 @@ class PharmacyManager(Staff):
     
 
 class Pharmacist(Staff):
-    def __init__(self, name):
-        self._name = name
-    
-    def __init__(self, name, password, highschool):
+    def __init__(self):
         pass
     
     def __str__(self):
