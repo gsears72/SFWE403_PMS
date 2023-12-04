@@ -1,5 +1,4 @@
 import customtkinter as tk
-from models.Staff import User
 from models.Staff import PharmacyManager
 
 def open_passView(oldWindow, currentId, currentPassword):

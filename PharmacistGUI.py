@@ -5,12 +5,14 @@ import deleteCustomerView as dcv
 import PrescriptionGUI as pv
 from controllers.LogController import *
 import controllers.Expiration as exp 
+import changePassView as cpv
+import cartGUI as cartv
+import CheckItemAvailabilityView as cav
 from tkinter import messagebox
-import CheckItemAvailabilityView as checkAvail
 #import PrescriptionGUI as pg
 
 
-def open_phramacistGUI(PharmacistHome,id):
+def open_phramacistGUI(PharmacistHome, currentId, password):
 
     window = tk.CTkToplevel()
     window.geometry("750x500")
@@ -18,10 +20,6 @@ def open_phramacistGUI(PharmacistHome,id):
 
     def OpenUpdateWindow():
         ucv.open_updateCustomerView(window)
-        window.withdraw()
-
-    def checkItemAvail():
-        checkAvail.open_CheckItemAvailability(window)
         window.withdraw()
 
     def OpenDeleteWindow():
@@ -36,6 +34,18 @@ def open_phramacistGUI(PharmacistHome,id):
         pv.open_PrescriptionGUI(window)
         window.withdraw()
         InventoryLog(id)
+
+    def OpenCartWindow():
+        cartv.open_cartView(window, currentId)
+        window.withdraw()
+
+    def ChangePassword():
+        cpv.open_passView(window, currentId, password)
+        window.withdraw()
+
+    def checkAvail():
+        cav.open_CheckItemAvailability(window)
+        window.withdraw()
 
     def LogOut():
         LogoutLog(id)
@@ -91,7 +101,7 @@ def open_phramacistGUI(PharmacistHome,id):
         text = "Check Med Availability", 
         width = 200,
         height = 50,
-        command = checkItemAvail
+        command = checkAvail
     )
 
     CheckoutButton = tk.CTkButton(
@@ -99,7 +109,7 @@ def open_phramacistGUI(PharmacistHome,id):
         text = "Checkout", 
         width = 200,
         height = 50,
-        #command = open checkout view 
+        command = OpenCartWindow
     )
 
     LogOutButton = tk.CTkButton(
@@ -113,6 +123,16 @@ def open_phramacistGUI(PharmacistHome,id):
         command = LogOut
     )
 
+    changePassword = tk.CTkButton(
+        master = window,
+        text = "Change Password",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = ChangePassword
+    )
 
     PharmacistHome.withdraw()
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
@@ -122,7 +142,8 @@ def open_phramacistGUI(PharmacistHome,id):
     NewPrescriptionButton.grid(row = 50, column = 20, padx=10, pady=10)
     CheckAvailabilityButton.grid(row = 50, column = 40, padx=10, pady=10)
     CheckoutButton.grid(row = 100, column = 20,  padx=10, pady=10)
-    LogOutButton.grid(row = 100, column = 0,  padx=10, pady=10)  
+    LogOutButton.grid(row = 100, column = 40,  padx=10, pady=10)  
+    changePassword.grid(row = 100, column = 0,  padx=10, pady=10)
 
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
