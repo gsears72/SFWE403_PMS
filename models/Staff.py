@@ -387,72 +387,22 @@ class PharmacyManager(Staff):
         allStock = mycursor.fetchall()
 
         lowStocks = []
-        stockArray = []
-        i = 0
+        
         for x in allStock:
-            stockArray.append(x)
-        stockArray = np.array(stockArray)
+            if x[2] < 120:
+                lowStocks.append(x)
 
-        stockNameArray = []
-        i = 0
-        for x in stockArray:
-            stockNameArray.append(stockArray[i][1]) #name array
-            i+=1
-        stockNameArray = np.array(stockNameArray)
+        return_lowStock = []
 
-        stockStrengthArray = []
-        i = 0
-        for x in stockArray:
-            stockStrengthArray.append(stockArray[i][3]) #strength array
-            i+=1
-        stockStrengthArray = np.array(stockStrengthArray)
+        #return result_string
+        for x in lowStocks:
+            # Format the string for each element in the list and append to the list
+            formatted_string = "ID: %d, Name: %s, Strength: %s Quantity: %s \n" % (x[0], x[1], x[3], x[2])
+            return_lowStock.append(formatted_string)
 
-        #combines name array and strength array into single 2d array
-        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
+        result_string = ''.join(return_lowStock)
 
-        count = []
-        for x in range(len(stockArray)):
-            count.append(0)
-        count = np.array(count)
-
-        #combines name array and strength array into single 2d array
-        stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray, count)).T
-        #stockNameStrengthArray = np.vstack((stockNameArray, stockStrengthArray)).T
-
-        #stockNameStrengthArray format: [name, strength, counted(0 no, 1 yes)]
-
-        #in counted, we have name, strength, count #. when checking duplicates, we set count to 1 so that we only add 1 to count number if we
-        #approach a new prescription (0)
-        stockLength = len(stockNameStrengthArray)
-        counted = []
-        for i in range(stockLength):
-            temp = 0
-            k = i + 1
-            for j in range(k, stockLength): #MIGHT BE STOCKLENGTH -1
-                if ((stockNameStrengthArray[i][2] == '0') and
-                    (stockNameStrengthArray[i][0] == stockNameStrengthArray[j][0]) and 
-                        (stockNameStrengthArray[i][1] == stockNameStrengthArray[j][1])):
-                    temp += 1
-                    stockNameStrengthArray[j][2] = int(stockNameStrengthArray[i][2]) + 1 #so that we do not add it later on.
-                    
-            if (stockNameStrengthArray[i][2] == '0'):
-                stockNameStrengthArray[i][2] = int(stockNameStrengthArray[i][2]) + 1 + temp
-                counted.append(stockNameStrengthArray[i])
-
-        counted = np.array(counted)
-
-        for i in range(len(counted)):
-            #low in stock if value less than 5
-            if (int(counted[i][2]) < 5):
-                # Format the string for each element in the list and append to the list
-                formattedString = counted[i][0] + " " + counted[i][1] + " - " + counted[i][2] + " remaining\n"
-                lowStocks.append(formattedString)
-
-        # Join the formatted strings into a single string
-        result_string = ''.join(lowStocks)
         return result_string
-        #return all medications with quantity 1 through 5
-        #return all_low_stock
     
 
 class Pharmacist(Staff):

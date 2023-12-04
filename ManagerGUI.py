@@ -17,7 +17,7 @@ from models.Staff import PharmacyManager
 
 def open_managerGUI(app, id):
     ManagerHome = tk.CTkToplevel()
-    ManagerHome.geometry("700x200")
+    ManagerHome.geometry("700x400")
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
