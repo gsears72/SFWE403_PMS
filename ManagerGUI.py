@@ -1,13 +1,17 @@
 import customtkinter as tk
 import deleteInventoryView as div
+import addInventoryView as aiv
 import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import addStaffView as asv
 import updateStaffView as usv
 import deleteStaffView as dsv
+import changePassView as cpv
+import RecoverUserAccount as ra
+import ManagerPrescriptionGui as mpgui
 import generateFinancialReportsView as gfr
-import UpdateInventoryView as uiv
+import CheckItemAvailabilityView as cia
 from controllers.LogController import *
 #import addCustomerView as acv
 import controllers.Expiration as exp 
@@ -15,9 +19,9 @@ from tkinter import messagebox
 
 from models.Staff import PharmacyManager
 
-def open_managerGUI(app, id):
+def open_managerGUI(app, currentId, password):
     ManagerHome = tk.CTkToplevel()
-    ManagerHome.geometry("700x400")
+    ManagerHome.geometry("700x200")
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
@@ -29,12 +33,25 @@ def open_managerGUI(app, id):
         ManagerHome.destroy()
 
     def deleteInventory():
-        InventoryLog(id)
         div.open_deleteInventory(ManagerHome)
+        ManagerHome.withdraw()
+        InventoryLog(id)
+
+    def addInventory():
+        aiv.open_addInventoryView(ManagerHome)
+        ManagerHome.withdraw()
+        InventoryLog(id)
+
+    def addPrescription():
+        mpgui.open_PrescriptionManagerGUI(ManagerHome)
         ManagerHome.withdraw()
 
     def financialreports():
         gfr.open_financialreports(ManagerHome)
+        ManagerHome.withdraw()
+
+    def changePassView():
+        cpv.open_passView(ManagerHome, currentId, password)
         ManagerHome.withdraw()
 
     def OpenAddStaffWindow():
@@ -62,17 +79,15 @@ def open_managerGUI(app, id):
         ManagerHome.withdraw()
 
 
-    def checkItemAvail():
-        checkAvail.open_CheckItemAvailability(ManagerHome)
+
+
+
+
+
+    def recoverAccount():
+        ra.open_recoverAccountView(ManagerHome)
         ManagerHome.withdraw()
-
-    def updateInventory():
-        uiv.open_UpdateInventory(CashierHome)
-        CashierHome.withdraw()
-
     
-
-
     #should add instant check for low stock or expired notifications
 
     #lowstock = Manager.PharmacyManager.LowStock()
@@ -115,10 +130,7 @@ def open_managerGUI(app, id):
         text = "Update Inventory",
         width = 200,
         height = 50,
-        #bg = "blue",
-        #fg = "yellow",
-        #font = 10,
-        command = updateInventory
+        #command = updateInventory
     )
 
     DeleteInventory = tk.CTkButton(
@@ -140,7 +152,7 @@ def open_managerGUI(app, id):
         #bg = "blue",
         #fg = "yellow",
         #font = 10,
-        #command = open checkout view 
+        command = recoverAccount
     )
 
     LogOutButton = tk.CTkButton(
@@ -198,13 +210,46 @@ def open_managerGUI(app, id):
         command = OpenDeleteCustomerWindow
     )
    
-    CheckItemAvailability = tk.CTkButton(
-        master = ManagerHome, 
-        text = "Check Item Availability",
+   
+
+
+
+
+
+
+
+    AddInventory = tk.CTkButton(
+        master = ManagerHome,
+        text = "Add Inventory",
         width = 200,
         height = 50,
-        command =  checkItemAvail
+        command = addInventory
     )
+
+    changePassword = tk.CTkButton(
+        master = ManagerHome,
+        text = "Change Password",
+        width = 200,
+        height = 50,
+        command = changePassView
+    )
+
+    addPrescription = tk.CTkButton(
+        master = ManagerHome,
+        text = "Add Prescription",
+        width = 200,
+        height = 50,
+        command = addPrescription
+    )
+
+    cart = tk.CTkButton(
+        master = ManagerHome,
+        text = "Cart",
+        width = 200,
+        height = 50,
+        command = OpenCartWindow
+    )
+
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
@@ -220,9 +265,13 @@ def open_managerGUI(app, id):
 
     LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
+   
 
-    CheckItemAvailability.grid(row = 150, column = 20, padx=10, pady=10)
+    AddInventory.grid(row = 200, column = 40,  padx=10, pady=10) 
+    changePassword.grid(row = 200, column = 0,  padx=10, pady=10)
+    addPrescription.grid(row = 200, column = 20, padx=10, pady=10)
 
+    cart.grid(row = 250, column = 20, padx=10, pady=10)
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())

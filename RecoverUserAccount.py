@@ -2,7 +2,7 @@ import customtkinter as tk
 import mysql.connector
 
 
-def open_recoverAccountView():
+def open_recoverAccountView(priorWindow):
     mydb = mysql.connector.connect(
             host = 'mysql-145311-0.cloudclusters.net',
             port = '18166',
@@ -42,11 +42,22 @@ def open_recoverAccountView():
     window.geometry("500x500")
     window.title("Recover Account")
 
+    def closeWindow():
+        priorWindow.deiconify()
+        window.destroy()
+
     recoverButton = tk.CTkButton(
         master = window, 
         text = "Load User",
         command = recoverAccount
     )
+
+    back = tk.CTkButton(
+        master = window, 
+        text = "Back",
+        command = closeWindow
+    )
+
 
     label = tk.CTkLabel(master = window, text = "What is the first and last name of the user you wish to recover?")
     success = tk.CTkLabel(master = window, text = "Successfully Recovered!")
@@ -56,5 +67,6 @@ def open_recoverAccountView():
     label.grid(row = 0, column = 200, padx = 10, pady = 10)
     nameIn.grid(row = 10, column = 200, padx = 10, pady = 10)
     recoverButton.grid(row = 20, column = 200, padx = 10, pady = 10)
+    back.grid(row = 30, column = 200, padx = 10, pady =10)
 
 #window.mainloop()

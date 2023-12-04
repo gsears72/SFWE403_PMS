@@ -27,7 +27,7 @@ def SalesReport(startDate, endDate):
             timeStamp = x[1]
             description = x[3]
             xtotal = x[4]
-            toWrite = str(timeStamp)+"   "+str(description)+" "+str(xtotal)+ "\n"
+            toWrite = str(timeStamp)+"   "+str(description)+" "+str(xtotal)
             reportfile.write(toWrite)
             total = total+x[4]
         reportfile.write("\n")
