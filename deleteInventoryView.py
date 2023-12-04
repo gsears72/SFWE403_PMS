@@ -9,7 +9,7 @@ def open_deleteInventory(app):
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    manager = PharmacyManager("test")
+    manager = PharmacyManager()
     medicine = Medicine()
 
     window = tk.CTkToplevel()
@@ -66,7 +66,7 @@ def open_deleteInventory(app):
     def clear_text(text):
         text.delete(0, tk.END)
 
-    def closeWindow(self):
+    def closeWindow(event):
         app.deiconify()
         window.destroy()
 
