@@ -15,7 +15,9 @@ from tkinter import messagebox
 def open_phramacistGUI(PharmacistHome, currentId, password):
 
     window = tk.CTkToplevel()
-    window.geometry("750x500")
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600)
     window.title("Pharmacist Homepage")
 
     def OpenUpdateWindow():

@@ -10,7 +10,9 @@ from tkinter import messagebox
 
 def open_pharmacistTechGUI(app, currentId, password):
     PTHome = tk.CTkToplevel()
-    PTHome.geometry("700x200")
+    PTHome.geometry("800x600")
+    PTHome.minsize(800, 600)
+    PTHome.maxsize(800, 600)
     PTHome.title("Pharmacy Technician Homepage")
 
     #should add instant check for low stock or expired notifications

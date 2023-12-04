@@ -8,7 +8,7 @@ import PharmacyTechGUI as ptgui
 
 from tkinter import messagebox
 
-from models.Login import LoginLib
+#from models.Login import LoginLib
 from controllers.LoginController import *
 from controllers.LogController import LoginLog
 

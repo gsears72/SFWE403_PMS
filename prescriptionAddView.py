@@ -19,7 +19,9 @@ def open_AddPrescription(priorWindow, firstN, lastN):
         ctk.set_default_color_theme("blue") 
 
         window = ctk.CTkToplevel()
-        window.geometry("500x500") 
+        window.geometry("800x600")
+        window.minsize(800, 600)
+        window.maxsize(800, 600) 
         window.title("Add Prescription") 
             
         firstName = ctk.CTkEntry(master=window)

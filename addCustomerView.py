@@ -13,7 +13,9 @@ def open_addCustomerView(cashierHome):
     customer = Customer.Customer()
 
     window = tk.CTkToplevel()
-    window.geometry("500x500") 
+    window.geometry("800x600")
+    window.minsize(800, 600)
+    window.maxsize(800, 600)
     window.title("Add Customer") 
 
     window.columnconfigure(0, weight = 0)
