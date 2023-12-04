@@ -466,7 +466,14 @@ class Pharmacist(Staff):
         mycursor.execute(("DELETE FROM Customer WHERE firstName = %s and lastName = %s"),(firstName,lastName))
         
     def checkAvailability(self):
-        pass
+        isAvailable = False
+        try:
+            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfo = mycursor.fetchone()
+            isAvailable = True
+            return isAvailable
+        except:
+            return isAvailable
 
     def fillPrescription(self):
         # log()
