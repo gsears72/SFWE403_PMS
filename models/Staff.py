@@ -355,7 +355,7 @@ class PharmacyManager(Staff):
         command = "UPDATE Inventory set quantity = %s where medName = %s"
         inventoryUpdated = False
         try:
-            mycursor.execute(command,(name,quantity))
+            mycursor.execute(command,(quantity,name))
             mydb.commit()
             inventoryUpdated = True
             return inventoryUpdated
