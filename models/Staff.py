@@ -262,20 +262,24 @@ class PharmacyManager(Staff):
     def checkAvailability(self, medicine):
         isAvailable = False
         try:
-            mycursor.execute("SELECT item_id FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
-            medicineInfo = mycursor.fetchone()
+            mycursor.execute("SELECT quantity FROM Inventory where medName = %s and batchNum = %s", (medicine.name, medicine.batch))
+            medicineInfoQuantity = mycursor.fetchone()
             isAvailable = True
-            return isAvailable
+            return isAvailable, medicineInfoQuantity
         except:
-            return isAvailable
+            return isAvailable, 0
 
-    def updateInventory(self):
-        medName = input("Enter Item Name \n")        
-        newInfo = input("What is new quantity for this item?\n")
+    def updateInventory(self, name, quantity):
         command = "UPDATE Inventory set quantity = %s where medName = %s"
-            
-        mycursor.execute(command,(newInfo,medName))
-        mydb.commit()
+        inventoryUpdated = False
+        try:
+            mycursor.execute(command,(name,quantity))
+            mydb.commit()
+            inventoryUpdated = True
+            return inventoryUpdated
+        except:
+            return inventoryUpdated
+        
 
     def removeItem(self, medicineID):
         success = False

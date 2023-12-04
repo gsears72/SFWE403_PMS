@@ -2,7 +2,7 @@ import customtkinter as tk
 from models.Medicine import Medicine
 from models.Staff import PharmacyManager
 
-def open_CheckItemAvailability(app):
+def open_UpdateInventory(app):
     # Selecting GUI theme - dark, light , system (for system default) 
     tk.set_appearance_mode("dark") 
 
@@ -14,10 +14,10 @@ def open_CheckItemAvailability(app):
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 
-    window.title("Check Item Availability") 
+    window.title("Update Item") 
 
     button = tk.CTkButton(
-        text="Search",
+        text="Update",
         width=200,
         height=50,
         font = ("Fira Code", 15),
@@ -31,11 +31,18 @@ def open_CheckItemAvailability(app):
         height=50,
     )
     # labels are text
-    label = tk.CTkLabel(master = window,text="Search what item's availability you would like to check? (name batchnum)") 
-    
-    failure = tk.CTkLabel(master = window,text="Item is not available") 
+    label = tk.CTkLabel(master = window,text="What item would you like to update? (name batchNum)") 
+
+    success = tk.CTkLabel(master = window,text="Successfully Found!") 
+    successUpdate = tk.CTkLabel(master = window, text="Successfuly Updated!!!!") 
+    failure = tk.CTkLabel(master = window,text="Failed to Find Item.") 
+    failureUpdate = tk.CTkLabel(master = window, text="Failed to update item amount.")
     #These are the input fields
     nameIn = tk.CTkEntry(master = window, width=300)
+    updateAmount = tk.CTkEntry(master = window, width=300)
+    updateLabel = tk.CTkLabel(master = window, text = "What is this item's new amount?")
+
+
 
     #this adds inputs to window
     label.pack(pady=20)
@@ -51,16 +58,28 @@ def open_CheckItemAvailability(app):
             medicine.name = nameSplit[0]
             medicine.batch = nameSplit[1]
         #this removes the customer from database and checks if it worked
-        isAvailable, quantity = manager.checkAvailability(medicine)
-       
-        if isAvailable:
-            failure.pack_forget() #removes from screen  #adds to screen 
+        medicineID = manager.fetchMedicineID(medicine)
+        if medicineID:
+            failure.pack_forget() #removes from screen
+            success.pack(pady = 20) #adds to screen 
             #clears input fields
             clear_text(nameIn)
-            quantity = str(quantity).replace(',', '')
-            output = "It is available! The pharmacy has " + str(quantity) + " units of " + str(medicine.name)
-            success = tk.CTkLabel(master = window,text=output)  
-            success.pack(pady = 20)
+            nameIn.pack_forget()
+            updateAmount.pack()
+            updateLabel.pack()
+            amount = int(str(updateAmount.get()).strip())
+            inventoryUpdated = manager.updateInventory(medicine.name, medicine.batch)
+            if inventoryUpdated == True:
+                successUpdate.pack()
+                clear_text(updateAmount)
+                updateAmount.pack_forget()
+                updateLabel.pack_forget()
+
+            else:
+                failureUpdate.pack()
+                clear_text(updateAmount)           
+
+
         else:
             success.pack_forget()
             failure.pack(pady = 20) 
@@ -74,4 +93,3 @@ def open_CheckItemAvailability(app):
 
     button.bind("<Button-1>", handle_click) #connects function handle_click to button 
     back.bind("<Button-1>", closeWindow)
-    #window.mainloop() #constant loop for gui 
