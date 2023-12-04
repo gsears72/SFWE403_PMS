@@ -188,7 +188,7 @@ def PrescriptionFilledLog(userID,prescription_id):
 
 
 # Function to log prescription picked up events
-def PrescriptionFilledLog(userID,prescription_id,customer_id):
+def PrescriptionPickedUpLog(userID,prescription_id,customer_id):
     conn = None
    
     # SQL query to insert log into the PMS_LOGS table
