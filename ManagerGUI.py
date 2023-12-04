@@ -210,6 +210,14 @@ def open_managerGUI(app, id):
         command =  checkItemAvail
     )
 
+    cart = tk.CTkButton(
+        master = ManagerHome,
+        text = "Cart",
+        width = 200,
+        height = 50,
+        command = OpenCartWindow
+    )
+
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteUserButton.grid(row = 0, column = 40, padx=10, pady=10)
