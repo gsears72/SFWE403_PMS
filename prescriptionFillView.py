@@ -2,6 +2,7 @@ import customtkinter as ctk
 import prescriptionController as pcv
 import mysql.connector
 import time
+import controllers.LogController as lc
 
 mydb = mysql.connector.connect(
         host = 'mysql-145311-0.cloudclusters.net',
@@ -184,6 +185,8 @@ def open_FillPrescription(priorWindow, fName, lName):
         PresInstrb = ctk.CTkLabel(master = app, textvariable = PresInstr)
         PresDoc.set(grabbedPrescription[0][9])
         PresDocb = ctk.CTkLabel(master = app, textvariable = PresDoc)
+
+        lc.PrescriptionFilledLog(125,presID)
         
         firstName = ctk.CTkEntry(master=app)
         lastName = ctk.CTkEntry(master=app)
