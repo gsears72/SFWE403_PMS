@@ -14,7 +14,6 @@ import cartGUI as cartv
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
-
 from models.Staff import PharmacyManager
 
 def open_managerGUI(app, id):
