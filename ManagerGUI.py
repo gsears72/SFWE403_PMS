@@ -20,6 +20,7 @@ def open_managerGUI(app, id):
     ManagerHome.title("Manager Homepage")
 
     manager = PharmacyManager()
+    app.withdraw()
 
     def LogOut():
         LogoutLog(id)
@@ -58,6 +59,14 @@ def open_managerGUI(app, id):
     def OpenDeleteCustomerWindow():
         dcv.open_deleteCustomerView(ManagerHome)
         ManagerHome.withdraw()
+
+
+    def checkItemAvail():
+        checkAvail.open_CheckItemAvailability(ManagerHome)
+        ManagerHome.withdraw()
+
+    
+
 
     #should add instant check for low stock or expired notifications
 
@@ -183,8 +192,14 @@ def open_managerGUI(app, id):
         #font = 10,
         command = OpenDeleteCustomerWindow
     )
-    app.withdraw()
-
+   
+    CheckItemAvailability = tk.CTkButton(
+        master = ManagerHome, 
+        text = "Check Item Availability",
+        width = 200,
+        height = 50,
+        command =  checkItemAvail
+    )
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateUserButton.grid(row = 0, column = 20, padx=10, pady=10)
@@ -200,6 +215,9 @@ def open_managerGUI(app, id):
 
     LogOutButton.grid(row = 150, column = 40,  padx=10, pady=10) 
     FinancialReports.grid(row = 150, column = 0,  padx=10, pady=10)
+
+    CheckItemAvailability.grid(row = 150, column = 20, padx=10, pady=10)
+
 
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
     messagebox.showwarning("WARNING: The following medications expire within the NEXT 30 DAYS", exp.Expired30Day())
