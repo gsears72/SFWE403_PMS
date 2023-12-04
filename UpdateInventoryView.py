@@ -9,7 +9,7 @@ def open_UpdateInventory(app):
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    manager = PharmacyManager("test")
+    manager = PharmacyManager()
     medicine = Medicine()
 
     window = tk.CTkToplevel()
@@ -68,7 +68,7 @@ def open_UpdateInventory(app):
             updateAmount.pack()
             updateLabel.pack()
             amount = int(str(updateAmount.get()).strip())
-            inventoryUpdated = manager.updateInventory(medicine.name, medicine.batch)
+            inventoryUpdated = manager.updateInventory(medicine.name, amount)
             if inventoryUpdated == True:
                 successUpdate.pack()
                 clear_text(updateAmount)
