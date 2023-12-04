@@ -1,0 +1,17 @@
+2023-11-17 00:30:28   User 2 completed a transaction for customer 95 for a total of 12.75 at 2023-11-16 17:30:26.486162 12.752023-12-03 19:11:18   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:11:18.218357 8.02023-12-03 19:14:47   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:14:47.401028 8.02023-12-03 19:15:49   User 126 completed a transaction for a total of 6.0 at 2023-12-03 12:15:48.865097 6.02023-12-03 19:19:04   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:18:32.207241 8.02023-12-03 23:16:24   User 131 completed a transaction for a total of 8.0 at 2023-12-03 16:16:24.482915 8.0
+Total Sales: 50.752023-11-17 00:30:28   User 2 completed a transaction for customer 95 for a total of 12.75 at 2023-11-16 17:30:26.486162 12.752023-12-03 19:11:18   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:11:18.218357 8.02023-12-03 19:14:47   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:14:47.401028 8.02023-12-03 19:15:49   User 126 completed a transaction for a total of 6.0 at 2023-12-03 12:15:48.865097 6.02023-12-03 19:19:04   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:18:32.207241 8.02023-12-03 23:16:24   User 131 completed a transaction for a total of 8.0 at 2023-12-03 16:16:24.482915 8.0
+Total Sales: 50.752023-11-17 00:30:28   User 2 completed a transaction for customer 95 for a total of 12.75 at 2023-11-16 17:30:26.486162 12.75
+2023-12-03 19:11:18   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:11:18.218357 8.0
+2023-12-03 19:14:47   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:14:47.401028 8.0
+2023-12-03 19:15:49   User 126 completed a transaction for a total of 6.0 at 2023-12-03 12:15:48.865097 6.0
+2023-12-03 19:19:04   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:18:32.207241 8.0
+2023-12-03 23:16:24   User 131 completed a transaction for a total of 8.0 at 2023-12-03 16:16:24.482915 8.0
+
+Total Sales: 50.752023-11-17 00:30:28   User 2 completed a transaction for customer 95 for a total of 12.75 at 2023-11-16 17:30:26.486162 12.75
+2023-12-03 19:11:18   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:11:18.218357 8.0
+2023-12-03 19:14:47   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:14:47.401028 8.0
+2023-12-03 19:15:49   User 126 completed a transaction for a total of 6.0 at 2023-12-03 12:15:48.865097 6.0
+2023-12-03 19:19:04   User 126 completed a transaction for a total of 8.0 at 2023-12-03 12:18:32.207241 8.0
+2023-12-03 23:16:24   User 131 completed a transaction for a total of 8.0 at 2023-12-03 16:16:24.482915 8.0
+
+Total Sales: 50.75
