@@ -8,12 +8,11 @@ import updateStaffView as usv
 import deleteStaffView as dsv
 import generateFinancialReportsView as gfr
 import UpdateInventoryView as uiv
-import CheckItemAvailabilityView as checkAvail
 from controllers.LogController import *
-import cartGUI as cartv
 #import addCustomerView as acv
 import controllers.Expiration as exp 
 from tkinter import messagebox
+
 from models.Staff import PharmacyManager
 
 def open_managerGUI(app, id):
@@ -36,10 +35,6 @@ def open_managerGUI(app, id):
 
     def financialreports():
         gfr.open_financialreports(ManagerHome)
-        ManagerHome.withdraw()
-
-    def OpenCartWindow():
-        cartv.open_cartView(ManagerHome, id)
         ManagerHome.withdraw()
 
     def OpenAddStaffWindow():
@@ -66,13 +61,14 @@ def open_managerGUI(app, id):
         dcv.open_deleteCustomerView(ManagerHome)
         ManagerHome.withdraw()
 
+
     def checkItemAvail():
         checkAvail.open_CheckItemAvailability(ManagerHome)
         ManagerHome.withdraw()
 
     def updateInventory():
-        uiv.open_UpdateInventory(ManagerHome)
-        ManagerHome.withdraw()
+        uiv.open_UpdateInventory(CashierHome)
+        CashierHome.withdraw()
 
     
 
@@ -208,14 +204,6 @@ def open_managerGUI(app, id):
         width = 200,
         height = 50,
         command =  checkItemAvail
-    )
-
-    cart = tk.CTkButton(
-        master = ManagerHome,
-        text = "Cart",
-        width = 200,
-        height = 50,
-        command = OpenCartWindow
     )
 
     AddUserButton.grid(row = 0, column = 0, padx=10, pady=10)

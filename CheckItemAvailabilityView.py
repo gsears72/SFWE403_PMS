@@ -9,9 +9,8 @@ def open_CheckItemAvailability(app):
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-
+    manager = PharmacyManager("test")
     medicine = Medicine()
-    manager = PharmacyManager()
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 

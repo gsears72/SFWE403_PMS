@@ -9,7 +9,7 @@ def open_passView(oldWindow, currentId, currentPassword):
     # Selecting color theme - blue, green, dark-blue 
     tk.set_default_color_theme("blue") 
 
-    user = PharmacyManager()
+    user = PharmacyManager("test")
 
     window = tk.CTkToplevel()
     window.geometry("500x500") 
