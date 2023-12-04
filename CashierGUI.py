@@ -3,6 +3,7 @@ import addCustomerView as acv
 import updateCustomerView as ucv
 import deleteCustomerView as dcv
 import changePassView as cpv
+import ManagerPrescriptionGui as mpg
 import cartGUI as cartv
 
 from controllers.LogController import LogoutLog
@@ -40,6 +41,10 @@ def open_cashierView(app, currentId, currentPassword):
 
     def ChangePassword():
         cpv.open_passView(CashierHome, currentId, currentPassword)
+        CashierHome.withdraw()
+        
+    def addPrescription():
+        mpg.open_PrescriptionManagerGUI(CashierHome)
         CashierHome.withdraw()
 
     AddCustomerButton = tk.CTkButton(
@@ -108,14 +113,25 @@ def open_cashierView(app, currentId, currentPassword):
         command = ChangePassword
     )
 
+    addPrescriptionButton = tk.CTkButton(
+        master = CashierHome,
+        text = "Add Prescription",
+        width = 200,
+        height = 50,
+        #bg = "blue",
+        #fg = "yellow",
+        #font = 10,
+        command = addPrescription
+    )
+
     app.withdraw()
     AddCustomerButton.grid(row = 0, column = 0, padx=10, pady=10)
     UpdateCustomerButton.grid(row = 0, column = 20, padx=10, pady=10)
     DeleteCustomerButton.grid(row = 0, column = 40, padx=10, pady=10)
     CheckoutButton.grid(row = 50, column = 20,  padx=10, pady=10)
-    LogOutButton.grid(row = 50, column = 40,  padx=10, pady=10)    
+    addPrescriptionButton.grid(row = 50, column = 40,  padx=10, pady=10)    
     changePassword.grid(row = 50, column = 0,  padx=10, pady=10)   
-
+    LogOutButton.grid(row = 100, column = 20,  padx=10, pady=10)  
     messagebox.showwarning("WARNING: The following medications are EXPIRED.", exp.Expired())
 
 

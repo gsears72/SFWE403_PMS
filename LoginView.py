@@ -6,9 +6,7 @@ import ManagerGUI as mgui
 import PharmacistGUI as pgui
 import PharmacyTechGUI as ptgui
 
-from models.Staff import User
 from tkinter import messagebox
-
 
 from models.Login import LoginLib
 from controllers.LoginController import *
@@ -16,7 +14,6 @@ from controllers.LogController import LoginLog
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
-
 
 class LoginGUI(ctk.CTk):
     def __init__(self):
@@ -66,7 +63,7 @@ class LoginGUI(ctk.CTk):
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
                         cgui.open_cashierView(app, currentId, currentPassword)
                         app.withdraw()
-                    case "technitian": #load tech gui
+                    case "technician": #load tech gui
                         clear_text(self.user_entry, self.user_pass, self.user_secret)
                         ptgui.open_pharmacistTechGUI(app,currentId,password)
                         app.withdraw()
